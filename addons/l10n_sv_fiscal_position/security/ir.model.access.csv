@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_fiscal_position_sv_user,account.fiscal.position.sv.user,account.model_account_fiscal_position,account.group_account_invoice,1,0,0,0
+access_account_fiscal_position_sv_accountant,account.fiscal.position.sv.accountant,account.model_account_fiscal_position,account.group_account_user,1,1,1,0
+access_account_fiscal_position_sv_manager,account.fiscal.position.sv.manager,account.model_account_fiscal_position,account.group_account_manager,1,1,1,1
+access_account_fiscal_position_tax_sv_user,account.fiscal.position.tax.sv.user,account.model_account_fiscal_position_tax,account.group_account_invoice,1,0,0,0
+access_account_fiscal_position_tax_sv_accountant,account.fiscal.position.tax.sv.accountant,account.model_account_fiscal_position_tax,account.group_account_user,1,1,1,0
+access_account_fiscal_position_tax_sv_manager,account.fiscal.position.tax.sv.manager,account.model_account_fiscal_position_tax,account.group_account_manager,1,1,1,1
+access_account_fiscal_position_account_sv_user,account.fiscal.position.account.sv.user,account.model_account_fiscal_position_account,account.group_account_invoice,1,0,0,0
+access_account_fiscal_position_account_sv_accountant,account.fiscal.position.account.sv.accountant,account.model_account_fiscal_position_account,account.group_account_user,1,1,1,0
+access_account_fiscal_position_account_sv_manager,account.fiscal.position.account.sv.manager,account.model_account_fiscal_position_account,account.group_account_manager,1,1,1,1

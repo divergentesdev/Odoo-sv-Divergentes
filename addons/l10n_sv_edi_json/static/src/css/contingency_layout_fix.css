@@ -1,0 +1,79 @@
+/* CSS específico para corregir el layout problemático de contingencia */
+
+/* 1. Corregir el título que tiene H1 y H2 apilados */
+.o_form_view .oe_title {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 30px !important;
+    flex-wrap: wrap !important;
+    margin-bottom: 20px !important;
+}
+
+.o_form_view .oe_title h1 {
+    margin: 0 !important;
+    flex: 1 !important;
+    min-width: 200px !important;
+}
+
+.o_form_view .oe_title h2 {
+    margin: 0 !important;
+    flex: 1 !important;
+    min-width: 250px !important;
+}
+
+/* 2. Corregir los grupos que ocupan toda la pantalla */
+@media (min-width: 1200px) {
+    .o_form_view .o_group.row.align-items-start {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+    }
+    
+    .o_form_view .o_inner_group.grid.col-lg-6 {
+        max-width: 580px !important;
+        margin-right: 20px !important;
+    }
+}
+
+/* 3. Evitar que los campos se extiendan demasiado */
+.o_form_view .o_wrap_field {
+    max-width: 100% !important;
+}
+
+.o_form_view .o_wrap_input {
+    max-width: 400px !important;
+}
+
+/* 4. Corregir el campo de texto del motivo */
+.o_form_view .o_field_text textarea {
+    max-width: 100% !important;
+    min-height: 100px !important;
+    resize: vertical !important;
+}
+
+/* 5. Mejorar el espaciado de los separadores */
+.o_form_view .o_horizontal_separator {
+    margin: 15px 0 !important;
+    max-width: 100% !important;
+}
+
+/* 6. Responsivo para pantallas muy grandes */
+@media (min-width: 1400px) {
+    .o_form_view .o_form_sheet {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 0 20px !important;
+    }
+}
+
+/* 7. Responsivo para móviles */
+@media (max-width: 768px) {
+    .o_form_view .oe_title {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    
+    .o_form_view .o_wrap_input {
+        max-width: 100% !important;
+    }
+}

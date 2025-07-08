@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Actualizar datos para El Salvador -->
+    <record id="base.sv" model="res.country">
+        <!-- Ya tienes enforce_cities establecido en 1 en res_partner_views.xml -->
+        <field name="currency_id" ref="base.USD"/>
+        <field name="address_format">%(city)s
+%(street)s
+%(street2)s
+%(state_name)s
+%(country_name)s</field>
+    </record>
+</odoo>

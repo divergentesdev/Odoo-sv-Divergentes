@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de lista para Contingencias -->
+    <record id="view_contingency_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.contingency.tree</field>
+        <field name="model">l10n_sv.contingency</field>
+        <field name="arch" type="xml">
+            <list string="Reportes de Contingencia" decoration-success="state == 'accepted'"
+                  decoration-danger="state == 'rejected'" decoration-warning="state == 'error'"
+                  decoration-info="state == 'processing'">
+                <field name="name"/>
+                <field name="tipo_contingencia"/>
+                <field name="fecha_inicio"/>
+                <field name="fecha_fin"/>
+                <field name="responsable_nombre"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para Contingencias - SOLUCION LAYOUT -->
+    <record id="view_contingency_form" model="ir.ui.view">
+        <field name="name">l10n_sv.contingency.form</field>
+        <field name="model">l10n_sv.contingency</field>
+        <field name="arch" type="xml">
+            <form string="Reporte de Contingencia">
+                <header>
+                    <button name="action_generate_json" type="object" string="Generar JSON" 
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_transmit" type="object" string="Transmitir al MH" 
+                            class="btn-primary" invisible="state != 'ready'"/>
+                    <button name="action_reset_to_draft" type="object" string="Volver a Borrador" 
+                            class="btn-secondary" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,ready,processing,accepted"/>
+                </header>
+                
+                <sheet>
+                    <!-- Título simple -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <!-- Información Principal usando col="2" para distribución correcta -->
+                    <group col="2">
+                        <field name="tipo_contingencia" string="Tipo de Contingencia"/>
+                        <field name="codigo_generacion" readonly="1" string="Código de Generación"/>
+                    </group>
+                    
+                    <!-- Fechas y Responsable usando col="2" -->
+                    <group col="2">
+                        <field name="fecha_inicio" string="Fecha/Hora Inicio"/>
+                        <field name="fecha_fin" string="Fecha/Hora Fin"/>
+                        <field name="fecha_transmision" readonly="1" string="Fecha/Hora Transmisión"/>
+                        <field name="responsable_nombre" string="Nombre del Responsable"/>
+                        <field name="responsable_tipo_doc" string="Tipo de Documento"/>
+                        <field name="responsable_numero_doc" string="Número de Documento"/>
+                    </group>
+                    
+                    <!-- Motivo en grupo completo -->
+                    <group>
+                        <field name="motivo_contingencia" nolabel="1" 
+                               placeholder="Describa detalladamente el motivo de la contingencia..."
+                               widget="text"/>
+                    </group>
+                    
+                    <!-- Pestañas -->
+                    <notebook>
+                        <page string="Documentos en Contingencia" name="documents">
+                            <field name="document_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="move_id" string="Documento Contable"/>
+                                    <field name="codigo_generacion" string="Código de Generación"/>
+                                    <field name="tipo_documento" string="Tipo de Documento"/>
+                                    <field name="numero_control" string="Número de Control"/>
+                                    <field name="fecha_emision" string="Fecha de Emisión"/>
+                                    <field name="observaciones" string="Observaciones"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+                        <page string="JSON Generado" name="json" invisible="not json_data">
+                            <field name="json_data" widget="ace" readonly="1" 
+                                   options="{'mode': 'json', 'theme': 'monokai'}"/>
+                        </page>
+                        
+                        <page string="Respuesta del MH" name="response" invisible="not response_data">
+                            <!-- Usando col="2" para distribución correcta -->
+                            <group col="2">
+                                <field name="response_codigo" readonly="1" string="Código"/>
+                                <field name="response_estado" readonly="1" string="Estado"/>
+                                <field name="response_mensaje" readonly="1" string="Mensaje"/>
+                                <field name="response_observaciones" readonly="1" string="Observaciones"/>
+                            </group>
+                            <separator string="Respuesta Completa"/>
+                            <field name="response_data" widget="text" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda -->
+    <record id="view_contingency_search" model="ir.ui.view">
+        <field name="name">l10n_sv.contingency.search</field>
+        <field name="model">l10n_sv.contingency</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Contingencias">
+                <field name="name" string="Código"/>
+                <field name="tipo_contingencia" string="Tipo"/>
+                <field name="responsable_nombre" string="Responsable"/>
+                <field name="codigo_generacion" string="Código de Generación"/>
+                <separator/>
+                <filter name="draft" string="Borrador" domain="[('state', '=', 'draft')]"/>
+                <filter name="ready" string="Listo" domain="[('state', '=', 'ready')]"/>
+                <filter name="processing" string="Procesando" domain="[('state', '=', 'processing')]"/>
+                <filter name="accepted" string="Aceptado" domain="[('state', '=', 'accepted')]"/>
+                <filter name="rejected" string="Rechazado" domain="[('state', '=', 'rejected')]"/>
+                <separator/>
+                <group expand="0" string="Agrupar por">
+                    <filter name="group_by_state" string="Estado" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter name="group_by_type" string="Tipo" domain="[]" context="{'group_by': 'tipo_contingencia'}"/>
+                    <filter name="group_by_month" string="Mes" domain="[]" context="{'group_by': 'fecha_inicio:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción de ventana -->
+    <record id="action_contingency" model="ir.actions.act_window">
+        <field name="name">Reportes de Contingencia</field>
+        <field name="res_model">l10n_sv.contingency</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear el primer reporte de contingencia
+            </p>
+            <p>
+                Los reportes de contingencia se utilizan para informar al Ministerio de Hacienda
+                sobre documentos tributarios emitidos durante interrupciones del sistema.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú -->
+    <menuitem id="menu_contingency" 
+              name="Reportes de Contingencia" 
+              parent="account.menu_finance" 
+              action="action_contingency" 
+              sequence="60"/>
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- DUI -->
+        <record id="it_dui" model="l10n_latam.identification.type">
+            <field name="name">DUI</field>
+            <field name="sequence">70</field>
+            <field name="active">True</field>
+            <field name="description">Documento Único de Identidad (13)</field>
+        </record>
+
+        <!-- Otro documento -->
+        <record id="it_other" model="l10n_latam.identification.type">
+            <field name="name">Otro documento</field>
+            <field name="sequence">110</field>
+            <field name="active">True</field>
+            <field name="description">Otro tipo de documento (37)</field>
+        </record>
+
+        <!-- Modificar NIT (VAT) -->
+        <record id="l10n_latam_base.it_vat" model="l10n_latam.identification.type">
+            <field name="name">NIT</field>
+            <field name="description">Número de Identificación Tributaria (36)</field>
+        </record>
+
+        <!-- Modificar Pasaporte -->
+        <record id="l10n_latam_base.it_pass" model="l10n_latam.identification.type">
+            <field name="name">Pasaporte</field>
+            <field name="description">Pasaporte (03)</field>
+        </record>
+
+        <!-- Modificar Carnet de Residente (ID Extranjera) -->
+        <record id="l10n_latam_base.it_fid" model="l10n_latam.identification.type">
+            <field name="name">Carnet de Residente</field>
+            <field name="description">Carnet de Residente (02)</field>
+        </record>
+    </data>
+</odoo>

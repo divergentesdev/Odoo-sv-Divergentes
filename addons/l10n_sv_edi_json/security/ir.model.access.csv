@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_sv_json_generator_user,l10n_sv.json.generator.user,model_l10n_sv_json_generator,account.group_account_user,1,0,0,0
+access_l10n_sv_json_generator_invoice,l10n_sv.json.generator.invoice,model_l10n_sv_json_generator,account.group_account_invoice,1,1,1,0
+access_l10n_sv_json_generator_manager,l10n_sv.json.generator.manager,model_l10n_sv_json_generator,account.group_account_manager,1,1,1,1
+access_l10n_sv_dte_utils_user,l10n_sv.dte.utils.user,model_l10n_sv_dte_utils,base.group_user,1,0,0,0
+access_l10n_sv_json_preview_wizard_user,l10n_sv.json.preview.wizard.user,model_l10n_sv_json_preview_wizard,account.group_account_user,1,1,1,1
+access_l10n_sv_contingency_user,l10n_sv.contingency.user,model_l10n_sv_contingency,account.group_account_user,1,0,0,0
+access_l10n_sv_contingency_invoice,l10n_sv.contingency.invoice,model_l10n_sv_contingency,account.group_account_invoice,1,1,1,0
+access_l10n_sv_contingency_manager,l10n_sv.contingency.manager,model_l10n_sv_contingency,account.group_account_manager,1,1,1,1
+access_l10n_sv_contingency_document_user,l10n_sv.contingency.document.user,model_l10n_sv_contingency_document,account.group_account_user,1,0,0,0
+access_l10n_sv_contingency_document_invoice,l10n_sv.contingency.document.invoice,model_l10n_sv_contingency_document,account.group_account_invoice,1,1,1,1
+access_l10n_sv_contingency_document_manager,l10n_sv.contingency.document.manager,model_l10n_sv_contingency_document,account.group_account_manager,1,1,1,1
+access_l10n_sv_cancellation_user,l10n_sv.cancellation.user,model_l10n_sv_cancellation,account.group_account_user,1,0,0,0
+access_l10n_sv_cancellation_invoice,l10n_sv.cancellation.invoice,model_l10n_sv_cancellation,account.group_account_invoice,1,1,1,0
+access_l10n_sv_cancellation_manager,l10n_sv.cancellation.manager,model_l10n_sv_cancellation,account.group_account_manager,1,1,1,1
+access_l10n_sv_contingency_json_preview_wizard_user,l10n_sv.contingency.json.preview.wizard.user,model_l10n_sv_contingency_json_preview_wizard,account.group_account_user,1,1,1,1

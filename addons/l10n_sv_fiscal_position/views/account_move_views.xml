@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vista de formulario extendida para facturas -->
+    <record id="view_move_form_sv_fiscal" model="ir.ui.view">
+        <field name="name">account.move.form.sv.fiscal</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Agregar información de posición fiscal sugerida -->
+            <xpath expr="//page[@name='other_info']//field[@name='fiscal_position_id']" position="after">
+                <field name="l10n_sv_suggested_fiscal_position" readonly="1" 
+                       invisible="not l10n_sv_suggested_fiscal_position or fiscal_position_id"/>
+                <button name="action_apply_suggested_fiscal_position" 
+                        type="object" 
+                        string="Aplicar Sugerida" 
+                        class="btn-link"
+                        invisible="not l10n_sv_suggested_fiscal_position or fiscal_position_id"/>
+            </xpath>
+            
+            <!-- Agregar indicadores de estado -->
+            <xpath expr="//group[@id='header_left_group']//field[@name='partner_id']" position="after">
+                <field name="l10n_sv_fiscal_position_applied" invisible="1"/>
+                <field name="l10n_sv_withholding_applied" invisible="1"/>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- Vista de lista extendida -->
+    <record id="view_invoice_tree_sv_fiscal" model="ir.ui.view">
+        <field name="name">account.move.tree.sv.fiscal</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="l10n_sv_fiscal_position_applied" optional="hide"/>
+                <field name="l10n_sv_withholding_applied" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda extendida -->
+    <record id="view_account_invoice_filter_sv_fiscal" model="ir.ui.view">
+        <field name="name">account.invoice.select.sv.fiscal</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='late']" position="after">
+                <separator/>
+                <filter string="Posición Fiscal Aplicada" name="fiscal_position_applied" 
+                        domain="[('l10n_sv_fiscal_position_applied', '=', True)]"/>
+                <filter string="Retenciones Aplicadas" name="withholding_applied" 
+                        domain="[('l10n_sv_withholding_applied', '=', True)]"/>
+                <filter string="Sin Posición Fiscal" name="no_fiscal_position" 
+                        domain="[('fiscal_position_id', '=', False), ('move_type', 'in', ['out_invoice', 'out_refund'])]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Widget de información fiscal para facturas -->
+    <record id="view_move_form_fiscal_info_widget" model="ir.ui.view">
+        <field name="name">account.move.form.fiscal.info.widget</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Agregar widget de información fiscal -->
+            <xpath expr="//page[@name='other_info']" position="after">
+                <page string="Información Fiscal SV" name="fiscal_info_sv" 
+                      invisible="move_type not in ['out_invoice', 'out_refund'] or not partner_id">
+                    
+                    <group string="Estado Posición Fiscal">
+                        <group>
+                            <field name="fiscal_position_id" readonly="1"/>
+                            <field name="l10n_sv_suggested_fiscal_position" readonly="1"/>
+                            <field name="l10n_sv_fiscal_position_applied" readonly="1" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <button name="action_apply_suggested_fiscal_position" 
+                                    type="object" 
+                                    string="Aplicar Posición Sugerida" 
+                                    class="btn-primary"
+                                    invisible="not l10n_sv_suggested_fiscal_position or fiscal_position_id"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Retenciones" invisible="not fiscal_position_id or not fiscal_position_id.l10n_sv_is_withholding_agent">
+                        <group>
+                            <field name="l10n_sv_withholding_applied" readonly="1" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <button name="action_apply_withholding_taxes" 
+                                    type="object" 
+                                    string="Aplicar Retenciones" 
+                                    class="btn-secondary"
+                                    invisible="l10n_sv_withholding_applied"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Información del Partner">
+                        <group>
+                            <field name="partner_l10n_sv_taxpayer_type" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_l10n_sv_is_export_customer" readonly="1" widget="boolean_toggle"/>
+                            <field name="partner_l10n_sv_is_excluded_subject" readonly="1" widget="boolean_toggle"/>
+                            <field name="partner_l10n_sv_is_withholding_agent" readonly="1" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Configuración Automática">
+                        <p>
+                            <i class="fa fa-info-circle"/> 
+                            La posición fiscal se determina automáticamente según:
+                        </p>
+                        <ul>
+                            <li>Tipo de identificación del partner (NIT, DUI)</li>
+                            <li>Clasificaciones especiales (exportación, sujeto excluido)</li>
+                            <li>País del partner</li>
+                            <li>Configuración de agente retenedor</li>
+                        </ul>
+                        <p>
+                            Los impuestos se aplican automáticamente según la posición fiscal asignada.
+                        </p>
+                    </group>
+                    
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+
+</odoo>

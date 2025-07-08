@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Extensión de vista de formulario de facturas -->
+    <record id="view_invoice_form_inherit_dte_reports" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.dte.reports</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Agregar botones en el header -->
+            <xpath expr="//header" position="inside">
+                <button name="action_print_dte_report" type="object" 
+                        string="Imprimir DTE" 
+                        class="btn-primary"
+                        invisible="move_type not in ('out_invoice', 'out_refund') or l10n_sv_document_type_id == False"/>
+                
+                <button name="action_preview_dte_report" type="object" 
+                        string="Vista Previa" 
+                        invisible="move_type not in ('out_invoice', 'out_refund') or l10n_sv_document_type_id == False"/>
+                
+                <button name="action_email_dte_report" type="object" 
+                        string="Enviar por Correo" 
+                        invisible="move_type not in ('out_invoice', 'out_refund') or l10n_sv_document_type_id == False"/>
+            </xpath>
+            
+            <!-- Agregar pestaña de reportes -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Reportes DTE" name="dte_reports" 
+                      invisible="move_type not in ('out_invoice', 'out_refund') or l10n_sv_document_type_id == False">
+                    
+                    <group string="Código QR">
+                        <group>
+                            <field name="l10n_sv_qr_generated" widget="boolean_toggle"/>
+                            <field name="l10n_sv_qr_generation_date" invisible="l10n_sv_qr_generated == False"/>
+                        </group>
+                        <group>
+                            <button name="action_generate_qr_code" type="object" 
+                                    string="Generar QR" 
+                                    class="btn-primary"
+                                    invisible="l10n_sv_qr_generated == True"/>
+                            
+                            <button name="action_download_qr_image" type="object" 
+                                    string="Descargar QR" 
+                                    invisible="l10n_sv_qr_generated == False"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Código de Barras">
+                        <group>
+                            <field name="l10n_sv_barcode" readonly="1"/>
+                        </group>
+                        <group>
+                            <button name="action_generate_barcode" type="object" 
+                                    string="Generar Código de Barras" 
+                                    class="btn-secondary"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Plantilla de Reporte">
+                        <field name="l10n_sv_report_template_id" domain="[('document_type_id', '=', l10n_sv_document_type_id), ('company_id', '=', company_id)]"/>
+                    </group>
+                    
+                    <group string="Estado de Impresión">
+                        <group>
+                            <field name="l10n_sv_printed" widget="boolean_toggle"/>
+                            <field name="l10n_sv_print_date" invisible="l10n_sv_printed == False"/>
+                        </group>
+                        <group>
+                            <field name="l10n_sv_print_count"/>
+                        </group>
+                    </group>
+                    
+                    <!-- Mostrar QR generado -->
+                    <group string="Vista Previa QR" invisible="l10n_sv_qr_generated == False">
+                        <div class="dte-qr-preview" style="text-align: center; padding: 20px;">
+                            <field name="l10n_sv_qr_code" widget="image" 
+                                   options="{'size': [200, 200]}" 
+                                   invisible="l10n_sv_qr_generated == False"/>
+                        </div>
+                    </group>
+                    
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+    
+    <!-- Extensión de vista de lista para mostrar estado QR -->
+    <record id="view_invoice_tree_inherit_dte_reports" model="ir.ui.view">
+        <field name="name">account.move.tree.inherit.dte.reports</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="l10n_sv_qr_generated" optional="hide"/>
+                <field name="l10n_sv_printed" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

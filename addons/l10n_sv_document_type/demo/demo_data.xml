@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Establecimiento demo -->
+        <record id="demo_establishment_main" model="l10n_sv.establishment">
+            <field name="name">Oficina Principal</field>
+            <field name="code">0001</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="is_main" eval="True"/>
+            <field name="street">Calle Principal #123, Colonia Centro</field>
+            <field name="departamento_code">06</field>
+            <field name="municipio_code">14</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        
+        <!-- Punto de venta demo -->
+        <record id="demo_pos_main" model="l10n_sv.point.of.sale">
+            <field name="name">Caja Principal</field>
+            <field name="code">001</field>
+            <field name="establishment_id" ref="demo_establishment_main"/>
+        </record>
+        
+        <!-- Configuraciones de secuencia demo -->
+        <record id="demo_sequence_config_factura" model="l10n_sv.establishment.sequence">
+            <field name="establishment_id" ref="demo_establishment_main"/>
+            <field name="document_type_id" ref="document_type_01_factura"/>
+        </record>
+        
+        <record id="demo_sequence_config_ccf" model="l10n_sv.establishment.sequence">
+            <field name="establishment_id" ref="demo_establishment_main"/>
+            <field name="document_type_id" ref="document_type_03_ccf"/>
+        </record>
+        
+        <record id="demo_sequence_config_nota_credito" model="l10n_sv.establishment.sequence">
+            <field name="establishment_id" ref="demo_establishment_main"/>
+            <field name="document_type_id" ref="document_type_05_nota_credito"/>
+        </record>
+        
+        <!-- Cliente demo con NIT para CCF -->
+        <record id="demo_partner_with_nit" model="res.partner">
+            <field name="name">Empresa Cliente SA de CV</field>
+            <field name="vat">06140506160019</field>
+            <field name="l10n_sv_document_type_code">36</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="is_company" eval="True"/>
+        </record>
+        
+        <!-- Cliente demo sin NIT para Factura -->
+        <record id="demo_partner_consumer" model="res.partner">
+            <field name="name">Juan Pérez</field>
+            <field name="vat">12345678-9</field>
+            <field name="l10n_sv_document_type_code">13</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="is_company" eval="False"/>
+        </record>
+        
+        <!-- Cliente demo extranjero para exportación -->
+        <record id="demo_partner_export" model="res.partner">
+            <field name="name">International Corp</field>
+            <field name="vat">US123456789</field>
+            <field name="country_id" ref="base.us"/>
+            <field name="is_company" eval="True"/>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>El Salvador - EDI Base</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { background: #2c5f95; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; }
+        .feature { margin: 15px 0; padding: 10px; background: #f8f9fa; border-left: 4px solid #2c5f95; }
+        .warning { background: #fff3cd; border-left-color: #ffc107; }
+        ul { margin: 10px 0 10px 30px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📄 El Salvador - EDI Base</h1>
+        <p>Infraestructura base para facturación electrónica</p>
+    </div>
+    
+    <div class="content">
+        <div class="feature">
+            <h3>🚀 Funcionalidades Principales</h3>
+            <ul>
+                <li><strong>Gestión de Certificados .cert:</strong> Manejo seguro de certificados digitales del MH</li>
+                <li><strong>Configuración de Ambientes:</strong> Soporte para certificación y producción</li>
+                <li><strong>Integración con API MH:</strong> Preparado para comunicación con el Ministerio de Hacienda</li>
+                <li><strong>Manejo de Contingencias:</strong> Soporte para modo contingencia cuando el API no está disponible</li>
+                <li><strong>Numeración Automática:</strong> Generación automática de números de control DTE</li>
+            </ul>
+        </div>
+        
+        <div class="feature">
+            <h3>📋 Documentos Soportados</h3>
+            <ul>
+                <li>Factura (01)</li>
+                <li>Comprobante de Crédito Fiscal (03)</li>
+                <li>Nota de Crédito (05)</li>
+                <li>Nota de Débito (06)</li>
+                <li>Y más tipos de documentos DTE</li>
+            </ul>
+        </div>
+        
+        <div class="feature">
+            <h3>🔧 Configuración Inicial</h3>
+            <ol>
+                <li>Instalar módulos de localización base (l10n_sv_cta, l10n_latam_sv)</li>
+                <li>Configurar datos de la empresa (NIT, NRC, actividad económica)</li>
+                <li>Cargar certificados digitales del MH</li>
+                <li>Configurar ambiente (certificación/producción)</li>
+                <li>Instalar módulos complementarios según necesidades</li>
+            </ol>
+        </div>
+        
+        <div class="feature warning">
+            <h3>⚠️ Requisitos Importantes</h3>
+            <ul>
+                <li>Certificados digitales válidos del Ministerio de Hacienda</li>
+                <li>Registro como emisor DTE ante la DGII</li>
+                <li>Conexión a internet para comunicación con API del MH</li>
+                <li>Configuración correcta de datos fiscales de la empresa</li>
+            </ul>
+        </div>
+        
+        <div class="feature">
+            <h3>🔗 Módulos Relacionados</h3>
+            <ul>
+                <li><strong>l10n_sv_edi_json:</strong> Generación de JSON DTE</li>
+                <li><strong>l10n_sv_document_type:</strong> Tipos de documentos específicos</li>
+                <li><strong>l10n_sv_api_client:</strong> Cliente para API del MH</li>
+                <li><strong>l10n_sv_digital_signature:</strong> Firma digital de documentos</li>
+            </ul>
+        </div>
+        
+        <div class="feature">
+            <h3>📞 Soporte</h3>
+            <p>
+                Para soporte técnico y consultas sobre implementación,
+                contacte a su proveedor de servicios Odoo o visite la 
+                documentación oficial del Ministerio de Hacienda de El Salvador.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

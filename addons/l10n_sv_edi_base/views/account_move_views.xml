@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Extiende la vista de formulario de facturas -->
+        <record id="view_move_form_inherit_edi" model="ir.ui.view">
+            <field name="name">account.move.form.inherit.edi</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" 
+                            icon="fa-file-code-o" 
+                            type="object" 
+                            name="action_view_dte_json"
+                            attrs="{'invisible': [('l10n_sv_edi_json', '=', False)]}">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text">JSON DTE</span>
+                        </div>
+                    </button>
+                </div>
+                
+                <header position="inside">
+                    <button name="action_generate_dte" 
+                            string="Generar DTE" 
+                            type="object"
+                            attrs="{'invisible': ['|', ('l10n_sv_edi_applicable', '=', False), ('l10n_sv_edi_estado', 'not in', ['no_aplica', 'rechazado'])]}"
+                            class="oe_highlight"/>
+                    <button name="action_send_dte" 
+                            string="Enviar al MH" 
+                            type="object"
+                            attrs="{'invisible': [('l10n_sv_edi_estado', '!=', 'generado')]}"
+                            class="oe_highlight"/>
+                </header>
+                
+                <page name="other_info" position="after">
+                    <page string="Facturación Electrónica" name="edi_info"
+                          attrs="{'invisible': [('l10n_sv_edi_applicable', '=', False)]}">
+                        <group>
+                            <group>
+                                <field name="l10n_sv_edi_applicable" invisible="1"/>
+                                <field name="l10n_sv_edi_tipo_documento"/>
+                                <field name="l10n_sv_edi_estado"/>
+                                <field name="l10n_sv_edi_ambiente"/>
+                            </group>
+                            <group>
+                                <field name="l10n_sv_edi_numero_control" readonly="1"/>
+                                <field name="l10n_sv_edi_codigo_generacion" readonly="1"/>
+                                <field name="l10n_sv_edi_uuid" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Respuesta MH" 
+                               attrs="{'invisible': [('l10n_sv_edi_sello_recepcion', '=', False)]}">
+                            <group>
+                                <field name="l10n_sv_edi_sello_recepcion" readonly="1"/>
+                                <field name="l10n_sv_edi_fecha_recepcion" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="l10n_sv_edi_modo_contingencia" readonly="1" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        
+                        <separator string="Observaciones"/>
+                        <field name="l10n_sv_edi_observaciones" readonly="1"/>
+                    </page>
+                </page>
+            </field>
+        </record>
+        
+        <!-- TODO: Extiende la vista de árbol de facturas -->
+        <!-- 
+        <record id="view_move_tree_inherit_edi" model="ir.ui.view">
+            <field name="name">account.move.tree.inherit.edi</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_out_invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="l10n_sv_edi_estado" optional="hide"/>
+                </field>
+            </field>
+        </record>
+        -->
+        
+    </data>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Categoría de grupos EDI -->
+        <record id="module_category_l10n_sv_edi" model="ir.module.category">
+            <field name="name">EDI El Salvador</field>
+            <field name="description">Documentos Tributarios Electrónicos</field>
+            <field name="sequence">20</field>
+        </record>
+        
+        <!-- Grupo Usuario EDI -->
+        <record id="group_l10n_sv_edi_user" model="res.groups">
+            <field name="name">Usuario EDI</field>
+            <field name="category_id" ref="module_category_l10n_sv_edi"/>
+            <field name="implied_ids" eval="[(4, ref('account.group_account_user'))]"/>
+            <field name="comment">Usuario puede ver y usar funcionalidades básicas de EDI.</field>
+        </record>
+        
+        <!-- Grupo Manager EDI -->
+        <record id="group_l10n_sv_edi_manager" model="res.groups">
+            <field name="name">Administrador EDI</field>
+            <field name="category_id" ref="module_category_l10n_sv_edi"/>
+            <field name="implied_ids" eval="[(4, ref('group_l10n_sv_edi_user')), (4, ref('account.group_account_manager'))]"/>
+            <field name="comment">Administrador puede configurar y gestionar completamente el sistema EDI.</field>
+        </record>
+        
+    </data>
+</odoo>

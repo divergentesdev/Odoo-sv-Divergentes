@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista de lista para servicios de firma digital -->
+    <record id="view_digital_signature_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.digital.signature.tree</field>
+        <field name="model">l10n_sv.digital.signature</field>
+        <field name="arch" type="xml">
+            <list string="Servicios de Firma Digital">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="certificate_id"/>
+                <field name="algorithm_id"/>
+                <field name="signature_format"/>
+                <field name="active"/>
+                <field name="successful_signatures"/>
+                <field name="failed_signatures"/>
+                <field name="last_signature_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para servicios de firma digital -->
+    <record id="view_digital_signature_form" model="ir.ui.view">
+        <field name="name">l10n_sv.digital.signature.form</field>
+        <field name="model">l10n_sv.digital.signature</field>
+        <field name="arch" type="xml">
+            <form string="Servicio de Firma Digital">
+                <header>
+                    <button name="action_test_signature" 
+                            string="Probar Firma" 
+                            type="object" 
+                            class="btn-primary"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_signature_logs" icon="fa-list">
+                            <div class="o_stat_info">
+                                <field name="total_signatures" widget="statinfo" string="Total"/>
+                                <span class="o_stat_text">Firmas</span>
+                            </div>
+                        </button>
+                        
+                        <button class="oe_stat_button" type="object" name="action_view_signature_logs" icon="fa-check-circle" 
+                                invisible="successful_signatures == 0">
+                            <div class="o_stat_info">
+                                <field name="successful_signatures" widget="statinfo" string="Exitosas"/>
+                                <span class="o_stat_text">Firmas</span>
+                            </div>
+                        </button>
+                        
+                        <button class="oe_stat_button" type="object" name="action_view_signature_logs" icon="fa-exclamation-triangle"
+                                invisible="failed_signatures == 0">
+                            <div class="o_stat_info">
+                                <field name="failed_signatures" widget="statinfo" string="Fallidas"/>
+                                <span class="o_stat_text">Firmas</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre del servicio de firma..."/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="certificate_id" required="1"/>
+                            <field name="algorithm_id" required="1"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="signature_format" widget="radio"/>
+                            <field name="canonicalization_method"/>
+                            <field name="include_certificate"/>
+                            <field name="include_key_info"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Configuración" name="config">
+                            <group>
+                                <group string="Validación">
+                                    <field name="validate_certificate_dates"/>
+                                    <field name="validate_chain"/>
+                                </group>
+                                <group string="Fechas">
+                                    <field name="last_signature_date" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Estadísticas" name="stats">
+                            <group>
+                                <group string="Contadores">
+                                    <field name="total_signatures" readonly="1"/>
+                                    <field name="successful_signatures" readonly="1"/>
+                                    <field name="failed_signatures" readonly="1"/>
+                                </group>
+                                <group string="Fechas">
+                                    <field name="last_signature_date" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para servicios de firma -->
+    <record id="view_digital_signature_search" model="ir.ui.view">
+        <field name="name">l10n_sv.digital.signature.search</field>
+        <field name="model">l10n_sv.digital.signature</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Servicios de Firma">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="certificate_id"/>
+                <field name="algorithm_id"/>
+                <filter string="Activos" name="active" domain="[('active', '=', True)]"/>
+                <filter string="XML-DSig" name="xmldsig" domain="[('signature_format', '=', 'xmldsig')]"/>
+                <filter string="JOSE/JWS" name="jose" domain="[('signature_format', '=', 'jose')]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Compañía" name="group_company" context="{'group_by': 'company_id'}"/>
+                    <filter string="Formato" name="group_format" context="{'group_by': 'signature_format'}"/>
+                    <filter string="Algoritmo" name="group_algorithm" context="{'group_by': 'algorithm_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción para servicios de firma -->
+    <record id="action_digital_signature" model="ir.actions.act_window">
+        <field name="name">Servicios de Firma Digital</field>
+        <field name="res_model">l10n_sv.digital.signature</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_digital_signature_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                ¡Configura tu primer servicio de firma digital!
+            </p>
+            <p>
+                Los servicios de firma digital se encargan de firmar digitalmente
+                los documentos DTE usando certificados del Ministerio de Hacienda.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vista de lista para algoritmos de firma -->
+    <record id="view_signature_algorithm_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.signature.algorithm.tree</field>
+        <field name="model">l10n_sv.signature.algorithm</field>
+        <field name="arch" type="xml">
+            <list string="Algoritmos de Firma" decoration-muted="deprecated == True" 
+                  decoration-success="security_level == 'very_high'" decoration-info="security_level == 'high'">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="hash_algorithm"/>
+                <field name="key_type"/>
+                <field name="security_level" widget="badge"
+                       decoration-success="security_level == 'very_high'"
+                       decoration-info="security_level == 'high'"
+                       decoration-warning="security_level == 'medium'"
+                       decoration-danger="security_level == 'low'"/>
+                <field name="recommended_for_new" widget="boolean_toggle"/>
+                <field name="government_approved" widget="boolean_toggle"/>
+                <field name="deprecated" widget="boolean_toggle"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para algoritmos de firma -->
+    <record id="view_signature_algorithm_form" model="ir.ui.view">
+        <field name="name">l10n_sv.signature.algorithm.form</field>
+        <field name="model">l10n_sv.signature.algorithm</field>
+        <field name="arch" type="xml">
+            <form string="Algoritmo de Firma">
+                <header>
+                    <button name="action_view_signatures" 
+                            string="Ver Servicios" 
+                            type="object" 
+                            class="btn-secondary"/>
+                    <button name="action_view_signature_logs" 
+                            string="Ver Logs" 
+                            type="object" 
+                            class="btn-secondary"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre del algoritmo..."/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="hash_algorithm"/>
+                            <field name="key_type"/>
+                            <field name="min_key_size"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="security_level"/>
+                            <field name="recommended_for_new"/>
+                            <field name="government_approved"/>
+                            <field name="deprecated"/>
+                            <field name="deprecation_date" invisible="deprecated == False"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Compatibilidad" name="compatibility">
+                            <group>
+                                <group string="Estándares">
+                                    <field name="xmldsig_compatible"/>
+                                    <field name="jose_compatible"/>
+                                    <field name="pkcs7_compatible"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Información Técnica" name="technical">
+                            <group>
+                                <group>
+                                    <field name="oid"/>
+                                    <field name="uri"/>
+                                    <field name="jose_alg"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Descripción" name="description">
+                            <field name="description" nolabel="1" placeholder="Descripción del algoritmo y su uso..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción para algoritmos de firma -->
+    <record id="action_signature_algorithm" model="ir.actions.act_window">
+        <field name="name">Algoritmos de Firma</field>
+        <field name="res_model">l10n_sv.signature.algorithm</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Algoritmos de firma digital disponibles
+            </p>
+            <p>
+                Los algoritmos definen cómo se generan las firmas digitales.
+                Se recomienda usar algoritmos con alta seguridad y aprobados
+                por el gobierno.
+            </p>
+        </field>
+    </record>
+
+</odoo>

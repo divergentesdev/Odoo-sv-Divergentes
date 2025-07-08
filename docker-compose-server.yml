@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # Base de datos PostgreSQL
+  db-server:
+    image: postgres:15
+    container_name: odoo18-db-server
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=Enigma007..
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - odoo18-server-db-data:/var/lib/postgresql/data/pgdata
+    restart: unless-stopped
+    networks:
+      - odoo-server-network
+    ports:
+      - "5432:5432"
+
+  # Odoo 18 para servidor
+  odoo18-server:
+    build: .
+    container_name: odoo18-server
+    ports:
+      - "8069:8069"  # Puerto 8069 para acceso web (evita conflicto con Apache)
+      - "8072:8072"  # Puerto longpolling
+    environment:
+      - HOST=db-server
+      - PORT=5432
+      - USER=odoo
+      - PASSWORD=Enigma007..
+      - DB_NAME=odoo18_sv_server
+      - TZ=America/El_Salvador
+    volumes:
+      - odoo18-server-data:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+      - ./logs:/var/log/odoo
+      - ./svfe-json-schemas:/mnt/schemas
+      - ./docker/temp:/docker/temp
+    restart: unless-stopped
+    networks:
+      - odoo-server-network
+    depends_on:
+      - db-server
+      - svfe-api-firmador
+    command: >
+      bash -c "
+      echo '🎉 Iniciando servidor Odoo...' &&
+      odoo -d odoo18_sv_server
+      --db_user=odoo --db_password=Enigma007.. --db_host=db-server --db_port=5432
+      "
+
+  # Firmador Electrónico
+  svfe-api-firmador:
+    image: svfe/svfe-api-firmador:v20230109
+    container_name: svfe-api-firmador
+    ports:
+      - "8113:8113"
+    volumes:
+      - ./dte-firmador/dockerSinSSL/docker/temp:/uploads
+    restart: unless-stopped
+    networks:
+      - odoo-server-network
+
+networks:
+  odoo-server-network:
+    driver: bridge
+
+volumes:
+  odoo18-server-data:
+  odoo18-server-db-data:

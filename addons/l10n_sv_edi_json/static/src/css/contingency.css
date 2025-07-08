@@ -1,0 +1,143 @@
+/* Arreglos específicos para la vista de contingencia */
+
+/* 1. Arreglar el título (oe_title) */
+.o_form_view .oe_title {
+    display: grid !important;
+    grid-template-columns: 2fr 1fr !important;
+    gap: 30px !important;
+    align-items: start !important;
+    margin-bottom: 25px !important;
+}
+
+.o_form_view .oe_title h1 {
+    margin: 0 !important;
+}
+
+.o_form_view .oe_title h2 {
+    margin: 0 !important;
+}
+
+/* 2. Arreglar los grupos principales (o_group row) */
+@media (min-width: 992px) {
+    .o_form_view .o_group.row.align-items-start {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 25px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .o_form_view .o_inner_group.grid.col-lg-6 {
+        width: 100% !important;
+        max-width: none !important;
+        flex: none !important;
+        background-color: #f8f9fa !important;
+        padding: 20px !important;
+        border-radius: 8px !important;
+        border: 1px solid #e9ecef !important;
+    }
+}
+
+/* 3. Mejorar campos dentro de los grupos */
+.o_form_view .o_wrap_field.d-flex.d-sm-contents {
+    display: grid !important;
+    grid-template-columns: 1fr 1.5fr !important;
+    gap: 10px !important;
+    align-items: center !important;
+    margin-bottom: 15px !important;
+}
+
+.o_form_view .o_cell.o_wrap_label {
+    text-align: right !important;
+    padding-right: 10px !important;
+}
+
+.o_form_view .o_cell.o_wrap_input {
+    padding-left: 5px !important;
+}
+
+/* 4. Arreglar separadores de grupo */
+.o_form_view .o_horizontal_separator {
+    grid-column: 1 / -1 !important;
+    margin: 0 0 15px 0 !important;
+    padding-bottom: 10px !important;
+    border-bottom: 2px solid #dee2e6 !important;
+}
+
+/* 5. Responsive para tablet */
+@media (max-width: 991px) {
+    .o_form_view .oe_title {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+    
+    .o_form_view .o_group.row.align-items-start {
+        display: block !important;
+    }
+    
+    .o_form_view .o_inner_group.grid.col-lg-6 {
+        margin-bottom: 20px !important;
+    }
+}
+
+/* 6. Responsive para móvil */
+@media (max-width: 576px) {
+    .o_form_view .o_wrap_field.d-flex.d-sm-contents {
+        grid-template-columns: 1fr !important;
+        gap: 5px !important;
+    }
+    
+    .o_form_view .o_cell.o_wrap_label {
+        text-align: left !important;
+        padding-right: 0 !important;
+        font-weight: bold !important;
+    }
+    
+    .o_form_view .o_inner_group.grid.col-lg-6 {
+        padding: 15px !important;
+        margin: 10px 0 !important;
+    }
+}
+
+/* 7. Mejorar campos de entrada */
+.o_form_view .o_input {
+    width: 100% !important;
+}
+
+.o_form_view .o_field_widget input,
+.o_form_view .o_field_widget select {
+    min-height: 38px !important;
+}
+
+/* 8. Arreglar el campo de motivo de contingencia */
+.o_form_view .o_field_text textarea {
+    min-height: 120px !important;
+    resize: vertical !important;
+    width: 100% !important;
+}
+
+/* 9. Mejorar notebook/pestañas */
+.o_form_view .o_notebook {
+    margin-top: 25px !important;
+}
+
+.o_form_view .nav-tabs .nav-link {
+    padding: 12px 20px !important;
+    font-weight: 500 !important;
+}
+
+/* 10. Mejorar tabla de documentos */
+.o_form_view .o_list_table {
+    margin-top: 15px !important;
+}
+
+.o_form_view .o_list_table th {
+    background-color: #343a40 !important;
+    color: white !important;
+    font-weight: bold !important;
+    text-align: center !important;
+}
+
+.o_form_view .o_list_table td {
+    vertical-align: middle !important;
+    text-align: center !important;
+}

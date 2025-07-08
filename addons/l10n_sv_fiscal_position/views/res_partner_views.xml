@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vista de formulario extendida para partners -->
+    <record id="view_partner_form_sv_fiscal" model="ir.ui.view">
+        <field name="name">res.partner.form.sv.fiscal</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Agregar campos específicos de clasificación fiscal -->
+            <xpath expr="//field[@name='property_account_position_id']" position="after">
+                <field name="l10n_sv_fiscal_position_auto" readonly="1" 
+                       invisible="country_id and country_id != 209"/>
+                <button name="action_apply_automatic_fiscal_position" 
+                        type="object" 
+                        string="Aplicar Automáticamente" 
+                        class="btn-link"
+                        invisible="not l10n_sv_fiscal_position_auto or property_account_position_id"/>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- Vista de formulario principal para partners -->
+    <record id="view_partner_form_sv_classification" model="ir.ui.view">
+        <field name="name">res.partner.form.sv.classification</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Agregar página de clasificación fiscal -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Clasificación Fiscal SV" name="fiscal_classification_sv" 
+                      invisible="country_id and country_id != 209">
+                    
+                    <group string="Tipo de Contribuyente">
+                        <group>
+                            <field name="l10n_sv_taxpayer_type" readonly="1"/>
+                            <field name="l10n_sv_fiscal_position_auto" readonly="1"/>
+                        </group>
+                        <group>
+                            <button name="action_apply_automatic_fiscal_position" 
+                                    type="object" 
+                                    string="Aplicar Posición Fiscal" 
+                                    class="btn-primary"
+                                    invisible="not l10n_sv_fiscal_position_auto"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Clasificaciones Especiales">
+                        <group>
+                            <field name="l10n_sv_is_export_customer"/>
+                            <field name="l10n_sv_is_excluded_subject"/>
+                        </group>
+                        <group>
+                            <field name="l10n_sv_is_withholding_agent"/>
+                            <field name="l10n_sv_withholding_type" 
+                                   invisible="not l10n_sv_is_withholding_agent"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Información Automática" name="auto_info">
+                        <p>La clasificación fiscal se determina automáticamente según:</p>
+                        <ul>
+                            <li><strong>Consumidor Final:</strong> Sin NIT o con DUI</li>
+                            <li><strong>Contribuyente:</strong> Con NIT válido</li>
+                            <li><strong>Exportación:</strong> Cliente marcado para exportación</li>
+                            <li><strong>Sujeto Excluido:</strong> Marcado manualmente como excluido</li>
+                        </ul>
+                        <p>La posición fiscal automática determina:</p>
+                        <ul>
+                            <li>Tipo de documento DTE a generar</li>
+                            <li>Impuestos aplicables (IVA, retenciones)</li>
+                            <li>Exenciones según normativa</li>
+                        </ul>
+                    </group>
+                    
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- Vista de lista extendida -->
+    <record id="view_partner_tree_sv_fiscal" model="ir.ui.view">
+        <field name="name">res.partner.tree.sv.fiscal</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='country_id']" position="after">
+                <field name="l10n_sv_taxpayer_type" optional="hide"/>
+                <field name="l10n_sv_is_export_customer" optional="hide"/>
+                <field name="l10n_sv_is_excluded_subject" optional="hide"/>
+                <field name="l10n_sv_is_withholding_agent" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda extendida -->
+    <record id="view_res_partner_filter_sv_fiscal" model="ir.ui.view">
+        <field name="name">res.partner.select.sv.fiscal</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="after">
+                <separator/>
+                <filter string="Consumidores Finales" name="final_consumers" 
+                        domain="[('l10n_sv_taxpayer_type', '=', 'final_consumer')]"/>
+                <filter string="Contribuyentes" name="taxpayers" 
+                        domain="[('l10n_sv_taxpayer_type', '=', 'taxpayer')]"/>
+                <filter string="Exportación" name="export_customers" 
+                        domain="[('l10n_sv_taxpayer_type', '=', 'export')]"/>
+                <filter string="Sujetos Excluidos" name="excluded_subjects" 
+                        domain="[('l10n_sv_taxpayer_type', '=', 'excluded')]"/>
+                <filter string="Agentes Retenedores" name="withholding_agents" 
+                        domain="[('l10n_sv_is_withholding_agent', '=', True)]"/>
+            </xpath>
+            
+            <xpath expr="//group[@name='group_by']" position="inside">
+                <filter string="Tipo Contribuyente" name="group_taxpayer_type" 
+                        context="{'group_by': 'l10n_sv_taxpayer_type'}"/>
+                <filter string="Agente Retenedor" name="group_withholding" 
+                        context="{'group_by': 'l10n_sv_is_withholding_agent'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Acción para partners con clasificación fiscal -->
+    <record id="action_partner_fiscal_classification" model="ir.actions.act_window">
+        <field name="name">Clasificación Fiscal Partners</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('country_id', '=', 209), ('is_company', '=', True)]</field>
+        <field name="context">{'default_country_id': 209}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Gestionar clasificación fiscal de partners
+            </p>
+            <p>
+                Aquí puede revisar y ajustar la clasificación fiscal automática
+                de sus clientes y proveedores según la normativa de El Salvador.
+            </p>
+        </field>
+    </record>
+
+</odoo>

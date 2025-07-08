@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Clientes de Ejemplo con diferentes Posiciones Fiscales -->
+        
+        <!-- Cliente Consumidor Final -->
+        <record id="res_partner_consumidor_final_demo" model="res.partner">
+            <field name="name">Juan Pérez (Consumidor Final)</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="vat">DUI012345678</field>
+            <field name="l10n_sv_nit"></field>
+            <field name="l10n_sv_nrc"></field>
+            <field name="street">Col. San Benito, Av. La Revolución #123</field>
+            <field name="city">San Salvador</field>
+            <field name="property_account_position_id" ref="fiscal_position_consumidor_final"/>
+            <field name="comment">Cliente consumidor final sin NIT</field>
+        </record>
+        
+        <!-- Cliente Contribuyente -->
+        <record id="res_partner_contribuyente_demo" model="res.partner">
+            <field name="name">Empresa ABC S.A. de C.V.</field>
+            <field name="is_company">True</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="vat">0614-010190-101-0</field>
+            <field name="l10n_sv_nit">0614-010190-101-0</field>
+            <field name="l10n_sv_nrc">123456-7</field>
+            <field name="street">Blvd. de Los Héroes #456</field>
+            <field name="city">San Salvador</field>
+            <field name="property_account_position_id" ref="fiscal_position_contribuyente"/>
+            <field name="comment">Empresa contribuyente con NIT y NRC válidos</field>
+        </record>
+        
+        <!-- Cliente Exportación -->
+        <record id="res_partner_exportacion_demo" model="res.partner">
+            <field name="name">International Trading LLC</field>
+            <field name="is_company">True</field>
+            <field name="country_id" ref="base.us"/>
+            <field name="vat">US123456789</field>
+            <field name="street">1234 Main Street</field>
+            <field name="city">Miami</field>
+            <field name="state_id" ref="base.state_us_11"/>
+            <field name="property_account_position_id" ref="fiscal_position_exportacion"/>
+            <field name="comment">Cliente internacional para exportación</field>
+        </record>
+        
+        <!-- Cliente Sujeto Excluido -->
+        <record id="res_partner_sujeto_excluido_demo" model="res.partner">
+            <field name="name">Cooperativa de Ahorro y Crédito San José</field>
+            <field name="is_company">True</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="vat">0614-150385-102-8</field>
+            <field name="l10n_sv_nit">0614-150385-102-8</field>
+            <field name="l10n_sv_nrc">987654-3</field>
+            <field name="street">Calle Principal #789</field>
+            <field name="city">Santa Ana</field>
+            <field name="property_account_position_id" ref="fiscal_position_sujeto_excluido"/>
+            <field name="comment">Cooperativa - Sujeto Excluido según Art. 6 LIVA</field>
+        </record>
+        
+        <!-- Proveedor con Retención de Renta -->
+        <record id="res_partner_proveedor_renta_demo" model="res.partner">
+            <field name="name">Servicios Profesionales S.A. de C.V.</field>
+            <field name="is_company">True</field>
+            <field name="supplier_rank">1</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="vat">0614-200395-103-5</field>
+            <field name="l10n_sv_nit">0614-200395-103-5</field>
+            <field name="l10n_sv_nrc">456789-1</field>
+            <field name="street">Alameda Roosevelt #321</field>
+            <field name="city">San Salvador</field>
+            <field name="property_account_position_id" ref="fiscal_position_agente_retenedor_renta"/>
+            <field name="comment">Proveedor sujeto a retención de renta 10%</field>
+        </record>
+        
+        <!-- Proveedor con Retención de IVA -->
+        <record id="res_partner_proveedor_iva_demo" model="res.partner">
+            <field name="name">Proveedor Informal Juan López</field>
+            <field name="supplier_rank">1</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="vat">DUI098765432</field>
+            <field name="street">Mercado Central Local #45</field>
+            <field name="city">San Salvador</field>
+            <field name="property_account_position_id" ref="fiscal_position_agente_retenedor_iva"/>
+            <field name="comment">Proveedor no inscrito - Retención IVA 1%</field>
+        </record>
+        
+        <!-- Proveedor Gran Contribuyente -->
+        <record id="res_partner_gran_contribuyente_demo" model="res.partner">
+            <field name="name">Corporación Industrial S.A. de C.V.</field>
+            <field name="is_company">True</field>
+            <field name="supplier_rank">1</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="vat">0614-051285-101-2</field>
+            <field name="l10n_sv_nit">0614-051285-101-2</field>
+            <field name="l10n_sv_nrc">234567-8</field>
+            <field name="l10n_sv_giro">Manufactura y Distribución</field>
+            <field name="street">Carretera al Puerto Km 15</field>
+            <field name="city">La Libertad</field>
+            <field name="property_account_position_id" ref="fiscal_position_agente_retenedor_ambas"/>
+            <field name="comment">Gran Contribuyente - Retenciones de Renta e IVA</field>
+        </record>
+        
+        <!-- Productos de Ejemplo -->
+        
+        <!-- Producto gravado con IVA -->
+        <record id="product_product_gravado_demo" model="product.product">
+            <field name="name">Laptop Dell Inspiron 15</field>
+            <field name="list_price">650.00</field>
+            <field name="standard_price">500.00</field>
+            <field name="type">product</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <!-- Los impuestos se asignarán automáticamente según configuración de la empresa -->
+        </record>
+        
+        <!-- Producto exento -->
+        <record id="product_product_exento_demo" model="product.product">
+            <field name="name">Libro de Texto Educativo</field>
+            <field name="list_price">25.00</field>
+            <field name="standard_price">15.00</field>
+            <field name="type">product</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <!-- Los impuestos se asignarán automáticamente según configuración de la empresa -->
+        </record>
+        
+        <!-- Servicio profesional -->
+        <record id="product_service_profesional_demo" model="product.product">
+            <field name="name">Consultoría Empresarial</field>
+            <field name="list_price">100.00</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="product.product_category_3"/>
+            <!-- Los impuestos se asignarán automáticamente según configuración de la empresa -->
+        </record>
+        
+        <!-- Facturas de Ejemplo -->
+        
+        <!-- Factura a Consumidor Final -->
+        <record id="account_move_consumidor_final_demo" model="account.move">
+            <field name="move_type">out_invoice</field>
+            <field name="partner_id" ref="res_partner_consumidor_final_demo"/>
+            <field name="invoice_date" eval="time.strftime('%Y-%m-01')"/>
+            <field name="fiscal_position_id" ref="fiscal_position_consumidor_final"/>
+            <field name="l10n_sv_document_type_id" ref="l10n_sv_document_type.document_type_01_factura"/>
+            <field name="invoice_line_ids" eval="[(0, 0, {
+                'product_id': ref('product_product_gravado_demo'),
+                'quantity': 1,
+                'price_unit': 650.00,
+                'tax_ids': [],
+            })]"/>
+        </record>
+        
+        <!-- CCF a Contribuyente -->
+        <record id="account_move_contribuyente_demo" model="account.move">
+            <field name="move_type">out_invoice</field>
+            <field name="partner_id" ref="res_partner_contribuyente_demo"/>
+            <field name="invoice_date" eval="time.strftime('%Y-%m-02')"/>
+            <field name="fiscal_position_id" ref="fiscal_position_contribuyente"/>
+            <field name="l10n_sv_document_type_id" ref="l10n_sv_document_type.document_type_03_ccf"/>
+            <field name="invoice_line_ids" eval="[(0, 0, {
+                'product_id': ref('product_service_profesional_demo'),
+                'quantity': 10,
+                'price_unit': 100.00,
+                'tax_ids': [],
+            })]"/>
+        </record>
+        
+        <!-- Factura de Exportación -->
+        <record id="account_move_exportacion_demo" model="account.move">
+            <field name="move_type">out_invoice</field>
+            <field name="partner_id" ref="res_partner_exportacion_demo"/>
+            <field name="invoice_date" eval="time.strftime('%Y-%m-03')"/>
+            <field name="fiscal_position_id" ref="fiscal_position_exportacion"/>
+            <field name="l10n_sv_document_type_id" ref="l10n_sv_document_type.document_type_11_exportacion"/>
+            <field name="invoice_line_ids" eval="[(0, 0, {
+                'product_id': ref('product_product_gravado_demo'),
+                'quantity': 5,
+                'price_unit': 650.00,
+                'tax_ids': [],
+            })]"/>
+        </record>
+        
+        <!-- Factura de Proveedor con Retención -->
+        <record id="account_move_proveedor_retencion_demo" model="account.move">
+            <field name="move_type">in_invoice</field>
+            <field name="partner_id" ref="res_partner_proveedor_renta_demo"/>
+            <field name="invoice_date" eval="time.strftime('%Y-%m-04')"/>
+            <field name="fiscal_position_id" ref="fiscal_position_agente_retenedor_renta"/>
+            <field name="invoice_line_ids" eval="[(0, 0, {
+                'product_id': ref('product_service_profesional_demo'),
+                'quantity': 1,
+                'price_unit': 1000.00,
+                'tax_ids': [],
+            })]"/>
+        </record>
+        
+    </data>
+</odoo>

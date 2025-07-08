@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vista de formulario para configuración EDI -->
+        <record id="view_edi_configuration_form" model="ir.ui.view">
+            <field name="name">l10n_sv.edi.configuration.form</field>
+            <field name="model">l10n_sv.edi.configuration</field>
+            <field name="arch" type="xml">
+                <form string="Configuración EDI">
+                    <header>
+                        <button name="action_test_connection" 
+                                string="Probar Conexión" 
+                                type="object"
+                                class="oe_highlight"/>
+                        <button name="action_activate_contingency" 
+                                string="Activar Contingencia" 
+                                type="object"
+                                invisible="modo_contingencia"
+                                confirm="¿Activar modo contingencia?"/>
+                        <button name="action_deactivate_contingency" 
+                                string="Desactivar Contingencia" 
+                                type="object"
+                                invisible="not modo_contingencia"
+                                class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="alert alert-warning" role="alert" 
+                             invisible="not modo_contingencia">
+                            <strong>¡Modo Contingencia Activo!</strong>
+                            Los documentos se están procesando en modo contingencia.
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="environment"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="api_timeout"/>
+                                <field name="reintentos_automaticos"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Emisor" name="emisor">
+                                <group>
+                                    <group>
+                                        <field name="nit_emisor" required="1"/>
+                                        <field name="nrc_emisor"/>
+                                        <field name="codigo_actividad"/>
+                                        <field name="desc_actividad"/>
+                                    </group>
+                                    <group>
+                                        <field name="codigo_establecimiento"/>
+                                        <field name="punto_venta"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Certificados" name="certificates">
+                                <group>
+                                    <field name="certificate_test_id"/>
+                                    <field name="certificate_production_id"/>
+                                </group>
+                            </page>
+                            
+                            <page string="Numeración" name="numbering">
+                                <group>
+                                    <group>
+                                        <field name="correlativo_factura"/>
+                                        <field name="correlativo_ccf"/>
+                                    </group>
+                                    <group>
+                                        <field name="correlativo_nota_credito"/>
+                                        <field name="correlativo_nota_debito"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="API URLs" name="api_urls">
+                                <group>
+                                    <field name="api_url_test"/>
+                                    <field name="api_url_production"/>
+                                </group>
+                            </page>
+                            
+                            <page string="Contingencia" name="contingency">
+                                <group>
+                                    <field name="modo_contingencia"/>
+                                    <field name="motivo_contingencia" 
+                                           required="modo_contingencia"/>
+                                    <field name="fecha_inicio_contingencia" readonly="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vista de árbol para configuración EDI -->
+        <record id="view_edi_configuration_tree" model="ir.ui.view">
+            <field name="name">l10n_sv.edi.configuration.tree</field>
+            <field name="model">l10n_sv.edi.configuration</field>
+            <field name="arch" type="xml">
+                <list string="Configuraciones EDI" decoration-warning="modo_contingencia==True">
+                    <field name="company_id"/>
+                    <field name="environment"/>
+                    <field name="nit_emisor"/>
+                    <field name="modo_contingencia"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+        
+        <!-- Acción para configuración EDI -->
+        <record id="action_edi_configuration" model="ir.actions.act_window">
+            <field name="name">Configuración EDI</field>
+            <field name="res_model">l10n_sv.edi.configuration</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    ¡Configura tu facturación electrónica!
+                </p>
+                <p>
+                    Configura los parámetros necesarios para la facturación electrónica
+                    de El Salvador según las especificaciones del Ministerio de Hacienda.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista de lista para logs API -->
+    <record id="view_api_log_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.api.log.tree</field>
+        <field name="model">l10n_sv.api.log</field>
+        <field name="arch" type="xml">
+            <list string="Logs API MH" decoration-success="status == 'success'" 
+                  decoration-danger="status == 'error'" decoration-warning="status == 'timeout'">
+                <field name="request_date"/>
+                <field name="request_type"/>
+                <field name="numero_control"/>
+                <field name="client_id"/>
+                <field name="status" widget="badge" 
+                       decoration-success="status == 'success'"
+                       decoration-danger="status == 'error'"
+                       decoration-warning="status == 'timeout'"
+                       decoration-info="status == 'pending'"/>
+                <field name="status_code"/>
+                <field name="duration_ms" string="Duración (ms)"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para logs API -->
+    <record id="view_api_log_form" model="ir.ui.view">
+        <field name="name">l10n_sv.api.log.form</field>
+        <field name="model">l10n_sv.api.log</field>
+        <field name="arch" type="xml">
+            <form string="Log API MH" create="false" edit="false">
+                <header>
+                    <button name="action_retry_request" 
+                            string="Reintentar" 
+                            type="object" 
+                            class="btn-primary"
+                            invisible="status == 'success'"/>
+                    <button name="action_view_request_data" 
+                            string="Ver Petición" 
+                            type="object" 
+                            class="btn-secondary"/>
+                    <button name="action_view_response_data" 
+                            string="Ver Respuesta" 
+                            type="object" 
+                            class="btn-secondary"
+                            invisible="not response_data"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="client_id"/>
+                            <field name="request_type"/>
+                            <field name="move_id"/>
+                            <field name="numero_control"/>
+                            <field name="codigo_generacion"/>
+                        </group>
+                        <group>
+                            <field name="request_date"/>
+                            <field name="response_date"/>
+                            <field name="duration_ms"/>
+                            <field name="status_code"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Error" invisible="not error_message">
+                        <field name="error_message" nolabel="1" widget="text"/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Respuesta Procesada" name="parsed" 
+                              invisible="not response_parsed">
+                            <field name="response_parsed" nolabel="1" widget="text"/>
+                        </page>
+                        
+                        <page string="Datos de Petición" name="request">
+                            <group>
+                                <group>
+                                    <field name="request_url"/>
+                                    <field name="request_method"/>
+                                </group>
+                            </group>
+                            <field name="request_data" nolabel="1" widget="code_editor" options="{'language': 'json'}"/>
+                        </page>
+                        
+                        <page string="Datos de Respuesta" name="response"
+                              invisible="not response_data">
+                            <group>
+                                <field name="response_code"/>
+                            </group>
+                            <field name="response_data" nolabel="1" widget="code_editor" options="{'language': 'json'}"/>
+                        </page>
+                        
+                        <page string="Headers" name="headers">
+                            <group>
+                                <group string="Headers Petición">
+                                    <field name="request_headers" nolabel="1" widget="text"/>
+                                </group>
+                                <group string="Headers Respuesta">
+                                    <field name="response_headers" nolabel="1" widget="text"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para logs API -->
+    <record id="view_api_log_search" model="ir.ui.view">
+        <field name="name">l10n_sv.api.log.search</field>
+        <field name="model">l10n_sv.api.log</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Logs API">
+                <field name="numero_control"/>
+                <field name="client_id"/>
+                <field name="request_type"/>
+                <field name="move_id"/>
+                <filter string="Exitosos" name="success" domain="[('status', '=', 'success')]"/>
+                <filter string="Errores" name="error" domain="[('status', '=', 'error')]"/>
+                <filter string="Pendientes" name="pending" domain="[('status', '=', 'pending')]"/>
+                <separator/>
+                <filter string="Envío DTE" name="send_dte" domain="[('request_type', '=', 'send_dte')]"/>
+                <filter string="Consulta Estado" name="query_status" domain="[('request_type', '=', 'query_status')]"/>
+                <filter string="Autenticación" name="auth" domain="[('request_type', '=', 'auth')]"/>
+                <separator/>
+                <filter string="Hoy" name="today" domain="[('request_date', '>=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+                <filter string="Esta Semana" name="this_week" domain="[('request_date', '>=', (context_today() + relativedelta(weeks=-1, weekday=0)).strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Cliente API" name="group_client" context="{'group_by': 'client_id'}"/>
+                    <filter string="Tipo de Petición" name="group_request_type" context="{'group_by': 'request_type'}"/>
+                    <filter string="Estado" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Fecha" name="group_date" context="{'group_by': 'request_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción para logs API -->
+    <record id="action_api_log" model="ir.actions.act_window">
+        <field name="name">Logs API MH</field>
+        <field name="res_model">l10n_sv.api.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_api_log_search"/>
+        <field name="context">{'search_default_today': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay logs de comunicación con el MH
+            </p>
+            <p>
+                Los logs de API registran todas las comunicaciones con el
+                Ministerio de Hacienda, incluyendo envíos, consultas y
+                respuestas recibidas.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vista del visor de logs -->
+    <record id="view_api_log_viewer_form" model="ir.ui.view">
+        <field name="name">l10n_sv.api.log.viewer.form</field>
+        <field name="model">l10n_sv.api.log.viewer</field>
+        <field name="arch" type="xml">
+            <form string="Visor de Datos">
+                <header>
+                    <button string="Cerrar" special="cancel" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="title"/>
+                        </h1>
+                    </div>
+                    
+                    <notebook>
+                        <page string="Contenido Formateado" name="formatted">
+                            <field name="content_formatted" nolabel="1" widget="html"/>
+                        </page>
+                        <page string="Contenido Raw" name="raw">
+                            <field name="content" nolabel="1" widget="code_editor" 
+                                   options="{'language': 'json', 'readOnly': true}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista de formulario para wizard de vista previa JSON Contingencia -->
+    <record id="view_contingency_json_preview_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_sv.contingency.json.preview.wizard.form</field>
+        <field name="model">l10n_sv.contingency.json.preview.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Vista Previa JSON Contingencia">
+                <header>
+                    <button name="action_validate_json" 
+                            string="Validar JSON" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button name="action_regenerate_json" 
+                            string="Regenerar" 
+                            type="object" 
+                            class="btn-secondary"/>
+                    <button name="action_download_json" 
+                            string="Descargar" 
+                            type="object" 
+                            class="btn-secondary"/>
+                    <button string="Cerrar" 
+                            special="cancel" 
+                            class="btn-secondary"/>
+                </header>
+                
+                <sheet>
+                    <!-- Información de la contingencia -->
+                    <div class="oe_title">
+                        <h1>
+                            <span>Reporte de Contingencia</span>
+                        </h1>
+                        <h2>
+                            <field name="contingency_name" readonly="1"/>
+                        </h2>
+                        <h3>
+                            <field name="contingency_type" readonly="1"/>
+                        </h3>
+                    </div>
+                    
+                    <!-- Campo oculto para evitar errores -->
+                    <group invisible="1">
+                        <field name="contingency_id"/>
+                    </group>
+                    
+                    <!-- Estado de validación -->
+                    <div class="row">
+                        <div class="col-6">
+                            <group string="Estado de Validación">
+                                <field name="is_valid" readonly="1" widget="boolean_toggle"/>
+                                <field name="json_size" readonly="1" widget="integer"/>
+                                <field name="json_lines" readonly="1" widget="integer"/>
+                            </group>
+                        </div>
+                        <div class="col-6">
+                            <group string="Errores de Validación" 
+                                   invisible="validation_errors == False">
+                                <field name="validation_errors" 
+                                       readonly="1" 
+                                       nolabel="1"
+                                       widget="text"/>
+                            </group>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenido JSON con pestañas -->
+                    <notebook>
+                        <page string="JSON Formateado" name="formatted">
+                            <field name="json_formatted" 
+                                   nolabel="1" 
+                                   widget="html"
+                                   readonly="1"/>
+                        </page>
+                        
+                        <page string="JSON Raw" name="raw">
+                            <field name="json_content" 
+                                   nolabel="1" 
+                                   widget="code_editor" 
+                                   options="{'language': 'json', 'readOnly': true}"/>
+                        </page>
+                    </notebook>
+                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción para wizard de vista previa JSON Contingencia -->
+    <record id="action_contingency_json_preview_wizard" model="ir.actions.act_window">
+        <field name="name">Vista Previa JSON Contingencia</field>
+        <field name="res_model">l10n_sv.contingency.json.preview.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_contingency_json_preview_wizard_form"/>
+    </record>
+
+</odoo>

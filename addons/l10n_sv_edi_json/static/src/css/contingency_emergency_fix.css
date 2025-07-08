@@ -1,0 +1,85 @@
+/* Solución de emergencia para corregir col-lg-6 problemático */
+
+/* 1. Forzar que los grupos internos ocupen todo el ancho */
+.o_form_view .o_inner_group.grid.col-lg-6 {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+}
+
+/* 2. Eliminar la limitación de 6 columnas en pantallas grandes */
+@media (min-width: 992px) {
+    .o_form_view .o_inner_group.grid.col-lg-6 {
+        width: 48% !important;
+        max-width: 48% !important;
+        flex: 0 0 48% !important;
+        margin-right: 2% !important;
+    }
+}
+
+/* 3. En pantallas muy grandes, centrar el formulario */
+@media (min-width: 1400px) {
+    .o_form_view .o_form_sheet {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 0 20px !important;
+    }
+}
+
+/* 4. Corregir el título para que no se apile */
+.o_form_view .oe_title {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 30px !important;
+    flex-wrap: wrap !important;
+    margin-bottom: 25px !important;
+}
+
+.o_form_view .oe_title h1 {
+    margin: 0 !important;
+    flex: 1 !important;
+    min-width: 200px !important;
+}
+
+.o_form_view .oe_title h2 {
+    margin: 0 !important;
+    flex: 1 !important;
+    min-width: 300px !important;
+}
+
+/* 5. Mejorar campos de entrada */
+.o_form_view .o_wrap_input {
+    max-width: 400px !important;
+}
+
+.o_form_view .o_field_text textarea {
+    min-height: 100px !important;
+    resize: vertical !important;
+}
+
+/* 6. Usar distribución automática de JavaScript como fallback */
+.o_form_view .o_group.row.align-items-start::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+/* 7. Responsive para móviles */
+@media (max-width: 768px) {
+    .o_form_view .oe_title {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    
+    .o_form_view .o_inner_group.grid.col-lg-6 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        margin-right: 0 !important;
+    }
+    
+    .o_form_view .o_wrap_input {
+        max-width: 100% !important;
+    }
+}

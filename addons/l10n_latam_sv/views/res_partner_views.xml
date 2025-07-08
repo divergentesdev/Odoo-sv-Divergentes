@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_l10n_sv" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.l10n.sv</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='l10n_latam_identification_type_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='l10n_latam_identification_type_id']" position="after">
+                <field name="l10n_sv_document_type_code" widget="radio" options="{'horizontal': true}" string="Tipo de Documento"/>
+            </xpath>
+            <xpath expr="//field[@name='industry_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_registry']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <group position="inside" name="fiscal_information">
+				<field name="vat"/>
+				<field name="company_registry" string="NRC"/>
+				<field name="industry_id" string="Giro" help='Actividad Económica'/>
+				<field name="is_withholding_agent"/>
+			</group>
+        </field>
+    </record>
+</odoo>

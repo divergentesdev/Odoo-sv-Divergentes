@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Municipios de El Salvador -->
+        <record id="state_sv_0000" model="res.country.state">
+            <field name="name">Otro (Para extranjeros)</field>
+            <field name="code">0000</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0113" model="res.country.state">
+            <field name="name">AHUACHAPAN NORTE</field>
+            <field name="code">0113</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0114" model="res.country.state">
+            <field name="name">AHUACHAPAN CENTRO</field>
+            <field name="code">0114</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0115" model="res.country.state">
+            <field name="name">AHUACHAPAN SUR</field>
+            <field name="code">0115</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0214" model="res.country.state">
+            <field name="name">SANTA ANA NORTE</field>
+            <field name="code">0214</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0215" model="res.country.state">
+            <field name="name">SANTA ANA CENTRO</field>
+            <field name="code">0215</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0216" model="res.country.state">
+            <field name="name">SANTA ANA ESTE</field>
+            <field name="code">0216</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0217" model="res.country.state">
+            <field name="name">SANTA ANA OESTE</field>
+            <field name="code">0217</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0317" model="res.country.state">
+            <field name="name">SONSONATE NORTE</field>
+            <field name="code">0317</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0318" model="res.country.state">
+            <field name="name">SONSONATE CENTRO</field>
+            <field name="code">0318</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0319" model="res.country.state">
+            <field name="name">SONSONATE ESTE</field>
+            <field name="code">0319</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0320" model="res.country.state">
+            <field name="name">SONSONATE OESTE</field>
+            <field name="code">0320</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0434" model="res.country.state">
+            <field name="name">CHALATENANGO NORTE</field>
+            <field name="code">0434</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0435" model="res.country.state">
+            <field name="name">CHALATENANGO CENTRO</field>
+            <field name="code">0435</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0436" model="res.country.state">
+            <field name="name">CHALATENANGO SUR</field>
+            <field name="code">0436</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0523" model="res.country.state">
+            <field name="name">LA LIBERTAD NORTE</field>
+            <field name="code">0523</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0524" model="res.country.state">
+            <field name="name">LA LIBERTAD CENTRO</field>
+            <field name="code">0524</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0525" model="res.country.state">
+            <field name="name">LA LIBERTAD OESTE</field>
+            <field name="code">0525</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0526" model="res.country.state">
+            <field name="name">LA LIBERTAD ESTE</field>
+            <field name="code">0526</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0527" model="res.country.state">
+            <field name="name">LA LIBERTAD COSTA</field>
+            <field name="code">0527</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0528" model="res.country.state">
+            <field name="name">LA LIBERTAD SUR</field>
+            <field name="code">0528</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0620" model="res.country.state">
+            <field name="name">SAN SALVADOR NORTE</field>
+            <field name="code">0620</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0621" model="res.country.state">
+            <field name="name">SAN SALVADOR OESTE</field>
+            <field name="code">0621</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0622" model="res.country.state">
+            <field name="name">SAN SALVADOR ESTE</field>
+            <field name="code">0622</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0623" model="res.country.state">
+            <field name="name">SAN SALVADOR CENTRO</field>
+            <field name="code">0623</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0624" model="res.country.state">
+            <field name="name">SAN SALVADOR SUR</field>
+            <field name="code">0624</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0717" model="res.country.state">
+            <field name="name">CUSCATLAN NORTE</field>
+            <field name="code">0717</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0718" model="res.country.state">
+            <field name="name">CUSCATLAN SUR</field>
+            <field name="code">0718</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0823" model="res.country.state">
+            <field name="name">LA PAZ OESTE</field>
+            <field name="code">0823</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0824" model="res.country.state">
+            <field name="name">LA PAZ CENTRO</field>
+            <field name="code">0824</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0825" model="res.country.state">
+            <field name="name">LA PAZ ESTE</field>
+            <field name="code">0825</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0910" model="res.country.state">
+            <field name="name">CABAÑAS OESTE</field>
+            <field name="code">0910</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_0911" model="res.country.state">
+            <field name="name">CABAÑAS ESTE</field>
+            <field name="code">0911</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1014" model="res.country.state">
+            <field name="name">SAN VICENTE NORTE</field>
+            <field name="code">1014</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1015" model="res.country.state">
+            <field name="name">SAN VICENTE SUR</field>
+            <field name="code">1015</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1124" model="res.country.state">
+            <field name="name">USULUTAN NORTE</field>
+            <field name="code">1124</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1125" model="res.country.state">
+            <field name="name">USULUTAN ESTE</field>
+            <field name="code">1125</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1126" model="res.country.state">
+            <field name="name">USULUTAN OESTE</field>
+            <field name="code">1126</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1221" model="res.country.state">
+            <field name="name">SAN MIGUEL NORTE</field>
+            <field name="code">1221</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1222" model="res.country.state">
+            <field name="name">SAN MIGUEL CENTRO</field>
+            <field name="code">1222</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1223" model="res.country.state">
+            <field name="name">SAN MIGUEL OESTE</field>
+            <field name="code">1223</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1327" model="res.country.state">
+            <field name="name">MORAZAN NORTE</field>
+            <field name="code">1327</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1328" model="res.country.state">
+            <field name="name">MORAZAN SUR</field>
+            <field name="code">1328</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1419" model="res.country.state">
+            <field name="name">LA UNION NORTE</field>
+            <field name="code">1419</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="state_sv_1420" model="res.country.state">
+            <field name="name">LA UNION SUR</field>
+            <field name="code">1420</field>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+
+    </data>
+</odoo>

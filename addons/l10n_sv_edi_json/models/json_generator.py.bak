@@ -1,0 +1,711 @@
+import json
+import logging
+from datetime import datetime
+from odoo import models, fields, api, exceptions, _
+
+_logger = logging.getLogger(__name__)
+
+
+class L10nSvJsonGenerator(models.Model):
+    """Generador de JSON DTE para El Salvador - ADAPTADO CON LÓGICA VALIDADA"""
+    _name = 'l10n_sv.json.generator'
+    _description = 'Generador JSON DTE El Salvador'
+    
+    # Reglas diferenciadas por tipo de documento basadas en esquemas oficiales y lógica validada
+    DTE_RULES = {
+        '01': {  # Factura - LÓGICA VALIDADA 29/06/2025
+            'version': 1,
+            'receptor_required': 'conditional',  # >= $1095
+            'receptor_types': ['36','13','02','03','37'],
+            'tributos_items_allowed': ['C3','59','71','D1','C5','C6','C7','C8','D5','D4','19','28','31','32','33','34','35','36','37','38','39','42','43','44','50','51','52','53','54','55','58','77','78','79','85','86','91','92','A1','A5','A7','A9'],
+            'required_fields': ['ivaItem', 'saldoFavor', 'numPagoElectronico'],
+            'tributos_resumen': 'conditional',  # null para consumidor final
+            'schema_file': 'fe-fc-v1.json'
+        },
+        '03': {  # CCF
+            'version': 3,
+            'receptor_required': True,
+            'receptor_types': ['36'],  # Solo NIT
+            'tributos_items_allowed': ['20','C3','59','71','D1','C5','C6','C7','C8','D5','D4','19','28','31','32','33','34','35','36','37','38','39','42','43','44','50','51','52','53','54','55','58','77','78','79','85','86','91','92','A1','A5','A7','A9'],
+            'required_fields': ['ivaPerci1'],
+            'schema_file': 'fe-ccf-v3.json'
+        },
+        '05': {  # Nota de Crédito
+            'version': 3,
+            'receptor_required': True,
+            'related_docs_required': True,
+            'related_doc_types': ['03','07'],
+            'tributos_items_allowed': ['20','C3','59','71','D1','C8','D5','D4'],
+            'no_payments': True,
+            'schema_file': 'fe-nc-v3.json'
+        },
+        '06': {  # Nota de Débito
+            'version': 3,
+            'receptor_required': True,
+            'related_docs_required': True,
+            'related_doc_types': ['03','07'],
+            'tributos_items_allowed': ['20','C3','59','71','D1','C8','D5','D4'],
+            'required_fields': ['numPagoElectronico'],
+            'schema_file': 'fe-nd-v3.json'
+        },
+        '11': {  # Factura de Exportación
+            'version': 1,
+            'receptor_required': 'conditional',  # >= $10000
+            'receptor_structure': 'internacional',
+            'tributos_items_allowed': ['C3'],
+            'required_fields': ['tipoItemExpor', 'recintoFiscal', 'regimen', 'seguro', 'flete', 'codIncoterms'],
+            'schema_file': 'fe-fex-v1.json'
+        },
+        '14': {  # Factura Sujeto Excluido
+            'version': 1,
+            'receptor_field': 'sujetoExcluido',
+            'simplified_structure': True,
+            'schema_file': 'fe-fse-v1.json'
+        }
+    }
+
+    name = fields.Char(
+        string='Nombre',
+        required=True,
+        help='Nombre del generador'
+    )
+    
+    document_type_id = fields.Many2one(
+        'l10n_sv.document.type',
+        string='Tipo de Documento',
+        required=True,
+        help='Tipo de documento DTE que puede generar'
+    )
+    
+    active = fields.Boolean(
+        string='Activo',
+        default=True
+    )
+    
+    template = fields.Text(
+        string='Plantilla JSON',
+        help='Plantilla base para generar JSON DTE'
+    )
+
+    def generate_json_dte(self, move_id):
+        """Genera JSON DTE para una factura"""
+        self.ensure_one()
+        move = self.env['account.move'].browse(move_id)
+        
+        if not move.exists():
+            raise exceptions.UserError(_('Factura no encontrada'))
+        
+        # Validar que el tipo de documento coincida
+        if move.l10n_sv_document_type_id != self.document_type_id:
+            raise exceptions.UserError(_(
+                'El tipo de documento de la factura no coincide con este generador'
+            ))
+        
+        # Generar JSON según tipo de documento
+        if self.document_type_id.code == '01':  # Factura
+            json_data = self._generate_factura_json(move)
+        elif self.document_type_id.code == '03':  # CCF
+            json_data = self._generate_ccf_json(move)
+        elif self.document_type_id.code == '05':  # Nota de Crédito
+            json_data = self._generate_nota_credito_json(move)
+        elif self.document_type_id.code == '11':  # Factura de Exportación
+            json_data = self._generate_exportacion_json(move)
+        else:
+            json_data = self._generate_generic_json(move)
+            
+        # Limpiar valores null antes de devolver
+        return self._remove_null_values(json_data)
+
+    def _get_base_json_structure(self, move):
+        """Estructura base común para todos los DTE"""
+        utils = self.env['l10n_sv.dte.utils']
+        config = move.company_id.get_edi_configuration()
+        
+        # Obtener fecha y hora actuales
+        now = utils.get_current_datetime_sv()
+        fecha_emision = utils.format_date(now.date())
+        hora_emision = utils.format_time(now.time())
+        
+        return {
+            "identificacion": {
+                "version": 1,
+                "ambiente": utils.get_ambiente_code(config.environment),
+                "tipoDte": move.l10n_sv_document_type_id.code,
+                "numeroControl": move.l10n_sv_edi_numero_control or self._generate_numero_control(move),
+                "codigoGeneracion": move.l10n_sv_edi_codigo_generacion or utils.generate_codigo_generacion(),
+                "tipoModelo": utils.get_tipo_modelo_code(),
+                "tipoOperacion": utils.get_tipo_operacion_code(move.l10n_sv_operation_type),
+                "tipoContingencia": None,
+                "motivoContin": None,
+                "fecEmi": fecha_emision,
+                "horEmi": hora_emision,
+                "tipoMoneda": utils.get_moneda_code(move.currency_id.name)
+            },
+            "documentoRelacionado": self._get_documento_relacionado(move),
+            "emisor": self._get_emisor_data(move),
+            "receptor": self._get_receptor_data(move),
+            "otrosDocumentos": None,
+            "ventaTercero": None,
+            "cuerpoDocumento": self._get_cuerpo_documento(move),
+            "resumen": self._get_resumen_data(move),
+            "extension": None,
+            "apendice": None
+        }
+
+    def _get_emisor_data(self, move):
+        """Datos del emisor"""
+        utils = self.env['l10n_sv.dte.utils']
+        company = move.company_id
+        
+        # Validar que el movimiento tenga establecimiento y punto de venta
+        if not move.l10n_sv_establishment_id:
+            raise exceptions.UserError(_(
+                'La factura no tiene establecimiento asignado. '
+                'Por favor seleccione un establecimiento antes de generar el DTE.'
+            ))
+        
+        if not move.l10n_sv_point_of_sale_id:
+            raise exceptions.UserError(_(
+                'La factura no tiene punto de venta asignado. '
+                'Por favor seleccione un punto de venta antes de generar el DTE.'
+            ))
+        
+        # Determinar actividad económica
+        codigo_actividad = company.l10n_sv_codigo_actividad or "01111"
+        desc_actividad = company.l10n_sv_desc_actividad or "Actividad económica general"
+        
+        # Dirección del establecimiento
+        establishment = move.l10n_sv_establishment_id
+        departamento = establishment.departamento_code or "06"
+        municipio = establishment.municipio_code or "14"
+        
+        return {
+            "nit": utils.format_nit(company.l10n_sv_nit or company.vat),
+            "nrc": company.l10n_sv_nrc or "",
+            "nombre": utils.clean_text_for_json(company.name, 200),
+            "codActividad": codigo_actividad,
+            "descActividad": utils.clean_text_for_json(desc_actividad, 150),
+            "nombreComercial": utils.clean_text_for_json(company.name, 150),
+            "tipoEstablecimiento": "01",  # Sucursal
+            "direccion": {
+                "departamento": departamento,
+                "municipio": municipio,
+                "complemento": utils.clean_text_for_json(
+                    establishment.street or company.street or "", 200
+                )
+            },
+            "telefono": company.phone or "25919000",  # Teléfono por defecto del emisor
+            "correo": utils.clean_text_for_json(company.email or "", 100),
+            "codEstableMH": establishment.code.zfill(4),  # Asegurar 4 dígitos
+            "codEstable": establishment.code.zfill(4),
+            "codPuntoVentaMH": move.l10n_sv_point_of_sale_id.code.zfill(4),  # Asegurar 4 dígitos según especificación
+            "codPuntoVenta": move.l10n_sv_point_of_sale_id.code.zfill(4)
+        }
+
+    def _get_receptor_data(self, move):
+        """Datos del receptor según tipo de documento y posición fiscal - LÓGICA VALIDADA"""
+        document_type = move.l10n_sv_document_type_id.code
+        partner = move.partner_id
+        fiscal_position = move.fiscal_position_id
+        
+        # Aplicar lógica validada para consumidor final
+        if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+            return self._get_receptor_consumidor_final(partner, move)
+        
+        # Aplicar lógica según tipo de documento
+        if document_type == '11':  # Exportación
+            return self._get_receptor_exportacion(partner, move)
+        elif document_type == '14':  # Sujeto Excluido
+            return self._get_sujeto_excluido_data(partner, move)
+        else:
+            return self._get_receptor_contribuyente(partner, move)
+    
+    def _get_receptor_consumidor_final(self, partner, move):
+        """Receptor para consumidor final - LÓGICA VALIDADA 29/06/2025"""
+        utils = self.env['l10n_sv.dte.utils']
+        
+        # Estructura VALIDADA exitosamente el 29/06/2025 - LOGICA_VALIDADA.md
+        return {
+            "tipoDocumento": None,
+            "numDocumento": None,
+            "nrc": None,
+            "nombre": "Consumidor final",
+            "codActividad": None,
+            "descActividad": None,
+            "direccion": None,
+            "telefono": None,
+            "correo": partner.email or "consumidor@factura.gob.sv"
+        }
+    
+    def _get_receptor_contribuyente(self, partner, move):
+        """Receptor para contribuyentes con NIT"""
+        utils = self.env['l10n_sv.dte.utils']
+        partner = move.partner_id
+        
+        # Determinar tipo de documento de identificación
+        doc_type = partner.l10n_sv_document_type_code or "36"
+        if doc_type == "36":  # NIT
+            num_documento = utils.format_nit(partner.vat)
+        elif doc_type == "13":  # DUI
+            num_documento = utils.format_dui(partner.vat)
+        else:
+            num_documento = partner.vat or ""
+        
+        # Dirección del receptor
+        departamento = "06"  # Por defecto San Salvador
+        municipio = "14"     # Por defecto San Salvador
+        
+        if partner.city_id and hasattr(partner.city_id, 'district_code'):
+            if partner.city_id.district_code and len(partner.city_id.district_code) == 4:
+                departamento = partner.city_id.district_code[:2]
+                municipio = partner.city_id.district_code[2:]
+        
+        # Para clientes extranjeros
+        if partner.country_id and partner.country_id.code != 'SV':
+            departamento = "00"
+            municipio = "00"
+        
+        receptor_data = {
+            "tipoDocumento": doc_type,
+            "numDocumento": num_documento,
+            "nrc": partner.l10n_sv_nrc if hasattr(partner, 'l10n_sv_nrc') else None,
+            "nombre": utils.clean_text_for_json(partner.name, 200),
+            "codActividad": partner.industry_id.code if partner.industry_id else None,
+            "descActividad": utils.clean_text_for_json(
+                partner.industry_id.name if partner.industry_id else "Actividad general", 150
+            ),
+            "direccion": {
+                "departamento": departamento,
+                "municipio": municipio,
+                "complemento": utils.clean_text_for_json(
+                    partner.street or "Ciudad", 200
+                )
+            },
+            "telefono": partner.phone or "0000-0000",
+            "correo": utils.clean_text_for_json(partner.email or "cliente@empresa.com", 100)
+        }
+        
+        # Solo agregar nombreComercial si es diferente del nombre
+        if partner.commercial_company_name and partner.commercial_company_name != partner.name:
+            receptor_data["nombreComercial"] = utils.clean_text_for_json(partner.commercial_company_name, 150)
+        
+        return receptor_data
+
+    def _get_cuerpo_documento(self, move):
+        """Líneas del documento"""
+        utils = self.env['l10n_sv.dte.utils']
+        cuerpo = []
+        
+        item_num = 1
+        for line in move.invoice_line_ids:
+            if line.display_type in ('line_section', 'line_note'):
+                continue
+            
+            # Obtener código de unidad de medida
+            uom_code = 99  # Por defecto "No aplica"
+            if line.product_uom_id and hasattr(line.product_uom_id, 'code'):
+                uom_code = line.product_uom_id.code or 99
+            
+            # Determinar tipo de item (debe ser valor válido del catálogo MH)
+            tipo_item = int(line.l10n_sv_item_type) if hasattr(line, 'l10n_sv_item_type') and line.l10n_sv_item_type else 1
+            
+            # Calcular montos por línea
+            precio_unitario = utils.format_currency_amount(line.price_unit)
+            cantidad = utils.format_currency_amount(line.quantity)
+            monto_descu = utils.format_currency_amount(line.discount * line.price_unit * line.quantity / 100)
+            
+            # Clasificar venta según impuestos
+            venta_no_suj = 0.00
+            venta_exenta = 0.00
+            venta_gravada = 0.00
+            
+            # Obtener tributos aplicados según lógica validada
+            tributos = self._get_tributos_item(line, move)
+            
+            # Clasificar venta según tributos
+            if tributos and '20' in tributos:  # IVA 13%
+                venta_gravada = utils.format_currency_amount(line.price_subtotal)
+            elif tributos and 'C3' in tributos:  # Exportación
+                venta_exenta = utils.format_currency_amount(line.price_subtotal)
+            elif not tributos:  # Sin tributos
+                venta_no_suj = utils.format_currency_amount(line.price_subtotal)
+            
+            # Determinar código de tributo e IVA por item según lógica validada
+            cod_tributo = "20"  # Por defecto IVA 13%
+            iva_item = 0.00
+            
+            if tributos:
+                cod_tributo = tributos[0] if isinstance(tributos, list) else tributos
+                if cod_tributo == '20':  # IVA 13%
+                    iva_item = utils.format_currency_amount(venta_gravada * 0.13)
+            else:
+                # Si no hay tributos específicos, usar código por defecto
+                tributos = ["20"] if venta_gravada > 0 else []
+            
+            # Para consumidor final, tributos requeridos según errores de Hacienda
+            fiscal_position = move.fiscal_position_id
+            if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+                if venta_gravada > 0:
+                    tributos = ["20"]  # IVA requerido
+                    cod_tributo = "20"
+                    iva_item = utils.format_currency_amount(venta_gravada * 0.13)
+                else:
+                    tributos = []  # Lista vacía en lugar de None
+                    cod_tributo = None
+            
+            item = {
+                "numItem": item_num,
+                "tipoItem": tipo_item,
+                "numeroDocumento": move.name or f"ITEM-{item_num:03d}",  # Requerido según MH
+                "cantidad": cantidad,
+                "codigo": utils.clean_text_for_json(line.product_id.default_code or f"PROD-{item_num:03d}", 25),
+                "codTributo": None if (move.fiscal_position_id and move.fiscal_position_id.l10n_sv_is_final_consumer) else (cod_tributo or "20"),
+                "uniMedida": uom_code,
+                "descripcion": utils.clean_text_for_json(line.name or "", 1000),
+                "precioUni": precio_unitario,
+                "montoDescu": monto_descu,
+                "ventaNoSuj": venta_no_suj,
+                "ventaExenta": venta_exenta,
+                "ventaGravada": venta_gravada,
+                "tributos": None if (move.fiscal_position_id and move.fiscal_position_id.l10n_sv_is_final_consumer) else (tributos or ["20"]),
+                "psv": 0.00,  # Precio sugerido de venta
+                "noGravado": 0.00,
+                "ivaItem": iva_item  # Requerido según MH
+            }
+            
+            cuerpo.append(item)
+            item_num += 1
+        
+        return cuerpo
+
+    def _get_resumen_data(self, move):
+        """Resumen del documento"""
+        utils = self.env['l10n_sv.dte.utils']
+        
+        # Calcular totales
+        total_no_suj = utils.format_currency_amount(move.l10n_sv_total_no_gravado)
+        total_exenta = utils.format_currency_amount(move.l10n_sv_total_exento)
+        total_gravada = utils.format_currency_amount(move.l10n_sv_total_gravado)
+        
+        sub_total_ventas = total_no_suj + total_exenta + total_gravada
+        
+        # Calcular IVA
+        tributos = []
+        iva_amount = 0.00
+        
+        for tax_line in move.line_ids.filtered(lambda l: l.tax_line_id):
+            if hasattr(tax_line.tax_line_id, 'code_dgii') and tax_line.tax_line_id.code_dgii == '20':
+                iva_amount += abs(tax_line.balance)
+        
+        if iva_amount > 0:
+            tributos.append({
+                "codigo": "20",
+                "descripcion": "Impuesto al Valor Agregado 13%",
+                "valor": utils.format_currency_amount(iva_amount)
+            })
+        
+        sub_total = sub_total_ventas
+        monto_total_operacion = sub_total + iva_amount
+        
+        # Condición de operación
+        condicion_operacion = 1  # Contado por defecto
+        if move.invoice_payment_term_id and move.invoice_payment_term_id.line_ids:
+            if any(line.nb_days > 0 for line in move.invoice_payment_term_id.line_ids):
+                condicion_operacion = 2  # Crédito
+        
+        # Formas de pago
+        pagos = [{
+            "codigo": "01",  # Efectivo por defecto
+            "montoPago": utils.format_currency_amount(monto_total_operacion),
+            "referencia": None,
+            "plazo": move.l10n_sv_payment_term_code if move.l10n_sv_payment_term_code else "01",
+            "periodo": move.l10n_sv_payment_term_period if move.l10n_sv_payment_term_period else None
+        }]
+        
+        # Aplicar lógica validada para tributos en resumen
+        tributos = self._get_tributos_resumen(move)
+        
+        # Tributos son requeridos según errores de Hacienda
+        if tributos is None:
+            fiscal_position = move.fiscal_position_id
+            if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+                # Para consumidor final, tributos pueden ser lista vacía
+                tributos = []
+            else:
+                # Para contribuyentes, siempre agregar al menos IVA si hay venta gravada
+                if iva_amount > 0:
+                    tributos = [{
+                        "codigo": "20",
+                        "descripcion": "Impuesto al Valor Agregado 13%",
+                        "valor": utils.format_currency_amount(iva_amount)
+                    }]
+                else:
+                    tributos = []
+
+        return {
+            "totalNoSuj": total_no_suj,
+            "totalExenta": total_exenta,
+            "totalGravada": total_gravada,
+            "subTotalVentas": utils.format_currency_amount(sub_total_ventas),
+            "descuNoSuj": 0.00,
+            "descuExenta": 0.00,
+            "descuGravada": 0.00,
+            "porcentajeDescuento": 0.00,
+            "totalDescu": 0.00,
+            "tributos": tributos,  # null para consumidor final, requerido para contribuyentes
+            "subTotal": utils.format_currency_amount(sub_total),
+            "ivaRete1": utils.format_currency_amount(move.l10n_sv_retention_amount) if move.l10n_sv_retention_amount else 0.00,
+            "reteRenta": 0.00,
+            "montoTotalOperacion": utils.format_currency_amount(monto_total_operacion),
+            "totalNoGravado": 0.00,
+            "totalPagar": utils.format_currency_amount(monto_total_operacion),
+            "totalLetras": utils.number_to_words(monto_total_operacion, move.currency_id.name),
+            "totalIva": utils.format_currency_amount(iva_amount),
+            "saldoFavor": 0.00,
+            "condicionOperacion": condicion_operacion,
+            "pagos": pagos,
+            "numPagoElectronico": "N/A"  # Requerido según MH
+        }
+
+    def _get_documento_relacionado(self, move):
+        """Documento relacionado (para notas de crédito/débito)"""
+        if move.l10n_sv_document_type_id.code in ['05', '06']:  # Notas de crédito/débito
+            if move.reversed_entry_ids:
+                related_move = move.reversed_entry_ids[0]
+                return [{
+                    "tipoDocumento": related_move.l10n_sv_document_type_id.code,
+                    "tipoGeneracion": 1,
+                    "numeroDocumento": related_move.l10n_sv_edi_numero_control,
+                    "fechaEmision": self.env['l10n_sv.dte.utils'].format_date(related_move.invoice_date)
+                }]
+        return None
+
+    def _generate_factura_json(self, move):
+        """Genera JSON específico para Factura (01)"""
+        return self._get_base_json_structure(move)
+
+    def _generate_ccf_json(self, move):
+        """Genera JSON específico para CCF (03)"""
+        return self._get_base_json_structure(move)
+
+    def _generate_nota_credito_json(self, move):
+        """Genera JSON específico para Nota de Crédito (05)"""
+        json_data = self._get_base_json_structure(move)
+        # Agregar lógica específica para notas de crédito
+        return json_data
+
+    def _generate_exportacion_json(self, move):
+        """Genera JSON específico para Factura de Exportación (11)"""
+        json_data = self._get_base_json_structure(move)
+        
+        # Agregar información específica de exportación
+        if move.invoice_incoterm_id:
+            json_data["receptor"]["complemento"] = {
+                "incoterms": move.l10n_sv_incoterm_code,
+                "descIncoterms": move.invoice_incoterm_id.name
+            }
+        
+        return json_data
+
+    def _generate_generic_json(self, move):
+        """Genera JSON genérico para otros tipos de documentos"""
+        return self._get_base_json_structure(move)
+
+    def validate_json(self, json_data, move):
+        """Valida el JSON generado"""
+        utils = self.env['l10n_sv.dte.utils']
+        errors = utils.validate_json_structure(json_data, move.l10n_sv_document_type_id.code)
+        
+        if errors:
+            raise exceptions.ValidationError('\n'.join(errors))
+        
+        return True
+
+    def _remove_null_values(self, obj, parent_key=""):
+        """Remueve recursivamente campos con valor null del diccionario, excepto campos requeridos"""
+        # Campos que deben mantenerse aunque sean null (según esquema MH)
+        required_null_fields = {
+            "documentoRelacionado", "extension", "apendice", "otrosDocumentos", 
+            "ventaTercero", "tipoContingencia", "motivoContin", "referencia", 
+            "plazo", "periodo", "nrc"
+            # Eliminados: "codActividad" ya que ahora es requerido según errores
+        }
+        
+        if isinstance(obj, dict):
+            result = {}
+            for k, v in obj.items():
+                if v is None and k in required_null_fields:
+                    # Mantener campos requeridos aunque sean null
+                    result[k] = None
+                elif v is not None:
+                    result[k] = self._remove_null_values(v, k)
+            return result
+        elif isinstance(obj, list):
+            return [self._remove_null_values(item, parent_key) for item in obj]
+        else:
+            return obj
+
+    def format_json_output(self, json_data):
+        """Formatea JSON para salida"""
+        # Remover campos null antes de formatear
+        cleaned_data = self._remove_null_values(json_data)
+        return json.dumps(cleaned_data, ensure_ascii=False, indent=2, separators=(',', ': '))
+
+    def _get_tributos_item(self, line, move):
+        """Determinar tributos del item según posición fiscal y tipo de documento - LÓGICA VALIDADA"""
+        document_type = move.l10n_sv_document_type_id.code
+        fiscal_position = move.fiscal_position_id
+        
+        # Verificar tributos permitidos según esquema
+        allowed_tributos = self.DTE_RULES.get(document_type, {}).get('tributos_items_allowed', ['20'])
+        
+        tributos = []
+        for tax in line.tax_ids:
+            if hasattr(tax, 'code_dgii') and tax.code_dgii:
+                if tax.code_dgii in allowed_tributos:
+                    tributos.append(tax.code_dgii)
+        
+        # Si no se encontraron tributos específicos y hay impuestos aplicados
+        if not tributos and line.tax_ids:
+            # Usar código de tributo por defecto
+            tributos = ['20']  # IVA por defecto
+        
+        # Para consumidor final, tributos = null según LOGICA_VALIDADA.md
+        if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+            return None  # null validado exitosamente el 29/06/2025
+        
+        return tributos if tributos else ['20']  # Por defecto IVA
+
+    def _get_tributos_resumen(self, move):
+        """Determinar tributos del resumen según posición fiscal - LÓGICA VALIDADA"""
+        fiscal_position = move.fiscal_position_id
+        utils = self.env['l10n_sv.dte.utils']
+        
+        # Calcular IVA primero
+        iva_amount = 0.00
+        for tax_line in move.line_ids.filtered(lambda l: l.tax_line_id):
+            if hasattr(tax_line.tax_line_id, 'code_dgii') and tax_line.tax_line_id.code_dgii == '20':
+                iva_amount += abs(tax_line.balance)
+        
+        # Para consumidor final, siempre retornar lista (puede estar vacía)
+        if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+            if iva_amount > 0:
+                return [{
+                    "codigo": "20",
+                    "descripcion": "Impuesto al Valor Agregado 13%",
+                    "valor": utils.format_currency_amount(iva_amount)
+                }]
+            return None  # null para consumidor final según LOGICA_VALIDADA.md
+        
+        # Para contribuyentes, calcular tributos normalmente
+        tributos = []
+        if iva_amount > 0:
+            tributos.append({
+                "codigo": "20",
+                "descripcion": "Impuesto al Valor Agregado 13%",
+                "valor": utils.format_currency_amount(iva_amount)
+            })
+        
+        return tributos
+
+    def _get_receptor_exportacion(self, partner, move):
+        """Receptor para operaciones de exportación"""
+        utils = self.env['l10n_sv.dte.utils']
+        
+        # Verificar si es obligatorio según monto
+        monto_total = move.amount_total
+        if monto_total < 10000.00:  # USD según esquema fe-fex-v1.json
+            return None  # Receptor opcional
+        
+        return {
+            "tipoPersona": 1,  # Persona Natural/Jurídica
+            "codPais": partner.country_id.code if partner.country_id else "US",
+            "nombrePais": partner.country_id.name if partner.country_id else "Estados Unidos",
+            "complemento": utils.clean_text_for_json(partner.street or "", 200),
+            "telefono": partner.phone or "0000-0000",
+            "correo": utils.clean_text_for_json(partner.email or "", 100)
+        }
+
+    def _get_sujeto_excluido_data(self, partner, move):
+        """Datos del sujeto excluido para factura tipo 14"""
+        utils = self.env['l10n_sv.dte.utils']
+        
+        return {
+            "tipoDocumento": partner.l10n_sv_document_type_code or "13",
+            "numDocumento": partner.vat or "",
+            "nombre": utils.clean_text_for_json(partner.name, 200),
+            "codActividad": partner.industry_id.code if partner.industry_id else None,
+            "descActividad": utils.clean_text_for_json(
+                partner.industry_id.name if partner.industry_id else "Actividad general", 150
+            ),
+            "telefono": partner.phone or "0000-0000",
+            "correo": utils.clean_text_for_json(partner.email or "", 100)
+        }
+
+    def _generate_numero_control(self, move):
+        """
+        Generar número de control según especificación oficial MH El Salvador
+        Estructura: DTE-XX-XXXXXXXX-XXXXXXXXXXXXXXX (31 caracteres total)
+        """
+        company = move.company_id
+        sequence_number = getattr(move, 'l10n_sv_sequence_number', 1) or 1
+        
+        # 1. Primera sección: "DTE"
+        prefix = "DTE"
+        
+        # 2. Segunda sección: Código de tipo de documento (2 dígitos)
+        document_type = move.l10n_sv_document_type_id.code if move.l10n_sv_document_type_id else "01"
+        document_type = document_type.zfill(2)  # Asegurar 2 dígitos
+        
+        # 3. Tercera sección: 8 dígitos (4 establecimiento + 4 punto de venta)
+        # Código de establecimiento (4 dígitos)
+        establishment_code = "0001"  # Por defecto
+        if move.l10n_sv_establishment_id and move.l10n_sv_establishment_id.code:
+            establishment_code = move.l10n_sv_establishment_id.code.zfill(4)
+        
+        # Código de punto de venta (4 dígitos)  
+        point_of_sale_code = "0001"  # Por defecto
+        if move.l10n_sv_point_of_sale_id and move.l10n_sv_point_of_sale_id.code:
+            point_of_sale_code = move.l10n_sv_point_of_sale_id.code.zfill(4)
+        
+        # Combinar establecimiento + punto de venta (8 dígitos total)
+        establishment_pos = f"{establishment_code}{point_of_sale_code}"
+        
+        # 4. Cuarta sección: Secuencial anual (15 dígitos)
+        secuencial = f"{sequence_number:015d}"
+        
+        # Construir número de control completo
+        numero_control = f"{prefix}-{document_type}-{establishment_pos}-{secuencial}"
+        
+        # Validar longitud exacta de 31 caracteres
+        if len(numero_control) != 31:
+            _logger.error(f"Número de control generado tiene {len(numero_control)} caracteres, esperados 31: {numero_control}")
+            
+        return numero_control
+
+    def validate_json_against_schema(self, json_data, document_type):
+        """Validar JSON contra esquema oficial correspondiente"""
+        schema_file = self.DTE_RULES.get(document_type, {}).get('schema_file')
+        if not schema_file:
+            _logger.warning(f"No hay esquema definido para tipo de documento {document_type}")
+            return True
+        
+        schema_path = f"/home/luis/Documentos/Dockers/Odoo18/svfe-json-schemas/svfe-json-schemas/{schema_file}"
+        
+        try:
+            import jsonschema
+            import os
+            
+            if not os.path.exists(schema_path):
+                _logger.warning(f"Esquema no encontrado: {schema_path}")
+                return True
+                
+            with open(schema_path, 'r') as f:
+                schema = json.load(f)
+            
+            jsonschema.validate(json_data, schema)
+            _logger.info(f"JSON validado exitosamente contra esquema {schema_file}")
+            return True
+        except Exception as e:
+            _logger.error(f"Validación de esquema falló para {document_type}: {e}")
+            return False

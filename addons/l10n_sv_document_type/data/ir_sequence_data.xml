@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Secuencias base para tipos de documentos DTE -->
+        
+        <!-- Secuencia para Facturas (01) -->
+        <record id="sequence_dte_01" model="ir.sequence">
+            <field name="name">DTE Factura (01)</field>
+            <field name="code">l10n_sv.dte.01</field>
+            <field name="prefix">DTE-01-</field>
+            <field name="suffix"></field>
+            <field name="padding">15</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Secuencia para CCF (03) -->
+        <record id="sequence_dte_03" model="ir.sequence">
+            <field name="name">DTE Comprobante de Crédito Fiscal (03)</field>
+            <field name="code">l10n_sv.dte.03</field>
+            <field name="prefix">DTE-03-</field>
+            <field name="suffix"></field>
+            <field name="padding">15</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Secuencia para Nota de Remisión (04) -->
+        <record id="sequence_dte_04" model="ir.sequence">
+            <field name="name">DTE Nota de Remisión (04)</field>
+            <field name="code">l10n_sv.dte.04</field>
+            <field name="prefix">DTE-04-</field>
+            <field name="suffix"></field>
+            <field name="padding">15</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Secuencia para Nota de Crédito (05) -->
+        <record id="sequence_dte_05" model="ir.sequence">
+            <field name="name">DTE Nota de Crédito (05)</field>
+            <field name="code">l10n_sv.dte.05</field>
+            <field name="prefix">DTE-05-</field>
+            <field name="suffix"></field>
+            <field name="padding">15</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Secuencia para Nota de Débito (06) -->
+        <record id="sequence_dte_06" model="ir.sequence">
+            <field name="name">DTE Nota de Débito (06)</field>
+            <field name="code">l10n_sv.dte.06</field>
+            <field name="prefix">DTE-06-</field>
+            <field name="suffix"></field>
+            <field name="padding">15</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Secuencia para Comprobante de Retención (07) -->
+        <record id="sequence_dte_07" model="ir.sequence">
+            <field name="name">DTE Comprobante de Retención (07)</field>
+            <field name="code">l10n_sv.dte.07</field>
+            <field name="prefix">DTE-07-</field>
+            <field name="suffix"></field>
+            <field name="padding">15</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Secuencia para Comprobante de Liquidación (08) -->
+        <record id="sequence_dte_08" model="ir.sequence">
+            <field name="name">DTE Comprobante de Liquidación (08)</field>
+            <field name="code">l10n_sv.dte.08</field>
+            <field name="prefix">DTE-08-</field>
+            <field name="suffix"></field>
+            <field name="padding">15</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Secuencia para Documento Contable de Liquidación (09) -->
+        <record id="sequence_dte_09" model="ir.sequence">
+            <field name="name">DTE Documento Contable de Liquidación (09)</field>
+            <field name="code">l10n_sv.dte.09</field>
+            <field name="prefix">DTE-09-</field>
+            <field name="suffix"></field>
+            <field name="padding">15</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Secuencia para Factura de Exportación (11) -->
+        <record id="sequence_dte_11" model="ir.sequence">
+            <field name="name">DTE Factura de Exportación (11)</field>
+            <field name="code">l10n_sv.dte.11</field>
+            <field name="prefix">DTE-11-</field>
+            <field name="suffix"></field>
+            <field name="padding">15</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Secuencia para Factura de Sujeto Excluido (14) -->
+        <record id="sequence_dte_14" model="ir.sequence">
+            <field name="name">DTE Factura de Sujeto Excluido (14)</field>
+            <field name="code">l10n_sv.dte.14</field>
+            <field name="prefix">DTE-14-</field>
+            <field name="suffix"></field>
+            <field name="padding">15</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Secuencia para Comprobante de Donación (15) -->
+        <record id="sequence_dte_15" model="ir.sequence">
+            <field name="name">DTE Comprobante de Donación (15)</field>
+            <field name="code">l10n_sv.dte.15</field>
+            <field name="prefix">DTE-15-</field>
+            <field name="suffix"></field>
+            <field name="padding">15</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Asignar secuencias a tipos de documentos -->
+        <record id="document_type_01_factura" model="l10n_sv.document.type">
+            <field name="sequence_id" ref="sequence_dte_01"/>
+        </record>
+        
+        <record id="document_type_03_ccf" model="l10n_sv.document.type">
+            <field name="sequence_id" ref="sequence_dte_03"/>
+        </record>
+        
+        <record id="document_type_04_remision" model="l10n_sv.document.type">
+            <field name="sequence_id" ref="sequence_dte_04"/>
+        </record>
+        
+        <record id="document_type_05_nota_credito" model="l10n_sv.document.type">
+            <field name="sequence_id" ref="sequence_dte_05"/>
+        </record>
+        
+        <record id="document_type_06_nota_debito" model="l10n_sv.document.type">
+            <field name="sequence_id" ref="sequence_dte_06"/>
+        </record>
+        
+        <record id="document_type_07_retencion" model="l10n_sv.document.type">
+            <field name="sequence_id" ref="sequence_dte_07"/>
+        </record>
+        
+        <record id="document_type_08_liquidacion" model="l10n_sv.document.type">
+            <field name="sequence_id" ref="sequence_dte_08"/>
+        </record>
+        
+        <record id="document_type_09_doc_contable" model="l10n_sv.document.type">
+            <field name="sequence_id" ref="sequence_dte_09"/>
+        </record>
+        
+        <record id="document_type_11_exportacion" model="l10n_sv.document.type">
+            <field name="sequence_id" ref="sequence_dte_11"/>
+        </record>
+        
+        <record id="document_type_14_sujeto_excluido" model="l10n_sv.document.type">
+            <field name="sequence_id" ref="sequence_dte_14"/>
+        </record>
+        
+        <record id="document_type_15_donacion" model="l10n_sv.document.type">
+            <field name="sequence_id" ref="sequence_dte_15"/>
+        </record>
+        
+    </data>
+</odoo>

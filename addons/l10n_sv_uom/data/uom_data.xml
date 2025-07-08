@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Actualización de unidades de medida estándar según IDs de la base de datos -->
+        <!-- ID 1: Units -->
+        <record id="uom.product_uom_unit" model="uom.uom">
+            <field name="code">59</field>
+        </record>
+        
+        <!-- ID 2: Dozens -->
+        <record id="uom.product_uom_dozen" model="uom.uom">
+            <field name="code">58</field>
+        </record>
+        
+        <!-- ID 3: Days -->
+        <record id="uom.product_uom_day" model="uom.uom">
+            <field name="code">99</field>
+        </record>
+        
+        <!-- ID 4: Hours -->
+        <record id="uom.product_uom_hour" model="uom.uom">
+            <field name="code">99</field>
+        </record>
+        
+        <!-- ID 5: m -->
+        <record id="uom.product_uom_meter" model="uom.uom">
+            <field name="code">1</field>
+        </record>
+        
+        <!-- ID 6: mm -->
+        <record id="uom.product_uom_millimeter" model="uom.uom">
+            <field name="code">6</field>
+        </record>
+        
+        <!-- ID 7: km -->
+        <record id="uom.product_uom_km" model="uom.uom">
+            <field name="code">9</field>
+        </record>
+        
+        <!-- ID 8: cm -->
+        <record id="uom.product_uom_cm" model="uom.uom">
+            <field name="code">6</field>
+        </record>
+        
+        <!-- ID 9: m² -->
+        <record id="uom.uom_square_meter" model="uom.uom">
+            <field name="code">13</field>
+        </record>
+        
+        <!-- ID 10: L -->
+        <record id="uom.product_uom_litre" model="uom.uom">
+            <field name="code">23</field>
+        </record>
+        
+        <!-- ID 11: m³ -->
+        <record id="uom.product_uom_cubic_meter" model="uom.uom">
+            <field name="code">18</field>
+        </record>
+        
+        <!-- ID 12: kg -->
+        <record id="uom.product_uom_kgm" model="uom.uom">
+            <field name="code">34</field>
+        </record>
+        
+        <!-- ID 13: g -->
+        <record id="uom.product_uom_gram" model="uom.uom">
+            <field name="code">39</field>
+        </record>
+        
+        <!-- ID 14: t -->
+        <record id="uom.product_uom_ton" model="uom.uom">
+            <field name="code">30</field>
+        </record>
+        
+        <!-- ID 15: lb -->
+        <record id="uom.product_uom_lb" model="uom.uom">
+            <field name="code">36</field>
+        </record>
+        
+        <!-- ID 16: oz -->
+        <record id="uom.product_uom_oz" model="uom.uom">
+            <field name="code">38</field>
+        </record>
+        
+        <!-- ID 17: in -->
+        <record id="uom.product_uom_inch" model="uom.uom">
+            <field name="code">99</field>
+        </record>
+        
+        <!-- ID 18: ft -->
+        <record id="uom.product_uom_foot" model="uom.uom">
+            <field name="code">99</field>
+        </record>
+        
+        <!-- ID 19: yd -->
+        <record id="uom.product_uom_yard" model="uom.uom">
+            <field name="code">2</field>
+        </record>
+        
+        <!-- ID 20: mi -->
+        <record id="uom.product_uom_mile" model="uom.uom">
+            <field name="code">99</field>
+        </record>
+        
+        <!-- ID 21: ft² -->
+        <record id="uom.uom_square_foot" model="uom.uom">
+            <field name="code">99</field>
+        </record>
+        
+        <!-- ID 22: fl oz (US) -->
+        <record id="uom.product_uom_floz" model="uom.uom">
+            <field name="code">26</field>
+        </record>
+        
+        <!-- ID 23: qt (US) -->
+        <record id="uom.product_uom_qt" model="uom.uom">
+            <field name="code">23</field>
+        </record>
+        
+        <!-- ID 24: gal (US) -->
+        <record id="uom.product_uom_gal" model="uom.uom">
+            <field name="code">22</field>
+        </record>
+        
+        <!-- ID 25: in³ -->
+        <record id="uom.product_uom_cubic_inch" model="uom.uom">
+            <field name="code">99</field>
+        </record>
+        
+        <!-- ID 26: ft³ -->
+        <record id="uom.product_uom_cubic_foot" model="uom.uom">
+            <field name="code">99</field>
+        </record>
+    </data>
+</odoo>

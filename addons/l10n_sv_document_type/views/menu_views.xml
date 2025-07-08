@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Agregar menús al menú EDI existente -->
+        
+        <!-- Submenú de Tipos de Documentos -->
+        <menuitem id="menu_l10n_sv_document_types" 
+                  name="Tipos de Documentos" 
+                  parent="l10n_sv_edi_base.menu_l10n_sv_edi_config" 
+                  action="action_dte_document_type" 
+                  sequence="30"
+                  groups="l10n_sv_edi_base.group_l10n_sv_edi_manager"/>
+        
+        <!-- Submenú de Categorías - Comentado temporalmente hasta crear action -->
+        <!--
+        <menuitem id="menu_l10n_sv_document_categories" 
+                  name="Categorías de Documentos" 
+                  parent="l10n_sv_edi_base.menu_l10n_sv_edi_config" 
+                  action="action_document_type_category" 
+                  sequence="31"
+                  groups="l10n_sv_edi_base.group_l10n_sv_edi_manager"/>
+        -->
+        
+        <!-- Submenú de Establecimientos - Comentado temporalmente hasta crear action -->
+        <!--
+        <menuitem id="menu_l10n_sv_establishments" 
+                  name="Establecimientos" 
+                  parent="l10n_sv_edi_base.menu_l10n_sv_edi_config" 
+                  action="action_establishment" 
+                  sequence="40"
+                  groups="l10n_sv_edi_base.group_l10n_sv_edi_manager"/>
+        -->
+        
+        <!-- Submenú de Puntos de Venta - Comentado temporalmente hasta crear action -->
+        <!--
+        <menuitem id="menu_l10n_sv_point_of_sale" 
+                  name="Puntos de Venta" 
+                  parent="l10n_sv_edi_base.menu_l10n_sv_edi_config" 
+                  action="action_point_of_sale" 
+                  sequence="41"
+                  groups="l10n_sv_edi_base.group_l10n_sv_edi_manager"/>
+        -->
+        
+        <!-- Submenú de Secuencias - Comentado temporalmente hasta crear action -->
+        <!--
+        <menuitem id="menu_l10n_sv_establishment_sequences" 
+                  name="Secuencias por Establecimiento" 
+                  parent="l10n_sv_edi_base.menu_l10n_sv_edi_config" 
+                  action="action_establishment_sequence" 
+                  sequence="50"
+                  groups="l10n_sv_edi_base.group_l10n_sv_edi_manager"/>
+        -->
+        
+        <!-- Menús de reportes (para futuras extensiones) -->
+        <menuitem id="menu_l10n_sv_dte_reports" 
+                  name="Reportes DTE" 
+                  parent="l10n_sv_edi_base.menu_l10n_sv_edi_root" 
+                  sequence="30"
+                  groups="l10n_sv_edi_base.group_l10n_sv_edi_user"/>
+        
+    </data>
+</odoo>

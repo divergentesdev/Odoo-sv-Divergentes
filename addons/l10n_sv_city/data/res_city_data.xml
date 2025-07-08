@@ -1,0 +1,1584 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Distritos  de El Salvador-->
+        <record id="city_sv_0000" model="res.city">
+            <field name="name">Otro (Para extranjeros)</field>
+            <field name="district_code">0000</field>
+            <field name="state_id" ref="state_sv_0000"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0101" model="res.city">
+            <field name="name">AHUACHAPÁN</field>
+            <field name="district_code">0101</field>
+            <field name="state_id" ref="state_sv_0114"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0102" model="res.city">
+            <field name="name">APANECA</field>
+            <field name="district_code">0102</field>
+            <field name="state_id" ref="state_sv_0114"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0103" model="res.city">
+            <field name="name">ATIQUIZAYA</field>
+            <field name="district_code">0103</field>
+            <field name="state_id" ref="state_sv_0113"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0104" model="res.city">
+            <field name="name">CONCEPCIÓN DE ATACO</field>
+            <field name="district_code">0104</field>
+            <field name="state_id" ref="state_sv_0114"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0105" model="res.city">
+            <field name="name">EL REFUGIO</field>
+            <field name="district_code">0105</field>
+            <field name="state_id" ref="state_sv_0113"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0106" model="res.city">
+            <field name="name">GUAYMANGO</field>
+            <field name="district_code">0106</field>
+            <field name="state_id" ref="state_sv_0115"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0107" model="res.city">
+            <field name="name">JUJUTLA</field>
+            <field name="district_code">0107</field>
+            <field name="state_id" ref="state_sv_0115"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0108" model="res.city">
+            <field name="name">SAN FRANCISCO MENÉNDEZ</field>
+            <field name="district_code">0108</field>
+            <field name="state_id" ref="state_sv_0115"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0109" model="res.city">
+            <field name="name">SAN LORENZO</field>
+            <field name="district_code">0109</field>
+            <field name="state_id" ref="state_sv_0113"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0110" model="res.city">
+            <field name="name">SAN PEDRO PUXTLA</field>
+            <field name="district_code">0110</field>
+            <field name="state_id" ref="state_sv_0115"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0111" model="res.city">
+            <field name="name">TACUBA</field>
+            <field name="district_code">0111</field>
+            <field name="state_id" ref="state_sv_0114"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0112" model="res.city">
+            <field name="name">TURÍN</field>
+            <field name="district_code">0112</field>
+            <field name="state_id" ref="state_sv_0113"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0201" model="res.city">
+            <field name="name">CANDELARIA DE LA FRONTERA</field>
+            <field name="district_code">0201</field>
+            <field name="state_id" ref="state_sv_0217"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0202" model="res.city">
+            <field name="name">COATEPEQUE</field>
+            <field name="district_code">0202</field>
+            <field name="state_id" ref="state_sv_0216"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0203" model="res.city">
+            <field name="name">CHALCHUAPA</field>
+            <field name="district_code">0203</field>
+            <field name="state_id" ref="state_sv_0217"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0204" model="res.city">
+            <field name="name">EL CONGO</field>
+            <field name="district_code">0204</field>
+            <field name="state_id" ref="state_sv_0216"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0205" model="res.city">
+            <field name="name">EL PORVENIR</field>
+            <field name="district_code">0205</field>
+            <field name="state_id" ref="state_sv_0217"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0206" model="res.city">
+            <field name="name">MASAHUAT</field>
+            <field name="district_code">0206</field>
+            <field name="state_id" ref="state_sv_0214"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0207" model="res.city">
+            <field name="name">METAPÁN</field>
+            <field name="district_code">0207</field>
+            <field name="state_id" ref="state_sv_0214"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0208" model="res.city">
+            <field name="name">SAN ANTONIO PAJONAL</field>
+            <field name="district_code">0208</field>
+            <field name="state_id" ref="state_sv_0217"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0209" model="res.city">
+            <field name="name">SAN SEBASTIÁN SALITRILLO</field>
+            <field name="district_code">0209</field>
+            <field name="state_id" ref="state_sv_0217"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0210" model="res.city">
+            <field name="name">SANTA ANA</field>
+            <field name="district_code">0210</field>
+            <field name="state_id" ref="state_sv_0215"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0211" model="res.city">
+            <field name="name">STA ROSA GUACHI</field>
+            <field name="district_code">0211</field>
+            <field name="state_id" ref="state_sv_0214"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0212" model="res.city">
+            <field name="name">STGO D LA FRONT</field>
+            <field name="district_code">0212</field>
+            <field name="state_id" ref="state_sv_0217"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0213" model="res.city">
+            <field name="name">TEXISTEPEQUE</field>
+            <field name="district_code">0213</field>
+            <field name="state_id" ref="state_sv_0214"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0301" model="res.city">
+            <field name="name">ACAJUTLA</field>
+            <field name="district_code">0301</field>
+            <field name="state_id" ref="state_sv_0320"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0302" model="res.city">
+            <field name="name">ARMENIA</field>
+            <field name="district_code">0302</field>
+            <field name="state_id" ref="state_sv_0319"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0303" model="res.city">
+            <field name="name">CALUCO</field>
+            <field name="district_code">0303</field>
+            <field name="state_id" ref="state_sv_0319"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0304" model="res.city">
+            <field name="name">CUISNAHUAT</field>
+            <field name="district_code">0304</field>
+            <field name="state_id" ref="state_sv_0319"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0305" model="res.city">
+            <field name="name">STA I ISHUATAN</field>
+            <field name="district_code">0305</field>
+            <field name="state_id" ref="state_sv_0319"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0306" model="res.city">
+            <field name="name">IZALCO</field>
+            <field name="district_code">0306</field>
+            <field name="state_id" ref="state_sv_0319"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0307" model="res.city">
+            <field name="name">JUAYÚA</field>
+            <field name="district_code">0307</field>
+            <field name="state_id" ref="state_sv_0317"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0308" model="res.city">
+            <field name="name">NAHUIZALCO</field>
+            <field name="district_code">0308</field>
+            <field name="state_id" ref="state_sv_0317"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0309" model="res.city">
+            <field name="name">NAHULINGO</field>
+            <field name="district_code">0309</field>
+            <field name="state_id" ref="state_sv_0318"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0310" model="res.city">
+            <field name="name">SALCOATITÁN</field>
+            <field name="district_code">0310</field>
+            <field name="state_id" ref="state_sv_0317"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0311" model="res.city">
+            <field name="name">SAN ANTONIO DEL MONTE</field>
+            <field name="district_code">0311</field>
+            <field name="state_id" ref="state_sv_0318"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0312" model="res.city">
+            <field name="name">SAN JULIÁN</field>
+            <field name="district_code">0312</field>
+            <field name="state_id" ref="state_sv_0319"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0313" model="res.city">
+            <field name="name">STA C MASAHUAT</field>
+            <field name="district_code">0313</field>
+            <field name="state_id" ref="state_sv_0317"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0314" model="res.city">
+            <field name="name">SANTO DOMINGO GUZMÁN</field>
+            <field name="district_code">0314</field>
+            <field name="state_id" ref="state_sv_0318"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0315" model="res.city">
+            <field name="name">SONSONATE</field>
+            <field name="district_code">0315</field>
+            <field name="state_id" ref="state_sv_0318"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0316" model="res.city">
+            <field name="name">SONZACATE</field>
+            <field name="district_code">0316</field>
+            <field name="state_id" ref="state_sv_0318"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0401" model="res.city">
+            <field name="name">AGUA CALIENTE</field>
+            <field name="district_code">0401</field>
+            <field name="state_id" ref="state_sv_0435"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0402" model="res.city">
+            <field name="name">ARCATAO</field>
+            <field name="district_code">0402</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0403" model="res.city">
+            <field name="name">AZACUALPA</field>
+            <field name="district_code">0403</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0404" model="res.city">
+            <field name="name">CITALÁ</field>
+            <field name="district_code">0404</field>
+            <field name="state_id" ref="state_sv_0434"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0405" model="res.city">
+            <field name="name">COMALAPA</field>
+            <field name="district_code">0405</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0406" model="res.city">
+            <field name="name">CONCEPCIÓN QUEZALTEPEQUE</field>
+            <field name="district_code">0406</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0407" model="res.city">
+            <field name="name">CHALATENANGO</field>
+            <field name="district_code">0407</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0408" model="res.city">
+            <field name="name">DULCE NOM MARÍA</field>
+            <field name="district_code">0408</field>
+            <field name="state_id" ref="state_sv_0435"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0409" model="res.city">
+            <field name="name">EL CARRIZAL</field>
+            <field name="district_code">0409</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0410" model="res.city">
+            <field name="name">EL PARAÍSO</field>
+            <field name="district_code">0410</field>
+            <field name="state_id" ref="state_sv_0435"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0411" model="res.city">
+            <field name="name">LA LAGUNA</field>
+            <field name="district_code">0411</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0412" model="res.city">
+            <field name="name">LA PALMA</field>
+            <field name="district_code">0412</field>
+            <field name="state_id" ref="state_sv_0434"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0413" model="res.city">
+            <field name="name">LA REINA</field>
+            <field name="district_code">0413</field>
+            <field name="state_id" ref="state_sv_0435"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0414" model="res.city">
+            <field name="name">LAS VUELTAS</field>
+            <field name="district_code">0414</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0415" model="res.city">
+            <field name="name">NOMBRE DE JESUS</field>
+            <field name="district_code">0415</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0416" model="res.city">
+            <field name="name">NVA CONCEPCIÓN</field>
+            <field name="district_code">0416</field>
+            <field name="state_id" ref="state_sv_0435"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0417" model="res.city">
+            <field name="name">NUEVA TRINIDAD</field>
+            <field name="district_code">0417</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0418" model="res.city">
+            <field name="name">OJOS DE AGUA</field>
+            <field name="district_code">0418</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0419" model="res.city">
+            <field name="name">POTONICO</field>
+            <field name="district_code">0419</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0420" model="res.city">
+            <field name="name">SAN ANT LA CRUZ</field>
+            <field name="district_code">0420</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0421" model="res.city">
+            <field name="name">SAN ANT RANCHOS</field>
+            <field name="district_code">0421</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0422" model="res.city">
+            <field name="name">SAN FERNANDO</field>
+            <field name="district_code">0422</field>
+            <field name="state_id" ref="state_sv_0435"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0423" model="res.city">
+            <field name="name">SAN FRANCISCO LEMPA</field>
+            <field name="district_code">0423</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0424" model="res.city">
+            <field name="name">SAN FRANCISCO MORAZÁN</field>
+            <field name="district_code">0424</field>
+            <field name="state_id" ref="state_sv_0435"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0425" model="res.city">
+            <field name="name">SAN IGNACIO</field>
+            <field name="district_code">0425</field>
+            <field name="state_id" ref="state_sv_0434"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0426" model="res.city">
+            <field name="name">SAN I LABRADOR</field>
+            <field name="district_code">0426</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0427" model="res.city">
+            <field name="name">SAN J CANCASQUE</field>
+            <field name="district_code">0427</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0428" model="res.city">
+            <field name="name">SAN JOSE FLORES</field>
+            <field name="district_code">0428</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0429" model="res.city">
+            <field name="name">SAN LUIS CARMEN</field>
+            <field name="district_code">0429</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0430" model="res.city">
+            <field name="name">SN MIG MERCEDES</field>
+            <field name="district_code">0430</field>
+            <field name="state_id" ref="state_sv_0436"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0431" model="res.city">
+            <field name="name">SAN RAFAEL</field>
+            <field name="district_code">0431</field>
+            <field name="state_id" ref="state_sv_0435"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0432" model="res.city">
+            <field name="name">SANTA RITA</field>
+            <field name="district_code">0432</field>
+            <field name="state_id" ref="state_sv_0435"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0433" model="res.city">
+            <field name="name">TEJUTLA</field>
+            <field name="district_code">0433</field>
+            <field name="state_id" ref="state_sv_0435"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0501" model="res.city">
+            <field name="name">ANTGO CUSCATLÁN</field>
+            <field name="district_code">0501</field>
+            <field name="state_id" ref="state_sv_0526"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0502" model="res.city">
+            <field name="name">CIUDAD ARCE</field>
+            <field name="district_code">0502</field>
+            <field name="state_id" ref="state_sv_0524"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0503" model="res.city">
+            <field name="name">COLON</field>
+            <field name="district_code">0503</field>
+            <field name="state_id" ref="state_sv_0525"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0504" model="res.city">
+            <field name="name">COMASAGUA</field>
+            <field name="district_code">0504</field>
+            <field name="state_id" ref="state_sv_0528"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0505" model="res.city">
+            <field name="name">CHILTIUPAN</field>
+            <field name="district_code">0505</field>
+            <field name="state_id" ref="state_sv_0527"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0506" model="res.city">
+            <field name="name">HUIZÚCAR</field>
+            <field name="district_code">0506</field>
+            <field name="state_id" ref="state_sv_0526"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0507" model="res.city">
+            <field name="name">JAYAQUE</field>
+            <field name="district_code">0507</field>
+            <field name="state_id" ref="state_sv_0525"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0508" model="res.city">
+            <field name="name">JICALAPA</field>
+            <field name="district_code">0508</field>
+            <field name="state_id" ref="state_sv_0527"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0509" model="res.city">
+            <field name="name">LA LIBERTAD</field>
+            <field name="district_code">0509</field>
+            <field name="state_id" ref="state_sv_0527"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0510" model="res.city">
+            <field name="name">NUEVO CUSCATLÁN</field>
+            <field name="district_code">0510</field>
+            <field name="state_id" ref="state_sv_0526"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0511" model="res.city">
+            <field name="name">SANTA TECLA</field>
+            <field name="district_code">0511</field>
+            <field name="state_id" ref="state_sv_0528"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0512" model="res.city">
+            <field name="name">QUEZALTEPEQUE</field>
+            <field name="district_code">0512</field>
+            <field name="state_id" ref="state_sv_0523"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0513" model="res.city">
+            <field name="name">SACACOYO</field>
+            <field name="district_code">0513</field>
+            <field name="state_id" ref="state_sv_0525"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0514" model="res.city">
+            <field name="name">SN J VILLANUEVA</field>
+            <field name="district_code">0514</field>
+            <field name="state_id" ref="state_sv_0526"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0515" model="res.city">
+            <field name="name">SAN JUAN OPICO</field>
+            <field name="district_code">0515</field>
+            <field name="state_id" ref="state_sv_0524"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0516" model="res.city">
+            <field name="name">SAN MATÍAS</field>
+            <field name="district_code">0516</field>
+            <field name="state_id" ref="state_sv_0523"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0517" model="res.city">
+            <field name="name">SAN P TACACHICO</field>
+            <field name="district_code">0517</field>
+            <field name="state_id" ref="state_sv_0523"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0518" model="res.city">
+            <field name="name">TAMANIQUE</field>
+            <field name="district_code">0518</field>
+            <field name="state_id" ref="state_sv_0527"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0519" model="res.city">
+            <field name="name">TALNIQUE</field>
+            <field name="district_code">0519</field>
+            <field name="state_id" ref="state_sv_0525"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0520" model="res.city">
+            <field name="name">TEOTEPEQUE</field>
+            <field name="district_code">0520</field>
+            <field name="state_id" ref="state_sv_0527"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0521" model="res.city">
+            <field name="name">TEPECOYO</field>
+            <field name="district_code">0521</field>
+            <field name="state_id" ref="state_sv_0525"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0522" model="res.city">
+            <field name="name">ZARAGOZA</field>
+            <field name="district_code">0522</field>
+            <field name="state_id" ref="state_sv_0526"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0601" model="res.city">
+            <field name="name">AGUILARES</field>
+            <field name="district_code">0601</field>
+            <field name="state_id" ref="state_sv_0620"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0602" model="res.city">
+            <field name="name">APOPA</field>
+            <field name="district_code">0602</field>
+            <field name="state_id" ref="state_sv_0621"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0603" model="res.city">
+            <field name="name">AYUTUXTEPEQUE</field>
+            <field name="district_code">0603</field>
+            <field name="state_id" ref="state_sv_0623"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0604" model="res.city">
+            <field name="name">CUSCATANCINGO</field>
+            <field name="district_code">0604</field>
+            <field name="state_id" ref="state_sv_0623"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0605" model="res.city">
+            <field name="name">EL PAISNAL</field>
+            <field name="district_code">0605</field>
+            <field name="state_id" ref="state_sv_0620"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0606" model="res.city">
+            <field name="name">GUAZAPA</field>
+            <field name="district_code">0606</field>
+            <field name="state_id" ref="state_sv_0620"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0607" model="res.city">
+            <field name="name">ILOPANGO</field>
+            <field name="district_code">0607</field>
+            <field name="state_id" ref="state_sv_0622"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0608" model="res.city">
+            <field name="name">MEJICANOS</field>
+            <field name="district_code">0608</field>
+            <field name="state_id" ref="state_sv_0623"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0609" model="res.city">
+            <field name="name">NEJAPA</field>
+            <field name="district_code">0609</field>
+            <field name="state_id" ref="state_sv_0621"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0610" model="res.city">
+            <field name="name">PANCHIMALCO</field>
+            <field name="district_code">0610</field>
+            <field name="state_id" ref="state_sv_0624"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0611" model="res.city">
+            <field name="name">ROSARIO DE MORA</field>
+            <field name="district_code">0611</field>
+            <field name="state_id" ref="state_sv_0624"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0612" model="res.city">
+            <field name="name">SAN MARCOS</field>
+            <field name="district_code">0612</field>
+            <field name="state_id" ref="state_sv_0624"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0613" model="res.city">
+            <field name="name">SAN MARTIN</field>
+            <field name="district_code">0613</field>
+            <field name="state_id" ref="state_sv_0622"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0614" model="res.city">
+            <field name="name">SAN SALVADOR</field>
+            <field name="district_code">0614</field>
+            <field name="state_id" ref="state_sv_0623"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0615" model="res.city">
+            <field name="name">STG TEXACUANGOS</field>
+            <field name="district_code">0615</field>
+            <field name="state_id" ref="state_sv_0624"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0616" model="res.city">
+            <field name="name">SANTO TOMAS</field>
+            <field name="district_code">0616</field>
+            <field name="state_id" ref="state_sv_0624"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0617" model="res.city">
+            <field name="name">SOYAPANGO</field>
+            <field name="district_code">0617</field>
+            <field name="state_id" ref="state_sv_0622"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0618" model="res.city">
+            <field name="name">TONACATEPEQUE</field>
+            <field name="district_code">0618</field>
+            <field name="state_id" ref="state_sv_0622"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0619" model="res.city">
+            <field name="name">CIUDAD DELGADO</field>
+            <field name="district_code">0619</field>
+            <field name="state_id" ref="state_sv_0623"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0701" model="res.city">
+            <field name="name">CANDELARIA</field>
+            <field name="district_code">0701</field>
+            <field name="state_id" ref="state_sv_0718"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0702" model="res.city">
+            <field name="name">COJUTEPEQUE</field>
+            <field name="district_code">0702</field>
+            <field name="state_id" ref="state_sv_0718"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0703" model="res.city">
+            <field name="name">EL CARMEN</field>
+            <field name="district_code">0703</field>
+            <field name="state_id" ref="state_sv_0718"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0704" model="res.city">
+            <field name="name">EL ROSARIO</field>
+            <field name="district_code">0704</field>
+            <field name="state_id" ref="state_sv_0718"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0705" model="res.city">
+            <field name="name">MONTE SAN JUAN</field>
+            <field name="district_code">0705</field>
+            <field name="state_id" ref="state_sv_0718"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0706" model="res.city">
+            <field name="name">ORAT CONCEPCIÓN</field>
+            <field name="district_code">0706</field>
+            <field name="state_id" ref="state_sv_0717"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0707" model="res.city">
+            <field name="name">SAN B PERULAPIA</field>
+            <field name="district_code">0707</field>
+            <field name="state_id" ref="state_sv_0717"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0708" model="res.city">
+            <field name="name">SAN CRISTÓBAL</field>
+            <field name="district_code">0708</field>
+            <field name="state_id" ref="state_sv_0718"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0709" model="res.city">
+            <field name="name">SAN J GUAYABAL</field>
+            <field name="district_code">0709</field>
+            <field name="state_id" ref="state_sv_0717"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0710" model="res.city">
+            <field name="name">SAN P PERULAPÁN</field>
+            <field name="district_code">0710</field>
+            <field name="state_id" ref="state_sv_0717"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0711" model="res.city">
+            <field name="name">SAN RAF CEDROS</field>
+            <field name="district_code">0711</field>
+            <field name="state_id" ref="state_sv_0718"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0712" model="res.city">
+            <field name="name">SAN RAMON</field>
+            <field name="district_code">0712</field>
+            <field name="state_id" ref="state_sv_0718"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0713" model="res.city">
+            <field name="name">STA C ANALQUITO</field>
+            <field name="district_code">0713</field>
+            <field name="state_id" ref="state_sv_0718"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0714" model="res.city">
+            <field name="name">STA C MICHAPA</field>
+            <field name="district_code">0714</field>
+            <field name="state_id" ref="state_sv_0718"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0715" model="res.city">
+            <field name="name">SUCHITOTO</field>
+            <field name="district_code">0715</field>
+            <field name="state_id" ref="state_sv_0717"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0716" model="res.city">
+            <field name="name">TENANCINGO</field>
+            <field name="district_code">0716</field>
+            <field name="state_id" ref="state_sv_0718"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0801" model="res.city">
+            <field name="name">CUYULTITÁN</field>
+            <field name="district_code">0801</field>
+            <field name="state_id" ref="state_sv_0823"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0802" model="res.city">
+            <field name="name">EL ROSARIO</field>
+            <field name="district_code">0802</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0803" model="res.city">
+            <field name="name">JERUSALÉN</field>
+            <field name="district_code">0803</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0804" model="res.city">
+            <field name="name">MERCED LA CEIBA</field>
+            <field name="district_code">0804</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0805" model="res.city">
+            <field name="name">OLOCUILTA</field>
+            <field name="district_code">0805</field>
+            <field name="state_id" ref="state_sv_0823"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0806" model="res.city">
+            <field name="name">PARAÍSO OSORIO</field>
+            <field name="district_code">0806</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0807" model="res.city">
+            <field name="name">SN ANT MASAHUAT</field>
+            <field name="district_code">0807</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0808" model="res.city">
+            <field name="name">SAN EMIGDIO</field>
+            <field name="district_code">0808</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0809" model="res.city">
+            <field name="name">SN FCO CHINAMEC</field>
+            <field name="district_code">0809</field>
+            <field name="state_id" ref="state_sv_0823"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0810" model="res.city">
+            <field name="name">SAN J NONUALCO</field>
+            <field name="district_code">0810</field>
+            <field name="state_id" ref="state_sv_0825"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0811" model="res.city">
+            <field name="name">SAN JUAN TALPA</field>
+            <field name="district_code">0811</field>
+            <field name="state_id" ref="state_sv_0823"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0812" model="res.city">
+            <field name="name">SAN JUAN TEPEZONTES</field>
+            <field name="district_code">0812</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0813" model="res.city">
+            <field name="name">SAN LUIS TALPA</field>
+            <field name="district_code">0813</field>
+            <field name="state_id" ref="state_sv_0823"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0814" model="res.city">
+            <field name="name">SAN MIGUEL TEPEZONTES</field>
+            <field name="district_code">0814</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0815" model="res.city">
+            <field name="name">SAN PEDRO MASAHUAT</field>
+            <field name="district_code">0815</field>
+            <field name="state_id" ref="state_sv_0823"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0816" model="res.city">
+            <field name="name">SAN PEDRO NONUALCO</field>
+            <field name="district_code">0816</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0817" model="res.city">
+            <field name="name">SAN R OBRAJUELO</field>
+            <field name="district_code">0817</field>
+            <field name="state_id" ref="state_sv_0825"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0818" model="res.city">
+            <field name="name">STA MA OSTUMA</field>
+            <field name="district_code">0818</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0819" model="res.city">
+            <field name="name">STGO NONUALCO</field>
+            <field name="district_code">0819</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0820" model="res.city">
+            <field name="name">TAPALHUACA</field>
+            <field name="district_code">0820</field>
+            <field name="state_id" ref="state_sv_0823"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0821" model="res.city">
+            <field name="name">ZACATECOLUCA</field>
+            <field name="district_code">0821</field>
+            <field name="state_id" ref="state_sv_0825"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0822" model="res.city">
+            <field name="name">SN LUIS LA HERR</field>
+            <field name="district_code">0822</field>
+            <field name="state_id" ref="state_sv_0824"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0901" model="res.city">
+            <field name="name">CINQUERA</field>
+            <field name="district_code">0901</field>
+            <field name="state_id" ref="state_sv_0910"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0902" model="res.city">
+            <field name="name">GUACOTECTI</field>
+            <field name="district_code">0902</field>
+            <field name="state_id" ref="state_sv_0911"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0903" model="res.city">
+            <field name="name">ILOBASCO</field>
+            <field name="district_code">0903</field>
+            <field name="state_id" ref="state_sv_0910"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0904" model="res.city">
+            <field name="name">JUTIAPA</field>
+            <field name="district_code">0904</field>
+            <field name="state_id" ref="state_sv_0910"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0905" model="res.city">
+            <field name="name">SAN ISIDRO</field>
+            <field name="district_code">0905</field>
+            <field name="state_id" ref="state_sv_0911"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0906" model="res.city">
+            <field name="name">SENSUNTEPEQUE</field>
+            <field name="district_code">0906</field>
+            <field name="state_id" ref="state_sv_0911"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0907" model="res.city">
+            <field name="name">TEJUTEPEQUE</field>
+            <field name="district_code">0907</field>
+            <field name="state_id" ref="state_sv_0910"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0908" model="res.city">
+            <field name="name">VICTORIA</field>
+            <field name="district_code">0908</field>
+            <field name="state_id" ref="state_sv_0911"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_0909" model="res.city">
+            <field name="name">DOLORES</field>
+            <field name="district_code">0909</field>
+            <field name="state_id" ref="state_sv_0911"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1001" model="res.city">
+            <field name="name">APASTEPEQUE</field>
+            <field name="district_code">1001</field>
+            <field name="state_id" ref="state_sv_1014"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1002" model="res.city">
+            <field name="name">GUADALUPE</field>
+            <field name="district_code">1002</field>
+            <field name="state_id" ref="state_sv_1015"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1003" model="res.city">
+            <field name="name">SAN CAY ISTEPEQ</field>
+            <field name="district_code">1003</field>
+            <field name="state_id" ref="state_sv_1015"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1004" model="res.city">
+            <field name="name">SANTA CLARA</field>
+            <field name="district_code">1004</field>
+            <field name="state_id" ref="state_sv_1014"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1005" model="res.city">
+            <field name="name">SANTO DOMINGO</field>
+            <field name="district_code">1005</field>
+            <field name="state_id" ref="state_sv_1014"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1006" model="res.city">
+            <field name="name">SN EST CATARINA</field>
+            <field name="district_code">1006</field>
+            <field name="state_id" ref="state_sv_1014"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1007" model="res.city">
+            <field name="name">SAN ILDEFONSO</field>
+            <field name="district_code">1007</field>
+            <field name="state_id" ref="state_sv_1014"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1008" model="res.city">
+            <field name="name">SAN LORENZO</field>
+            <field name="district_code">1008</field>
+            <field name="state_id" ref="state_sv_1014"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1009" model="res.city">
+            <field name="name">SAN SEBASTIÁN</field>
+            <field name="district_code">1009</field>
+            <field name="state_id" ref="state_sv_1014"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1010" model="res.city">
+            <field name="name">SAN VICENTE</field>
+            <field name="district_code">1010</field>
+            <field name="state_id" ref="state_sv_1015"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1011" model="res.city">
+            <field name="name">TECOLUCA</field>
+            <field name="district_code">1011</field>
+            <field name="state_id" ref="state_sv_1015"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1012" model="res.city">
+            <field name="name">TEPETITÁN</field>
+            <field name="district_code">1012</field>
+            <field name="state_id" ref="state_sv_1015"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1013" model="res.city">
+            <field name="name">VERAPAZ</field>
+            <field name="district_code">1013</field>
+            <field name="state_id" ref="state_sv_1015"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1101" model="res.city">
+            <field name="name">ALEGRÍA</field>
+            <field name="district_code">1101</field>
+            <field name="state_id" ref="state_sv_1124"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1102" model="res.city">
+            <field name="name">BERLÍN</field>
+            <field name="district_code">1102</field>
+            <field name="state_id" ref="state_sv_1124"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1103" model="res.city">
+            <field name="name">CALIFORNIA</field>
+            <field name="district_code">1103</field>
+            <field name="state_id" ref="state_sv_1125"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1104" model="res.city">
+            <field name="name">CONCEP BATRES</field>
+            <field name="district_code">1104</field>
+            <field name="state_id" ref="state_sv_1125"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1105" model="res.city">
+            <field name="name">EL TRIUNFO</field>
+            <field name="district_code">1105</field>
+            <field name="state_id" ref="state_sv_1124"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1106" model="res.city">
+            <field name="name">EREGUAYQUÍN</field>
+            <field name="district_code">1106</field>
+            <field name="state_id" ref="state_sv_1125"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1107" model="res.city">
+            <field name="name">ESTANZUELAS</field>
+            <field name="district_code">1107</field>
+            <field name="state_id" ref="state_sv_1124"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1108" model="res.city">
+            <field name="name">JIQUILISCO</field>
+            <field name="district_code">1108</field>
+            <field name="state_id" ref="state_sv_1126"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1109" model="res.city">
+            <field name="name">JUCUAPA</field>
+            <field name="district_code">1109</field>
+            <field name="state_id" ref="state_sv_1124"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1110" model="res.city">
+            <field name="name">JUCUARÁN</field>
+            <field name="district_code">1110</field>
+            <field name="state_id" ref="state_sv_1125"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1111" model="res.city">
+            <field name="name">MERCEDES UMAÑA</field>
+            <field name="district_code">1111</field>
+            <field name="state_id" ref="state_sv_1124"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1112" model="res.city">
+            <field name="name">NUEVA GRANADA</field>
+            <field name="district_code">1112</field>
+            <field name="state_id" ref="state_sv_1124"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1113" model="res.city">
+            <field name="name">OZATLÁN</field>
+            <field name="district_code">1113</field>
+            <field name="state_id" ref="state_sv_1125"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1114" model="res.city">
+            <field name="name">PTO EL TRIUNFO</field>
+            <field name="district_code">1114</field>
+            <field name="state_id" ref="state_sv_1126"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1115" model="res.city">
+            <field name="name">SAN AGUSTÍN</field>
+            <field name="district_code">1115</field>
+            <field name="state_id" ref="state_sv_1126"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1116" model="res.city">
+            <field name="name">SN BUENAVENTURA</field>
+            <field name="district_code">1116</field>
+            <field name="state_id" ref="state_sv_1124"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1117" model="res.city">
+            <field name="name">SAN DIONISIO</field>
+            <field name="district_code">1117</field>
+            <field name="state_id" ref="state_sv_1125"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1118" model="res.city">
+            <field name="name">SANTA ELENA</field>
+            <field name="district_code">1118</field>
+            <field name="state_id" ref="state_sv_1125"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1119" model="res.city">
+            <field name="name">SAN FCO JAVIER</field>
+            <field name="district_code">1119</field>
+            <field name="state_id" ref="state_sv_1126"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1120" model="res.city">
+            <field name="name">SANTA MARÍA</field>
+            <field name="district_code">1120</field>
+            <field name="state_id" ref="state_sv_1125"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1121" model="res.city">
+            <field name="name">STGO DE MARÍA</field>
+            <field name="district_code">1121</field>
+            <field name="state_id" ref="state_sv_1124"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1122" model="res.city">
+            <field name="name">TECAPÁN</field>
+            <field name="district_code">1122</field>
+            <field name="state_id" ref="state_sv_1125"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1123" model="res.city">
+            <field name="name">USULUTÁN</field>
+            <field name="district_code">1123</field>
+            <field name="state_id" ref="state_sv_1125"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1201" model="res.city">
+            <field name="name">CAROLINA</field>
+            <field name="district_code">1201</field>
+            <field name="state_id" ref="state_sv_1221"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1202" model="res.city">
+            <field name="name">CIUDAD BARRIOS</field>
+            <field name="district_code">1202</field>
+            <field name="state_id" ref="state_sv_1221"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1203" model="res.city">
+            <field name="name">COMACARÁN</field>
+            <field name="district_code">1203</field>
+            <field name="state_id" ref="state_sv_1222"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1204" model="res.city">
+            <field name="name">CHAPELTIQUE</field>
+            <field name="district_code">1204</field>
+            <field name="state_id" ref="state_sv_1221"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1205" model="res.city">
+            <field name="name">CHINAMECA</field>
+            <field name="district_code">1205</field>
+            <field name="state_id" ref="state_sv_1223"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1206" model="res.city">
+            <field name="name">CHIRILAGUA</field>
+            <field name="district_code">1206</field>
+            <field name="state_id" ref="state_sv_1222"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1207" model="res.city">
+            <field name="name">EL TRANSITO</field>
+            <field name="district_code">1207</field>
+            <field name="state_id" ref="state_sv_1223"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1208" model="res.city">
+            <field name="name">LOLOTIQUE</field>
+            <field name="district_code">1208</field>
+            <field name="state_id" ref="state_sv_1223"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1209" model="res.city">
+            <field name="name">MONCAGUA</field>
+            <field name="district_code">1209</field>
+            <field name="state_id" ref="state_sv_1222"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1210" model="res.city">
+            <field name="name">NUEVA GUADALUPE</field>
+            <field name="district_code">1210</field>
+            <field name="state_id" ref="state_sv_1223"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1211" model="res.city">
+            <field name="name">NVO EDÉN S JUAN</field>
+            <field name="district_code">1211</field>
+            <field name="state_id" ref="state_sv_1221"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1212" model="res.city">
+            <field name="name">QUELEPA</field>
+            <field name="district_code">1212</field>
+            <field name="state_id" ref="state_sv_1222"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1213" model="res.city">
+            <field name="name">SAN ANT D MOSCO</field>
+            <field name="district_code">1213</field>
+            <field name="state_id" ref="state_sv_1221"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1214" model="res.city">
+            <field name="name">SAN GERARDO</field>
+            <field name="district_code">1214</field>
+            <field name="state_id" ref="state_sv_1221"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1215" model="res.city">
+            <field name="name">SAN JORGE</field>
+            <field name="district_code">1215</field>
+            <field name="state_id" ref="state_sv_1223"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1216" model="res.city">
+            <field name="name">SAN LUIS REINA</field>
+            <field name="district_code">1216</field>
+            <field name="state_id" ref="state_sv_1221"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1217" model="res.city">
+            <field name="name">SAN MIGUEL</field>
+            <field name="district_code">1217</field>
+            <field name="state_id" ref="state_sv_1222"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1218" model="res.city">
+            <field name="name">SAN RAF ORIENTE</field>
+            <field name="district_code">1218</field>
+            <field name="state_id" ref="state_sv_1223"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1219" model="res.city">
+            <field name="name">SESORI</field>
+            <field name="district_code">1219</field>
+            <field name="state_id" ref="state_sv_1221"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1220" model="res.city">
+            <field name="name">ULUAZAPA</field>
+            <field name="district_code">1220</field>
+            <field name="state_id" ref="state_sv_1222"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1301" model="res.city">
+            <field name="name">ARAMBALA</field>
+            <field name="district_code">1301</field>
+            <field name="state_id" ref="state_sv_1327"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1302" model="res.city">
+            <field name="name">CACAOPERA</field>
+            <field name="district_code">1302</field>
+            <field name="state_id" ref="state_sv_1327"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1303" model="res.city">
+            <field name="name">CORINTO</field>
+            <field name="district_code">1303</field>
+            <field name="state_id" ref="state_sv_1327"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1304" model="res.city">
+            <field name="name">CHILANGA</field>
+            <field name="district_code">1304</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1305" model="res.city">
+            <field name="name">DELIC DE CONCEP</field>
+            <field name="district_code">1305</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1306" model="res.city">
+            <field name="name">EL DIVISADERO</field>
+            <field name="district_code">1306</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1307" model="res.city">
+            <field name="name">EL ROSARIO</field>
+            <field name="district_code">1307</field>
+            <field name="state_id" ref="state_sv_1327"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1308" model="res.city">
+            <field name="name">GUALOCOCTI</field>
+            <field name="district_code">1308</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1309" model="res.city">
+            <field name="name">GUATAJIAGUA</field>
+            <field name="district_code">1309</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1310" model="res.city">
+            <field name="name">JOATECA</field>
+            <field name="district_code">1310</field>
+            <field name="state_id" ref="state_sv_1327"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1311" model="res.city">
+            <field name="name">JOCOAITIQUE</field>
+            <field name="district_code">1311</field>
+            <field name="state_id" ref="state_sv_1327"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1312" model="res.city">
+            <field name="name">JOCORO</field>
+            <field name="district_code">1312</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1313" model="res.city">
+            <field name="name">LOLOTIQUILLO</field>
+            <field name="district_code">1313</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1314" model="res.city">
+            <field name="name">MEANGUERA</field>
+            <field name="district_code">1314</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1315" model="res.city">
+            <field name="name">OSICALA</field>
+            <field name="district_code">1315</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1316" model="res.city">
+            <field name="name">PERQUÍN</field>
+            <field name="district_code">1316</field>
+            <field name="state_id" ref="state_sv_1327"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1317" model="res.city">
+            <field name="name">SAN CARLOS</field>
+            <field name="district_code">1317</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1318" model="res.city">
+            <field name="name">SAN FERNANDO</field>
+            <field name="district_code">1318</field>
+            <field name="state_id" ref="state_sv_1327"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1319" model="res.city">
+            <field name="name">SAN FCO GOTERA</field>
+            <field name="district_code">1319</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1320" model="res.city">
+            <field name="name">SAN ISIDRO</field>
+            <field name="district_code">1320</field>
+            <field name="state_id" ref="state_sv_1327"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1321" model="res.city">
+            <field name="name">SAN SIMÓN</field>
+            <field name="district_code">1321</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1322" model="res.city">
+            <field name="name">SENSEMBRA</field>
+            <field name="district_code">1322</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1323" model="res.city">
+            <field name="name">SOCIEDAD</field>
+            <field name="district_code">1323</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1324" model="res.city">
+            <field name="name">TOROLA</field>
+            <field name="district_code">1324</field>
+            <field name="state_id" ref="state_sv_1327"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1325" model="res.city">
+            <field name="name">YAMABAL</field>
+            <field name="district_code">1325</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1326" model="res.city">
+            <field name="name">YOLOAIQUÍN</field>
+            <field name="district_code">1326</field>
+            <field name="state_id" ref="state_sv_1328"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1401" model="res.city">
+            <field name="name">ANAMOROS</field>
+            <field name="district_code">1401</field>
+            <field name="state_id" ref="state_sv_1419"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1402" model="res.city">
+            <field name="name">BOLÍVAR</field>
+            <field name="district_code">1402</field>
+            <field name="state_id" ref="state_sv_1419"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1403" model="res.city">
+            <field name="name">CONCEP DE OTE</field>
+            <field name="district_code">1403</field>
+            <field name="state_id" ref="state_sv_1419"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1404" model="res.city">
+            <field name="name">CONCHAGUA</field>
+            <field name="district_code">1404</field>
+            <field name="state_id" ref="state_sv_1420"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1405" model="res.city">
+            <field name="name">EL CARMEN</field>
+            <field name="district_code">1405</field>
+            <field name="state_id" ref="state_sv_1420"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1406" model="res.city">
+            <field name="name">EL SAUCE</field>
+            <field name="district_code">1406</field>
+            <field name="state_id" ref="state_sv_1419"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1407" model="res.city">
+            <field name="name">INTIPUCÁ</field>
+            <field name="district_code">1407</field>
+            <field name="state_id" ref="state_sv_1420"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1408" model="res.city">
+            <field name="name">LA UNIÓN</field>
+            <field name="district_code">1408</field>
+            <field name="state_id" ref="state_sv_1420"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1409" model="res.city">
+            <field name="name">LISLIQUE</field>
+            <field name="district_code">1409</field>
+            <field name="state_id" ref="state_sv_1419"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1410" model="res.city">
+            <field name="name">MEANG DEL GOLFO</field>
+            <field name="district_code">1410</field>
+            <field name="state_id" ref="state_sv_1420"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1411" model="res.city">
+            <field name="name">NUEVA ESPARTA</field>
+            <field name="district_code">1411</field>
+            <field name="state_id" ref="state_sv_1419"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1412" model="res.city">
+            <field name="name">PASAQUINA</field>
+            <field name="district_code">1412</field>
+            <field name="state_id" ref="state_sv_1419"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1413" model="res.city">
+            <field name="name">POLORÓS</field>
+            <field name="district_code">1413</field>
+            <field name="state_id" ref="state_sv_1419"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1414" model="res.city">
+            <field name="name">SAN ALEJO</field>
+            <field name="district_code">1414</field>
+            <field name="state_id" ref="state_sv_1420"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1415" model="res.city">
+            <field name="name">SAN JOSE</field>
+            <field name="district_code">1415</field>
+            <field name="state_id" ref="state_sv_1419"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1416" model="res.city">
+            <field name="name">SANTA ROSA LIMA</field>
+            <field name="district_code">1416</field>
+            <field name="state_id" ref="state_sv_1419"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1417" model="res.city">
+            <field name="name">YAYANTIQUE</field>
+            <field name="district_code">1417</field>
+            <field name="state_id" ref="state_sv_1420"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+        <record id="city_sv_1418" model="res.city">
+            <field name="name">YUCUAIQUÍN</field>
+            <field name="district_code">1418</field>
+            <field name="state_id" ref="state_sv_1420"/>
+            <field name="country_id" ref="base.sv"/>
+        </record>
+    </data>
+</odoo>

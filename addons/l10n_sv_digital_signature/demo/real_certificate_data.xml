@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Certificado real Angel Monterrosa Perez -->
+        <record id="real_certificate_angel" model="l10n_sv.edi.certificate">
+            <field name="name">Certificado Angel Monterrosa Perez</field>
+            <field name="environment">test</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="issuer">MINISTERIO DE HACIENDA - DIRECCIÓN GENERAL DE IMPUESTOS INTERNOS</field>
+            <field name="subject">ANGEL MONTERROSA PEREZ</field>
+            <field name="valid_from">2025-03-15</field>
+            <field name="valid_to">2030-03-15</field>
+            <field name="api_url">https://apitest.dtes.mh.gob.sv/fesv/recepciondte</field>
+            <field name="nit_emisor">05131501530010</field>
+            <field name="state">valid</field>
+            <field name="is_active">True</field>
+            <!-- El archivo de certificado debe ser codificado en base64 manualmente -->
+        </record>
+        
+        <!-- Servicio de Firma Digital Real -->
+        <record id="real_signature_service" model="l10n_sv.digital.signature">
+            <field name="name">Servicio de Firma Digital - Angel Monterrosa</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="certificate_id" ref="real_certificate_angel"/>
+            <field name="algorithm_id" ref="algorithm_rsa_sha256"/>
+            <field name="signature_format">xmldsig</field>
+            <field name="canonicalization_method">exc_c14n</field>
+            <field name="include_certificate">True</field>
+            <field name="include_key_info">True</field>
+            <field name="validate_certificate_dates">False</field>
+        </record>
+        
+    </data>
+</odoo>

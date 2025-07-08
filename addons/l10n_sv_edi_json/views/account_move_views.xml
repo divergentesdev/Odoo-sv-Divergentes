@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extensión de vista de formulario de factura para JSON DTE -->
+    <record id="view_move_form_json_dte" model="ir.ui.view">
+        <field name="name">account.move.form.json.dte</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Botones en header -->
+            <xpath expr="//button[@name='action_post']" position="after">
+                <button name="action_generate_json_dte" 
+                        string="Generar JSON DTE"
+                        type="object"
+                        class="btn-primary"
+                        invisible="move_type not in ['out_invoice', 'out_refund'] or state != 'posted'"/>
+            </xpath>
+            
+            <!-- Añadir campos en Información de Factura -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="l10n_sv_document_type_id" 
+                       string="Tipo de Documento"
+                       options="{'no_create': True}"
+                       invisible="move_type not in ['out_invoice', 'out_refund']"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="l10n_sv_json_generated" 
+                       string="JSON Generado"
+                       invisible="move_type not in ['out_invoice', 'out_refund']"
+                       readonly="1"/>
+                <field name="l10n_sv_json_emitted_date" 
+                       string="Fecha Emisión JSON"
+                       invisible="move_type not in ['out_invoice', 'out_refund'] or not l10n_sv_json_generated"
+                       readonly="1"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='payment_reference']" position="after">
+                <field name="l10n_sv_edi_numero_control" 
+                       string="Número de Control"
+                       invisible="move_type not in ['out_invoice', 'out_refund'] or not l10n_sv_json_generated"
+                       readonly="1"/>
+                <field name="l10n_sv_edi_codigo_generacion" 
+                       string="Código de Generación"
+                       invisible="move_type not in ['out_invoice', 'out_refund'] or not l10n_sv_json_generated"
+                       readonly="1"/>
+                <field name="l10n_sv_json_dte_status" 
+                       string="Estado DTE"
+                       invisible="move_type not in ['out_invoice', 'out_refund'] or not l10n_sv_json_generated"
+                       readonly="1"/>
+            </xpath>
+            
+            <!-- Tab para JSON generado -->
+            <xpath expr="//notebook/page[@name='other_info']" position="after">
+                <page string="JSON DTE" name="json_dte_tab" invisible="move_type not in ['out_invoice', 'out_refund'] or not l10n_sv_json_generated">
+                    <group>
+                        <group string="Información DTE">
+                            <field name="l10n_sv_json_generated"/>
+                            <field name="l10n_sv_json_emitted_date"/>
+                            <field name="l10n_sv_edi_numero_control"/>
+                            <field name="l10n_sv_edi_codigo_generacion"/>
+                            <field name="l10n_sv_json_dte_status"/>
+                        </group>
+                        <group string="Archivos">
+                            <field name="l10n_sv_json_attachment_id" readonly="1"/>
+                            <field name="l10n_sv_pdf_attachment_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Contenido JSON" col="1">
+                        <field name="l10n_sv_json_content" 
+                               widget="ace" 
+                               options="{'mode': 'json'}" 
+                               readonly="1"
+                               nolabel="1"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extensión de vista tree para mostrar estado JSON -->
+    <record id="view_invoice_tree_json_dte" model="ir.ui.view">
+        <field name="name">account.move.tree.json.dte</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <!-- Agregar campos al final de la vista tree -->
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="l10n_sv_json_generated" 
+                       string="JSON" 
+                       widget="boolean_toggle"
+                       optional="hide"/>
+                <field name="l10n_sv_json_dte_status" 
+                       string="Estado DTE" 
+                       optional="hide"/>
+                <field name="l10n_sv_edi_numero_control" 
+                       string="Número Control"
+                       optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda -->
+    <record id="view_account_invoice_filter_json_dte" model="ir.ui.view">
+        <field name="name">account.invoice.select.json.dte</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter string="JSON Generado" name="json_generated" domain="[('l10n_sv_json_generated', '=', True)]"/>
+                <filter string="JSON No Generado" name="json_not_generated" domain="[('l10n_sv_json_generated', '=', False)]"/>
+                <separator/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Estado JSON" name="group_by_json_status" context="{'group_by': 'l10n_sv_json_generated'}"/>
+                    <filter string="Estado DTE" name="group_by_dte_status" context="{'group_by': 'l10n_sv_json_dte_status'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Acción para abrir wizard desde factura -->
+    <record id="action_open_contingency_wizard" model="ir.actions.act_window">
+        <field name="name">Registro de Contingencia</field>
+        <field name="res_model">l10n_sv.contingency.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_invoice_id': active_id}</field>
+    </record>
+</odoo>

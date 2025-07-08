@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de árbol para ciudades -->
+    <record id="view_city_tree" model="ir.ui.view">
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_extended.view_city_tree" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="district_code" />
+            </field>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para ciudades -->
+    <record id="view_city_filter" model="ir.ui.view">
+        <field name="name">res.city.search</field>
+        <field name="model">res.city</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Distritos">
+                <field name="name" string="Distrito" filter_domain="[('name','ilike',self)]"/>
+                <field name="district_code" string="Código de Distrito"/>
+                <field name="state_id" string="Municipio"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter name="group_by_state" string="Municipio" context="{'group_by': 'state_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Configurar El Salvador como país predeterminado y habilitar ciudades -->
+    <record id="base.sv" model="res.country">
+        <field name="enforce_cities" eval="1" />
+    </record>
+
+    <!-- Extender la vista de formulario de contacto para personalizar etiquetas y valores predeterminados -->
+    <record id="view_partner_form_inherit_l10n_sv_city" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.l10n_sv_city</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Ocultar código postal para El Salvador -->
+            <xpath expr="//field[@name='zip']" position="attributes">
+                <attribute name="invisible">country_id == %(base.sv)d</attribute>
+            </xpath>
+            
+            <!-- Cambiar etiqueta de ciudad a distrito -->
+            <xpath expr="//field[@name='city_id']" position="attributes">
+                <attribute name="domain">[('state_id', '=', state_id)]</attribute>
+                <attribute name="context">{'default_state_id': state_id, 'default_country_id': country_id}</attribute>
+                <attribute name="options">{'no_create': True}</attribute>
+                <attribute name="placeholder">Distrito</attribute>
+            </xpath>
+            
+            <!-- Cambiar etiqueta de estado a municipio y agregar onchange para autoseleccionar la primera ciudad -->
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+                <attribute name="on_change">1</attribute>
+                <attribute name="context">{'country_id': country_id, 'sv_first': True}</attribute>
+                <attribute name="domain">[('country_id', '=?', country_id)]</attribute>
+                <attribute name="placeholder">Municipio</attribute>
+            </xpath>
+            
+            <!-- Establecer El Salvador como país predeterminado -->
+            <xpath expr="//field[@name='country_id']" position="attributes">
+                <attribute name="default">%(base.sv)d</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extender la vista de formulario de la compañía -->
+    <record id="view_company_form_inherit_l10n_sv_city" model="ir.ui.view">
+        <field name="name">res.company.form.inherit.l10n_sv_city</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='zip']" position="attributes">
+                <attribute name="invisible">partner_id.country_id == %(base.sv)d</attribute>
+            </xpath>
+            
+            <!-- Cambiar etiqueta de ciudad a distrito -->
+            <xpath expr="//field[@name='city']" position="attributes">
+                <attribute name="placeholder">Distrito</attribute>
+            </xpath>
+            
+            <!-- Cambiar etiqueta de estado a municipio -->
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="placeholder">Municipio</attribute>
+                <attribute name="context">{'country_id': partner_id.country_id, 'sv_first': True}</attribute>
+            </xpath>
+            
+            <!-- Establecer El Salvador como país predeterminado -->
+            <xpath expr="//field[@name='country_id']" position="attributes">
+                <attribute name="default">%(base.sv)d</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

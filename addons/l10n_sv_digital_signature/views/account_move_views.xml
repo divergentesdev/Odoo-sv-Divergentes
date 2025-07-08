@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extensión de vista de formulario de factura para firma digital -->
+    <record id="view_move_form_digital_signature" model="ir.ui.view">
+        <field name="name">account.move.form.digital.signature</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_sv_api_client.view_move_form_api_mh"/>
+        <field name="arch" type="xml">
+            
+            <!-- Agregar página Firma Digital después de Comunicación MH -->
+            <xpath expr="//page[@name='mh_communication']" position="after">
+                <page string="Firma Digital" name="digital_signature" groups="account.group_account_user">
+                    
+                    <!-- Botones de acción de firma -->
+                    <div class="oe_button_box" name="signature_buttons">
+                        <button name="action_sign_dte" 
+                                type="object" 
+                                class="oe_stat_button"
+                                invisible="l10n_sv_signature_status in ['signed', 'verified']"
+                                icon="fa-pencil-square-o">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Firmar DTE</span>
+                            </div>
+                        </button>
+                        
+                        <button name="action_verify_signature" 
+                                type="object" 
+                                class="oe_stat_button"
+                                invisible="l10n_sv_signature_data == False"
+                                icon="fa-shield">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Verificar Firma</span>
+                            </div>
+                        </button>
+                        
+                        <button name="action_view_signature_details" 
+                                type="object" 
+                                class="oe_stat_button"
+                                invisible="l10n_sv_signature_data == False"
+                                icon="fa-eye">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Ver Detalles</span>
+                            </div>
+                        </button>
+                        
+                        <button name="action_view_signature_logs" 
+                                type="object" 
+                                class="oe_stat_button"
+                                invisible="l10n_sv_signature_log_ids == False"
+                                icon="fa-list">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Logs Firma</span>
+                            </div>
+                        </button>
+                        
+                        <button name="action_download_signed_json" 
+                                type="object" 
+                                class="oe_stat_button"
+                                invisible="l10n_sv_signed_json == False"
+                                icon="fa-download">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Descargar</span>
+                            </div>
+                        </button>
+                        
+                        <button name="action_reset_signature" 
+                                type="object" 
+                                class="oe_stat_button"
+                                invisible="l10n_sv_signature_status == 'draft'"
+                                icon="fa-refresh">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Reset Firma</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <!-- Estado actual de firma -->
+                    <div class="row">
+                        <div class="col-6">
+                            <group string="Estado de Firma Digital">
+                                <field name="l10n_sv_signature_status" readonly="1" widget="badge"
+                                       decoration-success="l10n_sv_signature_status in ['signed', 'verified']"
+                                       decoration-danger="l10n_sv_signature_status in ['invalid', 'error']"
+                                       decoration-info="l10n_sv_signature_status == 'draft'"/>
+                                <field name="l10n_sv_signature_date" readonly="1"/>
+                                <field name="l10n_sv_signature_verified" readonly="1" widget="boolean_toggle"/>
+                                <field name="l10n_sv_signature_verification_date" readonly="1"/>
+                            </group>
+                        </div>
+                        <div class="col-6">
+                            <group string="Información Técnica">
+                                <field name="l10n_sv_signature_algorithm" readonly="1"/>
+                                <field name="l10n_sv_signature_format" readonly="1"/>
+                                <field name="l10n_sv_signature_certificate" readonly="1"/>
+                            </group>
+                        </div>
+                    </div>
+                    
+                    <!-- Error de firma -->
+                    <group string="Error de Firma" 
+                           invisible="l10n_sv_signature_error == False">
+                        <field name="l10n_sv_signature_error" readonly="1" nolabel="1" widget="text"/>
+                    </group>
+                    
+                    <!-- Resultado de verificación -->
+                    <group string="Resultado de Verificación" 
+                           invisible="l10n_sv_signature_verification_result == False">
+                        <field name="l10n_sv_signature_verification_result" readonly="1" nolabel="1" widget="text"/>
+                    </group>
+                    
+                    <!-- JSON firmado (preview) -->
+                    <group string="JSON Firmado" 
+                           invisible="l10n_sv_signed_json == False">
+                        <field name="l10n_sv_signed_json" readonly="1" nolabel="1" 
+                               widget="code_editor" options="{'language': 'json', 'readOnly': true, 'maxLines': 20}"/>
+                    </group>
+                    
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- Extensión de vista de lista de facturas para mostrar estado de firma -->
+    <record id="view_invoice_tree_digital_signature" model="ir.ui.view">
+        <field name="name">account.move.tree.digital.signature</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_sv_api_client.view_invoice_tree_api_mh"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='l10n_sv_mh_send_date']" position="after">
+                <field name="l10n_sv_signature_status" 
+                       string="Firma Digital" 
+                       widget="badge"
+                       decoration-success="l10n_sv_signature_status in ['signed', 'verified']"
+                       decoration-danger="l10n_sv_signature_status in ['invalid', 'error']"
+                       decoration-info="l10n_sv_signature_status == 'draft'"
+                       optional="show"/>
+                <field name="l10n_sv_signature_date" 
+                       string="Fecha Firma" 
+                       optional="hide"/>
+                <field name="l10n_sv_signature_verified" 
+                       string="Verificada" 
+                       widget="boolean_toggle"
+                       optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda extendida para facturas con filtros de firma -->
+    <record id="view_account_invoice_filter_digital_signature" model="ir.ui.view">
+        <field name="name">account.invoice.select.digital.signature</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_sv_api_client.view_account_invoice_filter_api_mh"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='pending_mh_send']" position="after">
+                <separator/>
+                <filter string="Con Firma Digital" 
+                        name="digitally_signed" 
+                        domain="[('l10n_sv_signature_status', 'in', ['signed', 'verified'])]"/>
+                <filter string="Firma Verificada" 
+                        name="signature_verified" 
+                        domain="[('l10n_sv_signature_verified', '=', True)]"/>
+                <filter string="Sin Firmar" 
+                        name="not_signed" 
+                        domain="[('l10n_sv_signature_status', '=', 'draft'), ('l10n_sv_json_validated', '=', True)]"/>
+                <filter string="Firma Inválida" 
+                        name="invalid_signature" 
+                        domain="[('l10n_sv_signature_status', 'in', ['invalid', 'error'])]"/>
+                <filter string="Pendiente Firma" 
+                        name="pending_signature" 
+                        domain="[('l10n_sv_json_validated', '=', True), ('l10n_sv_signature_status', '=', 'draft')]"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Generador JSON para Factura (01) -->
+        <record id="json_generator_factura" model="l10n_sv.json.generator">
+            <field name="name">Generador JSON - Factura</field>
+            <field name="document_type_id" ref="l10n_sv_document_type.document_type_01_factura"/>
+            <field name="active">True</field>
+            <field name="template">{
+    "identificacion": {
+        "version": 1,
+        "ambiente": "00",
+        "tipoDte": "01",
+        "numeroControl": "",
+        "codigoGeneracion": "",
+        "tipoModelo": 1,
+        "tipoOperacion": 1,
+        "tipoContingencia": null,
+        "motivoContin": null,
+        "fecEmi": "",
+        "horEmi": "",
+        "tipoMoneda": "USD"
+    },
+    "documentoRelacionado": null,
+    "emisor": {},
+    "receptor": {
+        "tipoDocumento": null,
+        "numDocumento": null,
+        "nrc": null,
+        "nombre": "Consumidor final",
+        "codActividad": null,
+        "descActividad": null,
+        "direccion": null,
+        "telefono": null,
+        "correo": ""
+    },
+    "otrosDocumentos": null,
+    "ventaTercero": null,
+    "cuerpoDocumento": [],
+    "resumen": {},
+    "extension": null,
+    "apendice": null
+}</field>
+        </record>
+
+        <!-- Generador JSON para CCF (03) -->
+        <record id="json_generator_ccf" model="l10n_sv.json.generator">
+            <field name="name">Generador JSON - Comprobante de Crédito Fiscal</field>
+            <field name="document_type_id" ref="l10n_sv_document_type.document_type_03_ccf"/>
+            <field name="active">True</field>
+            <field name="template">{
+    "identificacion": {
+        "version": 3,
+        "ambiente": "00",
+        "tipoDte": "03",
+        "numeroControl": "",
+        "codigoGeneracion": "",
+        "tipoModelo": 1,
+        "tipoOperacion": 1,
+        "tipoContingencia": null,
+        "motivoContin": null,
+        "fecEmi": "",
+        "horEmi": "",
+        "tipoMoneda": "USD"
+    },
+    "documentoRelacionado": null,
+    "emisor": {},
+    "receptor": {},
+    "otrosDocumentos": null,
+    "ventaTercero": null,
+    "cuerpoDocumento": [],
+    "resumen": {},
+    "extension": null,
+    "apendice": null
+}</field>
+        </record>
+
+        <!-- Generador JSON para Nota de Crédito (05) -->
+        <record id="json_generator_nota_credito" model="l10n_sv.json.generator">
+            <field name="name">Generador JSON - Nota de Crédito</field>
+            <field name="document_type_id" ref="l10n_sv_document_type.document_type_05_nota_credito"/>
+            <field name="active">True</field>
+            <field name="template">{
+    "identificacion": {
+        "version": 3,
+        "ambiente": "00",
+        "tipoDte": "05",
+        "numeroControl": "",
+        "codigoGeneracion": "",
+        "tipoModelo": 1,
+        "tipoOperacion": 1,
+        "tipoContingencia": null,
+        "motivoContin": null,
+        "fecEmi": "",
+        "horEmi": "",
+        "tipoMoneda": "USD"
+    },
+    "documentoRelacionado": [],
+    "emisor": {},
+    "receptor": {},
+    "otrosDocumentos": null,
+    "ventaTercero": null,
+    "cuerpoDocumento": [],
+    "resumen": {},
+    "extension": null,
+    "apendice": null
+}</field>
+        </record>
+
+        <!-- Generador JSON para Factura de Exportación (11) -->
+        <record id="json_generator_exportacion" model="l10n_sv.json.generator">
+            <field name="name">Generador JSON - Factura de Exportación</field>
+            <field name="document_type_id" ref="l10n_sv_document_type.document_type_11_exportacion"/>
+            <field name="active">True</field>
+            <field name="template">{
+    "identificacion": {
+        "version": 1,
+        "ambiente": "00",
+        "tipoDte": "11",
+        "numeroControl": "",
+        "codigoGeneracion": "",
+        "tipoModelo": 1,
+        "tipoOperacion": 1,
+        "fecEmi": "",
+        "horEmi": "",
+        "tipoMoneda": "USD"
+    },
+    "emisor": {},
+    "receptor": {},
+    "otrosDocumentos": null,
+    "ventaTercero": null,
+    "cuerpoDocumento": [],
+    "resumen": {}
+}</field>
+        </record>
+
+        <!-- Generador JSON para Nota de Débito (06) -->
+        <record id="json_generator_nota_debito" model="l10n_sv.json.generator">
+            <field name="name">Generador JSON - Nota de Débito</field>
+            <field name="document_type_id" ref="l10n_sv_document_type.document_type_06_nota_debito"/>
+            <field name="active">True</field>
+            <field name="template">{
+    "identificacion": {
+        "version": 3,
+        "ambiente": "00",
+        "tipoDte": "06",
+        "numeroControl": "",
+        "codigoGeneracion": "",
+        "tipoModelo": 1,
+        "tipoOperacion": 1,
+        "tipoContingencia": null,
+        "motivoContin": null,
+        "fecEmi": "",
+        "horEmi": "",
+        "tipoMoneda": "USD"
+    },
+    "documentoRelacionado": [],
+    "emisor": {},
+    "receptor": {},
+    "otrosDocumentos": null,
+    "ventaTercero": null,
+    "cuerpoDocumento": [],
+    "resumen": {},
+    "extension": null,
+    "apendice": null
+}</field>
+        </record>
+
+        <!-- Generador JSON para Comprobante de Retención (07) -->
+        <record id="json_generator_retencion" model="l10n_sv.json.generator">
+            <field name="name">Generador JSON - Comprobante de Retención</field>
+            <field name="document_type_id" ref="l10n_sv_document_type.document_type_07_retencion"/>
+            <field name="active">True</field>
+            <field name="template">{
+    "identificacion": {
+        "version": 1,
+        "ambiente": "00",
+        "tipoDte": "07",
+        "numeroControl": "",
+        "codigoGeneracion": "",
+        "tipoModelo": 1,
+        "tipoOperacion": 1,
+        "fecEmi": "",
+        "horEmi": "",
+        "tipoMoneda": "USD"
+    },
+    "emisor": {},
+    "receptor": {},
+    "cuerpoDocumento": [],
+    "resumen": {}
+}</field>
+        </record>
+
+    </data>
+</odoo>

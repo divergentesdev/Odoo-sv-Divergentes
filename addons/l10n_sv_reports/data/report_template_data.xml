@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Generador QR por defecto -->
+        <record id="default_qr_generator" model="l10n_sv.qr.code.generator">
+            <field name="name">Generador QR - Principal</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="qr_version">1</field>
+            <field name="error_correction">M</field>
+            <field name="box_size">10</field>
+            <field name="border">4</field>
+            <field name="fill_color">black</field>
+            <field name="back_color">white</field>
+            <field name="include_url">True</field>
+            <field name="include_signature_info">True</field>
+            <field name="include_mh_response">True</field>
+            <field name="data_format">mixed</field>
+            <field name="max_data_length">2000</field>
+        </record>
+
+        <!-- Plantilla por defecto para Factura -->
+        <record id="template_factura_default" model="l10n_sv.report.template">
+            <field name="name">Plantilla Factura - Estándar</field>
+            <field name="code">factura_standard</field>
+            <field name="document_type_id" ref="l10n_sv_document_type.document_type_01_factura"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="paper_format">A4</field>
+            <field name="orientation">portrait</field>
+            <field name="show_header">True</field>
+            <field name="show_company_logo">True</field>
+            <field name="show_footer">True</field>
+            <field name="show_qr_code">True</field>
+            <field name="qr_position">footer_right</field>
+            <field name="qr_generator_id" ref="default_qr_generator"/>
+            <field name="show_dte_info">True</field>
+            <field name="show_signature_info">True</field>
+            <field name="show_mh_info">True</field>
+            <field name="show_watermark">True</field>
+            <field name="primary_color">#1f2937</field>
+            <field name="secondary_color">#6b7280</field>
+            <field name="accent_color">#3b82f6</field>
+        </record>
+
+        <!-- Plantilla para CCF -->
+        <record id="template_ccf_default" model="l10n_sv.report.template">
+            <field name="name">Plantilla CCF - Estándar</field>
+            <field name="code">ccf_standard</field>
+            <field name="document_type_id" ref="l10n_sv_document_type.document_type_03_ccf"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="paper_format">A4</field>
+            <field name="orientation">portrait</field>
+            <field name="show_header">True</field>
+            <field name="show_company_logo">True</field>
+            <field name="show_footer">True</field>
+            <field name="show_qr_code">True</field>
+            <field name="qr_position">footer_right</field>
+            <field name="qr_generator_id" ref="default_qr_generator"/>
+            <field name="show_dte_info">True</field>
+            <field name="show_signature_info">True</field>
+            <field name="show_mh_info">True</field>
+            <field name="show_watermark">True</field>
+            <field name="primary_color">#059669</field>
+            <field name="secondary_color">#6b7280</field>
+            <field name="accent_color">#10b981</field>
+        </record>
+
+        <!-- Plantilla para Nota de Crédito -->
+        <record id="template_nota_credito_default" model="l10n_sv.report.template">
+            <field name="name">Plantilla Nota Crédito - Estándar</field>
+            <field name="code">nota_credito_standard</field>
+            <field name="document_type_id" ref="l10n_sv_document_type.document_type_05_nota_credito"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="paper_format">A4</field>
+            <field name="orientation">portrait</field>
+            <field name="show_header">True</field>
+            <field name="show_company_logo">True</field>
+            <field name="show_footer">True</field>
+            <field name="show_qr_code">True</field>
+            <field name="qr_position">footer_right</field>
+            <field name="qr_generator_id" ref="default_qr_generator"/>
+            <field name="show_dte_info">True</field>
+            <field name="show_signature_info">True</field>
+            <field name="show_mh_info">True</field>
+            <field name="show_watermark">True</field>
+            <field name="primary_color">#dc2626</field>
+            <field name="secondary_color">#6b7280</field>
+            <field name="accent_color">#ef4444</field>
+        </record>
+
+        <!-- Plantilla genérica por defecto -->
+        <record id="template_default_generic" model="l10n_sv.report.template">
+            <field name="name">Plantilla Genérica - Por Defecto</field>
+            <field name="code">default</field>
+            <field name="document_type_id" ref="l10n_sv_document_type.document_type_01_factura"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="paper_format">A4</field>
+            <field name="orientation">portrait</field>
+            <field name="show_header">True</field>
+            <field name="show_company_logo">True</field>
+            <field name="show_footer">True</field>
+            <field name="show_qr_code">True</field>
+            <field name="qr_position">footer_right</field>
+            <field name="qr_generator_id" ref="default_qr_generator"/>
+            <field name="show_dte_info">True</field>
+            <field name="show_signature_info">True</field>
+            <field name="show_mh_info">True</field>
+            <field name="show_watermark">True</field>
+        </record>
+
+        <!-- Tarea programada para generar QR faltantes -->
+        <record id="cron_generate_missing_qr" model="ir.cron">
+            <field name="name">Generar Códigos QR Faltantes</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_generate_missing_qr_codes()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo>

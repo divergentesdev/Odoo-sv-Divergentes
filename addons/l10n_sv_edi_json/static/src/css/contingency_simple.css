@@ -1,0 +1,47 @@
+/* CSS Simple y Limpio para Vista de Contingencia */
+
+/* Espaciado mejorado para grupos */
+.o_form_view .o_group {
+    margin-bottom: 15px;
+}
+
+/* Mejorar el campo de texto del motivo */
+.o_form_view .o_field_text textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Mejorar el título */
+.o_form_view .oe_title h1 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+/* Mejorar la tabla de documentos */
+.o_form_view .o_list_table {
+    margin-top: 10px;
+}
+
+/* Asegurar que no haya scroll horizontal */
+.o_form_view,
+.o_form_view .o_form_sheet {
+    overflow-x: hidden;
+}
+
+/* Mejorar separadores */
+.o_form_view .o_horizontal_separator {
+    margin: 10px 0;
+    font-weight: bold;
+    color: #34495e;
+}
+
+/* Responsive: En pantallas pequeñas, asegurar que todo se vea bien */
+@media (max-width: 768px) {
+    .o_form_view .o_group {
+        margin-bottom: 10px;
+    }
+    
+    .o_form_view .o_field_text textarea {
+        min-height: 60px;
+    }
+}

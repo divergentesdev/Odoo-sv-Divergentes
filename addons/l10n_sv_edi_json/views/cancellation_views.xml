@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista de lista para Anulaciones -->
+    <record id="view_cancellation_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.cancellation.tree</field>
+        <field name="model">l10n_sv.cancellation</field>
+        <field name="arch" type="xml">
+            <list string="Anulaciones DTE" decoration-success="state == 'accepted'" 
+                  decoration-danger="state == 'rejected'" decoration-warning="state == 'error'"
+                  decoration-info="state == 'sent'">
+                <field name="name"/>
+                <field name="move_id"/>
+                <field name="documento_tipo_dte"/>
+                <field name="documento_numero_control"/>
+                <field name="fecha_anulacion"/>
+                <field name="tipo_anulacion"/>
+                <field name="state" widget="badge" 
+                       decoration-success="state == 'accepted'"
+                       decoration-danger="state in ('rejected', 'error')"
+                       decoration-warning="state == 'pending'"
+                       decoration-info="state == 'sent'"/>
+                <field name="responsable_nombre"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para Anulaciones -->
+    <record id="view_cancellation_form" model="ir.ui.view">
+        <field name="name">l10n_sv.cancellation.form</field>
+        <field name="model">l10n_sv.cancellation</field>
+        <field name="arch" type="xml">
+            <form string="Anulación DTE">
+                <header>
+                    <button name="action_generate_json" 
+                            string="Generar JSON" 
+                            type="object" 
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_send_to_mh" 
+                            string="Enviar al MH" 
+                            type="object" 
+                            class="btn-primary"
+                            invisible="state != 'pending'"/>
+                    <button name="action_apply_cancellation" 
+                            string="Aplicar Anulación" 
+                            type="object" 
+                            class="btn-success"
+                            invisible="state != 'accepted'"/>
+                    <button name="action_view_json" 
+                            string="Ver JSON" 
+                            type="object" 
+                            class="btn-secondary"
+                            invisible="json_content == False"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,sent,accepted"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <h2>
+                            <field name="tipo_anulacion"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group string="Identificación Anulación">
+                            <field name="codigo_generacion" readonly="1"/>
+                            <field name="fecha_anulacion"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Documento a Anular">
+                            <field name="move_id"/>
+                            <field name="documento_codigo_generacion"/>
+                            <field name="documento_tipo_dte"/>
+                            <field name="documento_numero_control"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Detalles Documento">
+                            <field name="documento_sello_recibido"/>
+                            <field name="documento_fecha_emision"/>
+                            <field name="documento_monto_iva"/>
+                            <field name="codigo_generacion_reemplazo"/>
+                        </group>
+                        <group string="Responsable Anulación">
+                            <field name="responsable_nombre"/>
+                            <field name="responsable_tipo_doc"/>
+                            <field name="responsable_numero_doc"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Solicitante (Opcional)" invisible="tipo_anulacion == '1'">
+                        <group>
+                            <field name="solicitante_nombre"/>
+                            <field name="solicitante_tipo_doc"/>
+                            <field name="solicitante_numero_doc"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Motivo de Anulación">
+                        <field name="motivo_anulacion" nolabel="1" placeholder="Describa detalladamente el motivo de la anulación..."/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="JSON Generado" name="json" invisible="json_content == False">
+                            <field name="json_content" nolabel="1" widget="code_editor" 
+                                   options="{'language': 'json', 'readOnly': true}"/>
+                        </page>
+                        
+                        <page string="Respuesta MH" name="response" invisible="response_code == False">
+                            <group>
+                                <field name="response_code"/>
+                                <!-- <field name="api_log_id"/> -->
+                            </group>
+                            <group string="Mensaje de Respuesta">
+                                <field name="response_message" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para Anulaciones -->
+    <record id="view_cancellation_search" model="ir.ui.view">
+        <field name="name">l10n_sv.cancellation.search</field>
+        <field name="model">l10n_sv.cancellation</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Anulaciones">
+                <field name="name"/>
+                <field name="move_id"/>
+                <field name="documento_numero_control"/>
+                <field name="responsable_nombre"/>
+                <field name="motivo_anulacion"/>
+                <filter string="Borradores" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Pendientes" name="pending" domain="[('state', '=', 'pending')]"/>
+                <filter string="Enviadas" name="sent" domain="[('state', '=', 'sent')]"/>
+                <filter string="Aceptadas" name="accepted" domain="[('state', '=', 'accepted')]"/>
+                <filter string="Rechazadas" name="rejected" domain="[('state', '=', 'rejected')]"/>
+                <separator/>
+                <filter string="Por Emisor" name="type_1" domain="[('tipo_anulacion', '=', '1')]"/>
+                <filter string="Por Receptor" name="type_2" domain="[('tipo_anulacion', '=', '2')]"/>
+                <filter string="Por Tercero" name="type_3" domain="[('tipo_anulacion', '=', '3')]"/>
+                <separator/>
+                <filter string="Facturas" name="doc_01" domain="[('documento_tipo_dte', '=', '01')]"/>
+                <filter string="CCF" name="doc_03" domain="[('documento_tipo_dte', '=', '03')]"/>
+                <filter string="Notas Crédito" name="doc_05" domain="[('documento_tipo_dte', '=', '05')]"/>
+                <filter string="Notas Débito" name="doc_06" domain="[('documento_tipo_dte', '=', '06')]"/>
+                <separator/>
+                <filter string="Hoy" name="today" domain="[('fecha_anulacion', '>=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+                <filter string="Esta Semana" name="this_week" domain="[('fecha_anulacion', '>=', (context_today() + relativedelta(weeks=-1, weekday=0)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Este Mes" name="this_month" domain="[('fecha_anulacion', '>=', datetime.datetime.combine(context_today().replace(day=1), datetime.time(0,0,0)))]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Tipo de Anulación" name="group_type" context="{'group_by': 'tipo_anulacion'}"/>
+                    <filter string="Tipo Documento" name="group_doc_type" context="{'group_by': 'documento_tipo_dte'}"/>
+                    <filter string="Responsable" name="group_responsible" context="{'group_by': 'responsable_nombre'}"/>
+                    <filter string="Fecha" name="group_date" context="{'group_by': 'fecha_anulacion:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción para Anulaciones -->
+    <record id="action_cancellation" model="ir.actions.act_window">
+        <field name="name">Anulaciones DTE</field>
+        <field name="res_model">l10n_sv.cancellation</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_cancellation_search"/>
+        <field name="context">{'search_default_pending': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay anulaciones de DTE
+            </p>
+            <p>
+                Las anulaciones permiten invalidar documentos DTE que ya fueron
+                enviados y aceptados por el MH, pero que contienen errores o
+                deben ser cancelados.
+            </p>
+        </field>
+    </record>
+
+    <!-- Wizard para crear anulación desde factura -->
+    <record id="action_create_cancellation_wizard" model="ir.actions.act_window">
+        <field name="name">Crear Anulación DTE</field>
+        <field name="res_model">l10n_sv.cancellation</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{
+            'default_move_id': active_id,
+            'default_responsable_nombre': user.name,
+            'default_responsable_tipo_doc': '13',
+            'default_tipo_anulacion': '1'
+        }</field>
+    </record>
+
+</odoo>

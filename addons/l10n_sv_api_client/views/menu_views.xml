@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Acción para endpoints -->
+    <record id="action_api_endpoint" model="ir.actions.act_window">
+        <field name="name">Endpoints API MH</field>
+        <field name="res_model">l10n_sv.api.endpoint</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configura los endpoints de la API del MH
+            </p>
+            <p>
+                Los endpoints definen las URLs y configuraciones específicas
+                para comunicarse con cada servicio del Ministerio de Hacienda.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú principal API Client -->
+    <menuitem id="menu_l10n_sv_api_client_root"
+              name="API MH"
+              parent="l10n_sv_edi_base.menu_l10n_sv_edi_root"
+              sequence="30"/>
+
+    <!-- Submenú: Clientes API -->
+    <menuitem id="menu_l10n_sv_api_clients"
+              name="Clientes API"
+              parent="menu_l10n_sv_api_client_root"
+              action="action_api_client"
+              sequence="10"/>
+
+    <!-- Submenú: Logs de Comunicación -->
+    <menuitem id="menu_l10n_sv_api_logs"
+              name="Logs de Comunicación"
+              parent="menu_l10n_sv_api_client_root"
+              action="action_api_log"
+              sequence="20"/>
+
+    <!-- Submenú: Endpoints -->
+    <menuitem id="menu_l10n_sv_api_endpoints"
+              name="Endpoints"
+              parent="menu_l10n_sv_api_client_root"
+              action="action_api_endpoint"
+              sequence="30"/>
+
+    <!-- Vista de lista para endpoints -->
+    <record id="view_api_endpoint_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.api.endpoint.tree</field>
+        <field name="model">l10n_sv.api.endpoint</field>
+        <field name="arch" type="xml">
+            <list string="Endpoints API MH">
+                <field name="name"/>
+                <field name="environment"/>
+                <field name="endpoint_type"/>
+                <field name="method"/>
+                <field name="url"/>
+                <field name="active"/>
+                <field name="usage_count"/>
+                <field name="success_rate" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para endpoints -->
+    <record id="view_api_endpoint_form" model="ir.ui.view">
+        <field name="name">l10n_sv.api.endpoint.form</field>
+        <field name="model">l10n_sv.api.endpoint</field>
+        <field name="arch" type="xml">
+            <form string="Endpoint API MH">
+                <header>
+                    <button name="action_test_endpoint" 
+                            string="Probar Endpoint" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button name="action_view_logs" 
+                            string="Ver Logs" 
+                            type="object" 
+                            class="btn-secondary"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_logs" icon="fa-list">
+                            <div class="o_stat_info">
+                                <field name="usage_count" widget="statinfo" string="Usos"/>
+                                <span class="o_stat_text">Peticiones</span>
+                            </div>
+                        </button>
+                        
+                        <button class="oe_stat_button" type="object" name="action_view_logs" icon="fa-percent">
+                            <div class="o_stat_info">
+                                <field name="success_rate" widget="statinfo" string="% Éxito"/>
+                                <span class="o_stat_text">Tasa Éxito</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre del endpoint..."/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="environment" widget="radio"/>
+                            <field name="endpoint_type"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="method"/>
+                            <field name="requires_auth"/>
+                            <field name="timeout"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="url" placeholder="https://api.mh.gob.sv/v1/..."/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Configuración" name="config">
+                            <group>
+                                <group>
+                                    <field name="content_type"/>
+                                    <field name="expected_status_codes"/>
+                                </group>
+                                <group>
+                                    <field name="version"/>
+                                    <field name="last_used" readonly="1"/>
+                                </group>
+                            </group>
+                            
+                            <group string="Headers Adicionales">
+                                <field name="additional_headers" nolabel="1" widget="code_editor" options="{'language': 'json'}"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Documentación" name="docs">
+                            <group>
+                                <field name="documentation_url"/>
+                                <field name="description"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Categorías de documentos DTE -->
+        <record id="category_sales_documents" model="l10n_sv.document.type.category">
+            <field name="name">Documentos de Venta</field>
+            <field name="description">Documentos para operaciones de venta</field>
+        </record>
+        
+        <record id="category_credit_documents" model="l10n_sv.document.type.category">
+            <field name="name">Documentos de Crédito/Débito</field>
+            <field name="description">Notas de crédito y débito</field>
+        </record>
+        
+        <record id="category_export_documents" model="l10n_sv.document.type.category">
+            <field name="name">Documentos de Exportación</field>
+            <field name="description">Documentos para operaciones de exportación</field>
+        </record>
+        
+        <record id="category_special_documents" model="l10n_sv.document.type.category">
+            <field name="name">Documentos Especiales</field>
+            <field name="description">Comprobantes de retención, liquidación, etc.</field>
+        </record>
+        
+        <!-- Tipos de documentos DTE según CAT_002_Tipo_de_Documento -->
+        
+        <!-- 01 - Factura -->
+        <record id="document_type_01_factura" model="l10n_sv.document.type">
+            <field name="name">Factura</field>
+            <field name="code">01</field>
+            <field name="category_id" ref="category_sales_documents"/>
+            <field name="is_invoice">True</field>
+            <field name="journal_type">sale</field>
+            <field name="description">Factura para consumidor final</field>
+            <field name="validation_rules">- Cliente puede ser persona natural sin NIT
+- No requiere detalle de impuestos desglosados
+- Monto máximo según regulaciones MH</field>
+        </record>
+        
+        <!-- 03 - Comprobante de Crédito Fiscal -->
+        <record id="document_type_03_ccf" model="l10n_sv.document.type">
+            <field name="name">Comprobante de Crédito Fiscal</field>
+            <field name="code">03</field>
+            <field name="category_id" ref="category_sales_documents"/>
+            <field name="is_invoice">True</field>
+            <field name="journal_type">sale</field>
+            <field name="description">CCF para contribuyentes con NIT</field>
+            <field name="validation_rules">- Cliente debe tener NIT válido
+- Debe incluir desglose detallado de IVA
+- Requerido para operaciones gravadas con IVA</field>
+        </record>
+        
+        <!-- 04 - Nota de Remisión -->
+        <record id="document_type_04_remision" model="l10n_sv.document.type">
+            <field name="name">Nota de Remisión</field>
+            <field name="code">04</field>
+            <field name="category_id" ref="category_sales_documents"/>
+            <field name="journal_type">sale</field>
+            <field name="description">Documento para traslado de mercancías</field>
+            <field name="validation_rules">- Utilizado para traslado de bienes
+- No genera débito fiscal
+- Debe especificar motivo del traslado</field>
+        </record>
+        
+        <!-- 05 - Nota de Crédito -->
+        <record id="document_type_05_nota_credito" model="l10n_sv.document.type">
+            <field name="name">Nota de Crédito</field>
+            <field name="code">05</field>
+            <field name="category_id" ref="category_credit_documents"/>
+            <field name="is_credit_note">True</field>
+            <field name="journal_type">sale</field>
+            <field name="description">Nota de crédito para devoluciones o descuentos</field>
+            <field name="validation_rules">- Debe referenciar documento original
+- Motivo de la nota de crédito requerido
+- No puede exceder el monto del documento original</field>
+        </record>
+        
+        <!-- 06 - Nota de Débito -->
+        <record id="document_type_06_nota_debito" model="l10n_sv.document.type">
+            <field name="name">Nota de Débito</field>
+            <field name="code">06</field>
+            <field name="category_id" ref="category_credit_documents"/>
+            <field name="is_debit_note">True</field>
+            <field name="journal_type">sale</field>
+            <field name="description">Nota de débito para cargos adicionales</field>
+            <field name="validation_rules">- Debe referenciar documento original
+- Motivo de la nota de débito requerido
+- Genera débito fiscal adicional</field>
+        </record>
+        
+        <!-- 07 - Comprobante de Retención -->
+        <record id="document_type_07_retencion" model="l10n_sv.document.type">
+            <field name="name">Comprobante de Retención</field>
+            <field name="code">07</field>
+            <field name="category_id" ref="category_special_documents"/>
+            <field name="requires_retention">True</field>
+            <field name="journal_type">general</field>
+            <field name="description">Comprobante de retenciones aplicadas</field>
+            <field name="validation_rules">- Debe especificar monto y porcentaje de retención
+- Requerido para agentes de retención
+- Debe referenciar documento que origina la retención</field>
+        </record>
+        
+        <!-- 08 - Comprobante de Liquidación -->
+        <record id="document_type_08_liquidacion" model="l10n_sv.document.type">
+            <field name="name">Comprobante de Liquidación</field>
+            <field name="code">08</field>
+            <field name="category_id" ref="category_special_documents"/>
+            <field name="journal_type">purchase</field>
+            <field name="description">Liquidación por compras a pequeños contribuyentes</field>
+            <field name="validation_rules">- Utilizado para compras a pequeños contribuyentes
+- El comprador actúa como agente de retención
+- Debe calcular IVA correspondiente</field>
+        </record>
+        
+        <!-- 09 - Documento Contable de Liquidación -->
+        <record id="document_type_09_doc_contable" model="l10n_sv.document.type">
+            <field name="name">Documento Contable de Liquidación</field>
+            <field name="code">09</field>
+            <field name="category_id" ref="category_special_documents"/>
+            <field name="journal_type">general</field>
+            <field name="description">Documento contable para liquidaciones</field>
+            <field name="validation_rules">- Utilizado para ajustes contables
+- Debe estar debidamente justificado
+- Requiere autorización específica</field>
+        </record>
+        
+        <!-- 11 - Factura de Exportación -->
+        <record id="document_type_11_exportacion" model="l10n_sv.document.type">
+            <field name="name">Factura de Exportación</field>
+            <field name="code">11</field>
+            <field name="category_id" ref="category_export_documents"/>
+            <field name="is_invoice">True</field>
+            <field name="is_export">True</field>
+            <field name="requires_incoterms">True</field>
+            <field name="journal_type">sale</field>
+            <field name="description">Factura para operaciones de exportación</field>
+            <field name="validation_rules">- Cliente debe ser extranjero
+- Requiere Incoterms obligatorios
+- Exenta de IVA por ser exportación
+- Debe incluir información aduanera</field>
+        </record>
+        
+        <!-- 14 - Factura de Sujeto Excluido -->
+        <record id="document_type_14_sujeto_excluido" model="l10n_sv.document.type">
+            <field name="name">Factura de Sujeto Excluido</field>
+            <field name="code">14</field>
+            <field name="category_id" ref="category_sales_documents"/>
+            <field name="is_invoice">True</field>
+            <field name="journal_type">sale</field>
+            <field name="description">Factura para sujetos excluidos del IVA</field>
+            <field name="validation_rules">- Cliente debe ser sujeto excluido
+- No se aplica IVA
+- Debe identificar la exención aplicable</field>
+        </record>
+        
+        <!-- 15 - Comprobante de Donación -->
+        <record id="document_type_15_donacion" model="l10n_sv.document.type">
+            <field name="name">Comprobante de Donación</field>
+            <field name="code">15</field>
+            <field name="category_id" ref="category_special_documents"/>
+            <field name="journal_type">general</field>
+            <field name="description">Comprobante para donaciones</field>
+            <field name="validation_rules">- Utilizado para registrar donaciones
+- Debe especificar tipo y valor de la donación
+- Requerido para deducciones fiscales</field>
+        </record>
+        
+    </data>
+</odoo>

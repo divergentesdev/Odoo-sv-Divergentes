@@ -1,0 +1,12 @@
+<configuration>
+	<!-- ID of the service. It should be unique accross the Windows system-->
+	<id>FIRMADOR-SERVICE</id>
+	<!-- Display name of the service -->
+	<name>FIRMADOR</name>
+	<!-- Service description -->
+	<description>Servicio firmador de documentos MH</description>
+
+	<!-- we need to execute java -jar ./XXX.jar -->
+	<executable>java</executable>
+	<arguments> -Dspring.profiles.active=%CERTIFICATE_PROFILE% -jar svfe-api-firmador-0.1.1.jar</arguments>
+</configuration>

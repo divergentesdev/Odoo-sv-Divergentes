@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Menú principal para EDI El Salvador -->
+        <menuitem id="menu_l10n_sv_edi_root" 
+                  name="EDI El Salvador" 
+                  sequence="60"
+                  groups="group_l10n_sv_edi_user"/>
+        
+        <!-- Submenú de Configuración -->
+        <menuitem id="menu_l10n_sv_edi_config" 
+                  name="Configuración" 
+                  parent="menu_l10n_sv_edi_root" 
+                  sequence="10"
+                  groups="group_l10n_sv_edi_manager"/>
+        
+        <!-- Menú de Certificados -->
+        <menuitem id="menu_l10n_sv_edi_certificates" 
+                  name="Certificados Digitales" 
+                  parent="menu_l10n_sv_edi_config" 
+                  action="action_edi_certificate" 
+                  sequence="10"
+                  groups="group_l10n_sv_edi_manager"/>
+        
+        <!-- Menú de Configuración EDI -->
+        <menuitem id="menu_l10n_sv_edi_configuration" 
+                  name="Configuración EDI" 
+                  parent="menu_l10n_sv_edi_config" 
+                  action="action_edi_configuration" 
+                  sequence="20"
+                  groups="group_l10n_sv_edi_manager"/>
+        
+        <!-- Submenú de Documentos -->
+        <menuitem id="menu_l10n_sv_edi_documents" 
+                  name="Documentos" 
+                  parent="menu_l10n_sv_edi_root" 
+                  sequence="20"
+                  groups="group_l10n_sv_edi_user"/>
+        
+        <!-- Menú de Facturas EDI -->
+        <menuitem id="menu_l10n_sv_edi_invoices" 
+                  name="Facturas Electrónicas" 
+                  parent="menu_l10n_sv_edi_documents" 
+                  action="account.action_move_out_invoice_type" 
+                  sequence="10"
+                  groups="group_l10n_sv_edi_user"/>
+        
+    </data>
+</odoo>

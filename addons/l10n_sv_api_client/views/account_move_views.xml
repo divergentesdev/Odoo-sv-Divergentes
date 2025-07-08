@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extensión de vista de formulario de factura para API MH -->
+    <record id="view_move_form_api_mh" model="ir.ui.view">
+        <field name="name">account.move.form.api.mh</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_sv_edi_json.view_move_form_json_dte"/>
+        <field name="arch" type="xml">
+            
+            <!-- Agregar página Comunicación MH después de JSON DTE -->
+            <xpath expr="//page[@name='json_dte']" position="after">
+                <page string="Comunicación MH" name="mh_communication" groups="account.group_account_user">
+                    
+                    <!-- Botones de acción MH -->
+                    <div class="oe_button_box" name="mh_buttons">
+                        <button name="action_send_to_mh" 
+                                type="object" 
+                                class="oe_stat_button"
+                                invisible="l10n_sv_mh_status in ('sent', 'received', 'processed', 'approved')"
+                                icon="fa-paper-plane">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Enviar al MH</span>
+                            </div>
+                        </button>
+                        
+                        <button name="action_query_mh_status" 
+                                type="object" 
+                                class="oe_stat_button"
+                                invisible="l10n_sv_mh_status in ('draft', 'ready')"
+                                icon="fa-search">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Consultar Estado</span>
+                            </div>
+                        </button>
+                        
+                        <button name="action_view_mh_logs" 
+                                type="object" 
+                                class="oe_stat_button"
+                                invisible="not l10n_sv_api_log_ids"
+                                icon="fa-list">
+                            <div class="o_stat_info">
+                                <field name="l10n_sv_send_attempts" widget="statinfo" string="Intentos"/>
+                                <span class="o_stat_text">Logs MH</span>
+                            </div>
+                        </button>
+                        
+                        <button name="action_reset_mh_status" 
+                                type="object" 
+                                class="oe_stat_button"
+                                invisible="l10n_sv_mh_status == 'draft'"
+                                icon="fa-refresh">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Reset Estado</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <!-- Estado actual -->
+                    <div class="row">
+                        <div class="col-6">
+                            <group string="Estado Comunicación MH">
+                                <field name="l10n_sv_mh_status" readonly="1" widget="badge"
+                                       decoration-success="l10n_sv_mh_status in ['approved', 'processed']"
+                                       decoration-danger="l10n_sv_mh_status in ['rejected', 'error']"
+                                       decoration-warning="l10n_sv_mh_status in ['sent', 'received']"
+                                       decoration-info="l10n_sv_mh_status in ['draft', 'ready']"/>
+                                <field name="l10n_sv_mh_send_date" readonly="1"/>
+                                <field name="l10n_sv_mh_received_date" readonly="1"/>
+                                <field name="l10n_sv_mh_processed_date" readonly="1"/>
+                            </group>
+                        </div>
+                        <div class="col-6">
+                            <group string="Información MH">
+                                <field name="l10n_sv_mh_uuid" readonly="1" 
+                                       invisible="not l10n_sv_mh_uuid"/>
+                                <field name="l10n_sv_send_attempts" readonly="1"/>
+                                <field name="l10n_sv_query_attempts" readonly="1"/>
+                            </group>
+                        </div>
+                    </div>
+                    
+                    <!-- Errores -->
+                    <group string="Error MH" 
+                           invisible="not l10n_sv_mh_error_message">
+                        <field name="l10n_sv_mh_error_message" readonly="1" nolabel="1" widget="text"/>
+                    </group>
+                    
+                    <!-- Observaciones -->
+                    <group string="Observaciones MH" 
+                           invisible="not l10n_sv_mh_observations">
+                        <field name="l10n_sv_mh_observations" readonly="1" nolabel="1" widget="text"/>
+                    </group>
+                    
+                    <!-- Sello digital -->
+                    <group string="Sello Digital MH" 
+                           invisible="not l10n_sv_mh_sello">
+                        <field name="l10n_sv_mh_sello" readonly="1" nolabel="1" widget="text"/>
+                    </group>
+                    
+                    <!-- Respuesta completa -->
+                    <group string="Última Respuesta MH" 
+                           invisible="not l10n_sv_mh_response">
+                        <field name="l10n_sv_mh_response" readonly="1" nolabel="1" 
+                               widget="code_editor" options="{'language': 'json', 'readOnly': true}"/>
+                    </group>
+                    
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- Extensión de vista de lista de facturas para mostrar estado MH -->
+    <record id="view_invoice_tree_api_mh" model="ir.ui.view">
+        <field name="name">account.move.tree.api.mh</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_sv_edi_json.view_invoice_tree_json_dte"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='l10n_sv_json_validated']" position="after">
+                <field name="l10n_sv_mh_status" 
+                       string="Estado MH" 
+                       widget="badge"
+                       decoration-success="l10n_sv_mh_status in ['approved', 'processed']"
+                       decoration-danger="l10n_sv_mh_status in ['rejected', 'error']"
+                       decoration-warning="l10n_sv_mh_status in ['sent', 'received']"
+                       optional="show"/>
+                <field name="l10n_sv_mh_send_date" 
+                       string="Enviado MH" 
+                       optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda extendida para facturas con filtros MH -->
+    <record id="view_account_invoice_filter_api_mh" model="ir.ui.view">
+        <field name="name">account.invoice.select.api.mh</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_sv_edi_json.view_account_invoice_filter_json"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='json_errors']" position="after">
+                <separator/>
+                <filter string="Enviado al MH" 
+                        name="sent_to_mh" 
+                        domain="[('l10n_sv_mh_status', 'in', ['sent', 'received', 'processed', 'approved'])]"/>
+                <filter string="Aprobado por MH" 
+                        name="approved_by_mh" 
+                        domain="[('l10n_sv_mh_status', 'in', ['processed', 'approved'])]"/>
+                <filter string="Rechazado por MH" 
+                        name="rejected_by_mh" 
+                        domain="[('l10n_sv_mh_status', '=', 'rejected')]"/>
+                <filter string="Error Comunicación MH" 
+                        name="mh_error" 
+                        domain="[('l10n_sv_mh_status', '=', 'error')]"/>
+                <filter string="Pendiente Envío MH" 
+                        name="pending_mh_send" 
+                        domain="[('l10n_sv_json_validated', '=', True), ('l10n_sv_mh_status', 'in', ['draft', 'ready'])]"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

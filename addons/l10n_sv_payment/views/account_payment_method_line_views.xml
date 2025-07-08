@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de formulario para account.payment.method.line -->
+    <record id="view_account_payment_method_line_form_sv" model="ir.ui.view">
+        <field name="name">account.payment.method.line.form.sv</field>
+        <field name="model">account.payment.method.line</field>
+        <field name="inherit_id" ref="account.view_account_payment_method_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_account_id']" position="after">
+                <field name="formasDePagos"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

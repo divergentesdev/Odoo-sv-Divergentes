@@ -1,0 +1,49 @@
+id,code,name,account_type,reconcile,name@es
+sv_110100,110100,Current Assets,asset_current,False,Activos circulantes
+sv_110104,110104,Prepayments,asset_current,False,Prepagos
+sv_110199,110199,Liquidity Transfer,asset_current,True,Transferencia de liquidez
+sv_110200,110200,Account Receivable,asset_receivable,True,Cuenta por cobrar
+sv_110201,110201,Account Receivable (PoS),asset_receivable,True,Cuentas por cobrar (PdV)
+sv_110202,110202,Products to receive,asset_current,True,Productos a recibir
+sv_110203,110203,Tax Receivable,asset_current,False,Impuesto por cobrar
+sv_110300,110300,Stock Valuation,asset_current,False,Valoración de existencias
+sv_110301,110301,Stock Interim (Received),asset_current,True,Existencias provisionales (recibidas)
+sv_110302,110302,Stock Interim (Delivered),asset_current,True,Existencias provisionales (entregadas)
+sv_110399,110399,Work in Progress,asset_current,True,Trabajo en progreso
+sv_110400,110400,Tax Paid,asset_current,False,Impuesto pagado
+sv_119901,119901,Outstanding Receipts,asset_current,True,Recibos pendientes
+sv_119902,119902,Outstanding Payments,asset_current,True,Pagos pendientes
+sv_119999,119999,Bank Suspense Account,asset_current,False,Cuenta transitoria
+sv_120100,120100,Fixed Asset,asset_current,False,Activo fijo
+sv_190100,190100,Non-current assets,asset_current,False,Activos no circulantes
+sv_210100,210100,Current Liabilities,liability_current,False,Pasivos circulantes
+sv_210200,210200,Account Payable,liability_payable,True,Cuenta por pagar
+sv_210201,210201,Bills to receive,liability_current,True,Facturas por cobrar
+sv_210299,210299,Payroll receipt from the house rental account,liability_payable,True,Alquiler de casa
+sv_210300,210300,Deferred Revenue,liability_current,False,Ingresos diferidos
+sv_210400,210400,Salary Payable,liability_current,True,Sueldo por pagar
+sv_210401,210401,Employee Payroll Taxes,liability_current,True,Impuestos de nómina del empleado
+sv_210402,210402,Employer Payroll Taxes,liability_current,True,Impuesto de nómina del empleador
+sv_210500,210500,Tax Received,liability_current,False,Impuesto recibido
+sv_210501,210501,Tax Payable,liability_current,False,Impuesto por pagar
+sv_290100,290100,Non-current Liabilities,liability_current,False,Pasivos no circulantes
+sv_310100,310100,Capital,equity,False,Capital
+sv_310200,310200,Dividends,equity,False,Dividendos
+sv_410100,410100,Product Sales,income,False,Venta de productos
+sv_410300,410300,Foreign Exchange Gain,income,False,Ganancia por tipo de cambio
+sv_410400,410400,Cash Difference Gain,income,False,Ganancia por diferencia de efectivo
+sv_410500,410500,Other Income,income_other,False,Otro ingreso
+sv_410600,410600,Cash Discount Gain,income,False,Ganancia por descuento de efectivo
+sv_510100,510100,Cost of Goods Sold,asset_current,False,Costo de bienes vendidos
+sv_510200,510200,Cost of Production,asset_current,True,Costo de producción
+sv_510400,510400,Cash Discount Loss,expense,False,Pérdida por diferencia de efectivo
+sv_520100,520100,Expenses,expense,False,Gastos
+sv_520200,520200,Purchase of Equipments,expense,False,Compra de equipo
+sv_520300,520300,Rent,expense,False,Renta
+sv_520400,520400,Bank Fees,expense,False,Comisiones bancarias
+sv_520500,520500,Salary Expenses,expense,False,Gastos de sueldo
+sv_520501,520501,Sales Expenses,expense,False,Gastos de salario
+sv_520600,520600,Foreign Exchange Loss,expense,False,Pérdida por tipo de cambio
+sv_520700,520700,Cash Difference Loss,expense,False,Pérdida por diferencia de efectivo
+sv_530100,530100,RD Expenses,expense,False,Gastos de I+D
+sv_610101,610101,Undistributed Profits/Losses,equity_unaffected,False,Ganancias/pérdidas no distribuidas

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista de lista para generadores JSON -->
+    <record id="view_json_generator_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.json.generator.tree</field>
+        <field name="model">l10n_sv.json.generator</field>
+        <field name="arch" type="xml">
+            <list string="Generadores JSON DTE">
+                <field name="name"/>
+                <field name="document_type_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para generadores JSON -->
+    <record id="view_json_generator_form" model="ir.ui.view">
+        <field name="name">l10n_sv.json.generator.form</field>
+        <field name="model">l10n_sv.json.generator</field>
+        <field name="arch" type="xml">
+            <form string="Generador JSON DTE">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre del generador..."/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="document_type_id" required="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Plantilla JSON" name="template">
+                            <field name="template" widget="code_editor" options="{'language': 'json'}" placeholder="Plantilla base JSON para este tipo de documento..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para generadores JSON -->
+    <record id="view_json_generator_search" model="ir.ui.view">
+        <field name="name">l10n_sv.json.generator.search</field>
+        <field name="model">l10n_sv.json.generator</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Generadores JSON">
+                <field name="name"/>
+                <field name="document_type_id"/>
+                <filter string="Activos" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactivos" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Tipo de Documento" name="group_document_type" context="{'group_by': 'document_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción para generadores JSON -->
+    <record id="action_json_generator" model="ir.actions.act_window">
+        <field name="name">Generadores JSON DTE</field>
+        <field name="res_model">l10n_sv.json.generator</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_json_generator_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                ¡Crea tu primer generador JSON DTE!
+            </p>
+            <p>
+                Los generadores JSON DTE se encargan de crear la estructura JSON
+                requerida por el Ministerio de Hacienda para cada tipo de documento
+                tributario electrónico.
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vista de formulario para certificados EDI -->
+        <record id="view_edi_certificate_form" model="ir.ui.view">
+            <field name="name">l10n_sv.edi.certificate.form</field>
+            <field name="model">l10n_sv.edi.certificate</field>
+            <field name="arch" type="xml">
+                <form string="Certificado EDI">
+                    <header>
+                        <button name="action_validate_certificate" 
+                                string="Validar Certificado" 
+                                type="object"
+                                invisible="state != 'draft'"
+                                class="oe_highlight"/>
+                        <button name="action_deactivate" 
+                                string="Desactivar" 
+                                type="object"
+                                invisible="state not in ['valid']"
+                                confirm="¿Está seguro de desactivar este certificado?"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,valid,expired"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_show_certificate_info" class="oe_stat_button" icon="fa-certificate" type="object">
+                                <field string="Estado" name="state" widget="statinfo"/>
+                            </button>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="name" placeholder="Ej: Certificado Producción 2025"/>
+                                <field name="environment"/>
+                                <field name="company_id"/>
+                                <field name="is_active"/>
+                            </group>
+                            <group>
+                                <field name="valid_from"/>
+                                <field name="valid_to"/>
+                                <field name="nit_emisor"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Certificado" name="certificate">
+                                <group string="Archivos de Certificado">
+                                    <field name="certificate_file" filename="certificate_filename"/>
+                                    <field name="certificate_filename" invisible="1"/>
+                                    <field name="private_key_file" filename="private_key_filename"/>
+                                    <field name="private_key_filename" invisible="1"/>
+                                    <field name="password" password="True"/>
+                                </group>
+                                <group>
+                                    <field name="issuer" readonly="1"/>
+                                    <field name="subject" readonly="1"/>
+                                    <field name="serial_number" readonly="1"/>
+                                </group>
+                            </page>
+                            <page string="Configuración API" name="api_config">
+                                <group>
+                                    <field name="api_url" placeholder="https://api.dtes.mh.gob.sv/..."/>
+                                    <field name="api_token" password="True"/>
+                                    <field name="codigo_generacion_prefix"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vista de árbol para certificados EDI -->
+        <record id="view_edi_certificate_tree" model="ir.ui.view">
+            <field name="name">l10n_sv.edi.certificate.tree</field>
+            <field name="model">l10n_sv.edi.certificate</field>
+            <field name="arch" type="xml">
+                <list string="Certificados EDI" decoration-success="state=='valid'" 
+                      decoration-danger="state=='expired'" decoration-warning="state=='draft'">
+                    <field name="name"/>
+                    <field name="environment"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="valid_from"/>
+                    <field name="valid_to"/>
+                    <field name="is_active"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+        
+        <!-- Vista de búsqueda para certificados EDI -->
+        <record id="view_edi_certificate_search" model="ir.ui.view">
+            <field name="name">l10n_sv.edi.certificate.search</field>
+            <field name="model">l10n_sv.edi.certificate</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Certificados">
+                    <field name="name"/>
+                    <field name="environment"/>
+                    <field name="company_id"/>
+                    <filter string="Activos" name="active" domain="[('is_active', '=', True)]"/>
+                    <filter string="Válidos" name="valid" domain="[('state', '=', 'valid')]"/>
+                    <filter string="Vencidos" name="expired" domain="[('state', '=', 'expired')]"/>
+                    <separator/>
+                    <filter string="Certificación" name="test" domain="[('environment', '=', 'test')]"/>
+                    <filter string="Producción" name="production" domain="[('environment', '=', 'production')]"/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Ambiente" name="group_environment" context="{'group_by': 'environment'}"/>
+                        <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Compañía" name="group_company" context="{'group_by': 'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- Acción para certificados EDI -->
+        <record id="action_edi_certificate" model="ir.actions.act_window">
+            <field name="name">Certificados EDI</field>
+            <field name="res_model">l10n_sv.edi.certificate</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    ¡Crea tu primer certificado EDI!
+                </p>
+                <p>
+                    Los certificados digitales son necesarios para firmar y autenticar
+                    los documentos tributarios electrónicos ante el Ministerio de Hacienda.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

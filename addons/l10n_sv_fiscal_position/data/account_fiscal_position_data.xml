@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- Posición Fiscal: Consumidor Final -->
+        <record id="fiscal_position_consumidor_final" model="account.fiscal.position">
+            <field name="name">El Salvador - Consumidor Final</field>
+            <field name="code">SV_FINAL_CONSUMER</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="l10n_sv_is_final_consumer">True</field>
+            <field name="l10n_sv_auto_apply">True</field>
+            <field name="l10n_sv_document_type_id" ref="l10n_sv_document_type.document_type_01_factura"/>
+            <field name="note">Para ventas a consumidores finales sin NIT. Genera Factura (01).
+Aplicación automática:
+- Clientes sin NIT o con DUI
+- Personas naturales sin actividad comercial
+- Compras menores sin identificación fiscal</field>
+        </record>
+
+        <!-- Posición Fiscal: Contribuyente con NIT -->
+        <record id="fiscal_position_contribuyente" model="account.fiscal.position">
+            <field name="name">El Salvador - Contribuyente</field>
+            <field name="code">SV_TAXPAYER</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="l10n_sv_is_taxpayer">True</field>
+            <field name="l10n_sv_auto_apply">True</field>
+            <field name="l10n_sv_document_type_id" ref="l10n_sv_document_type.document_type_03_ccf"/>
+            <field name="note">Para ventas a contribuyentes con NIT. Genera CCF (03).
+Aplicación automática:
+- Clientes con NIT válido
+- Empresas registradas ante el MH
+- Contribuyentes inscritos en el IVA</field>
+        </record>
+
+        <!-- Posición Fiscal: Exportación -->
+        <record id="fiscal_position_exportacion" model="account.fiscal.position">
+            <field name="name">El Salvador - Exportación</field>
+            <field name="code">SV_EXPORT</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="l10n_sv_is_export">True</field>
+            <field name="l10n_sv_auto_apply">True</field>
+            <field name="l10n_sv_document_type_id" ref="l10n_sv_document_type.document_type_11_exportacion"/>
+            <field name="note">Para operaciones de exportación. Genera Factura de Exportación (11).
+Características:
+- Exento de IVA según Art. 46 LIVA
+- Cliente marcado como exportación
+- Operaciones al extranjero</field>
+        </record>
+
+        <!-- Posición Fiscal: Sujeto Excluido -->
+        <record id="fiscal_position_sujeto_excluido" model="account.fiscal.position">
+            <field name="name">El Salvador - Sujeto Excluido</field>
+            <field name="code">SV_EXCLUDED</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="l10n_sv_is_excluded_subject">True</field>
+            <field name="l10n_sv_auto_apply">True</field>
+            <field name="l10n_sv_document_type_id" ref="l10n_sv_document_type.document_type_14_sujeto_excluido"/>
+            <field name="note">Para sujetos excluidos del IVA. Genera Factura de Sujeto Excluido (14).
+Aplicable a:
+- Cooperativas de ahorro y crédito
+- Instituciones de beneficencia
+- Entidades religiosas
+- Otros excluidos según Art. 6 LIVA</field>
+        </record>
+
+        <!-- Posición Fiscal: Agente Retenedor - Renta -->
+        <record id="fiscal_position_agente_retenedor_renta" model="account.fiscal.position">
+            <field name="name">El Salvador - Agente Retenedor (Renta)</field>
+            <field name="code">SV_WITHHOLDING_INCOME</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="l10n_sv_is_withholding_agent">True</field>
+            <field name="l10n_sv_withholding_type">income</field>
+            <field name="l10n_sv_auto_apply">False</field>
+            <field name="note">Para compras donde se debe aplicar retención de renta.
+Retenciones aplicables:
+- 1% servicios profesionales
+- 5% otros servicios
+- 10% según tabla de retenciones</field>
+        </record>
+
+        <!-- Posición Fiscal: Agente Retenedor - IVA -->
+        <record id="fiscal_position_agente_retenedor_iva" model="account.fiscal.position">
+            <field name="name">El Salvador - Agente Retenedor (IVA)</field>
+            <field name="code">SV_WITHHOLDING_VAT</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="l10n_sv_is_withholding_agent">True</field>
+            <field name="l10n_sv_withholding_type">vat</field>
+            <field name="l10n_sv_auto_apply">False</field>
+            <field name="note">Para compras donde se debe aplicar retención de IVA.
+Retención de IVA 1%:
+- Proveedores no inscritos
+- Según Art. 162 LIVA</field>
+        </record>
+
+        <!-- Posición Fiscal: Agente Retenedor - Ambas -->
+        <record id="fiscal_position_agente_retenedor_ambas" model="account.fiscal.position">
+            <field name="name">El Salvador - Agente Retenedor (Completo)</field>
+            <field name="code">SV_WITHHOLDING_BOTH</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="l10n_sv_is_withholding_agent">True</field>
+            <field name="l10n_sv_withholding_type">both</field>
+            <field name="l10n_sv_auto_apply">False</field>
+            <field name="note">Para compras donde se aplican ambas retenciones.
+Aplicable a:
+- Gran contribuyente
+- Agente retenedor designado por el MH
+- Instituciones del Estado</field>
+        </record>
+
+        <!-- Los mapeos de impuestos se crearán automáticamente en el post_init_hook 
+             después de que los impuestos de l10n_sv_cta estén disponibles -->
+
+    </data>
+</odoo>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Endpoints de Certificación -->
+        <record id="endpoint_auth_test" model="l10n_sv.api.endpoint">
+            <field name="name">Autenticación - Certificación</field>
+            <field name="environment">test</field>
+            <field name="endpoint_type">auth</field>
+            <field name="url">https://apitestauth.mh.gob.sv/seguridad/auth</field>
+            <field name="method">POST</field>
+            <field name="requires_auth">False</field>
+            <field name="description">Endpoint para obtener token de autenticación en ambiente de certificación</field>
+            <field name="documentation_url">https://www.mh.gob.sv/descargas/dte/</field>
+        </record>
+
+        <record id="endpoint_send_test" model="l10n_sv.api.endpoint">
+            <field name="name">Envío DTE - Certificación</field>
+            <field name="environment">test</field>
+            <field name="endpoint_type">send</field>
+            <field name="url">https://apitest.mh.gob.sv/v1/dte</field>
+            <field name="method">POST</field>
+            <field name="description">Endpoint para enviar documentos DTE en ambiente de certificación</field>
+        </record>
+
+        <record id="endpoint_query_test" model="l10n_sv.api.endpoint">
+            <field name="name">Consulta Estado - Certificación</field>
+            <field name="environment">test</field>
+            <field name="endpoint_type">query</field>
+            <field name="url">https://apitest.mh.gob.sv/v1/dte/consulta</field>
+            <field name="method">POST</field>
+            <field name="description">Endpoint para consultar estado de DTE en ambiente de certificación</field>
+        </record>
+
+        <record id="endpoint_contingency_test" model="l10n_sv.api.endpoint">
+            <field name="name">Contingencia - Certificación</field>
+            <field name="environment">test</field>
+            <field name="endpoint_type">contingency</field>
+            <field name="url">https://apitest.mh.gob.sv/v1/dte/contingencia</field>
+            <field name="method">POST</field>
+            <field name="description">Endpoint para reportar eventos de contingencia en certificación</field>
+        </record>
+
+        <!-- Endpoints de Producción -->
+        <record id="endpoint_auth_production" model="l10n_sv.api.endpoint">
+            <field name="name">Autenticación - Producción</field>
+            <field name="environment">production</field>
+            <field name="endpoint_type">auth</field>
+            <field name="url">https://apiauth.mh.gob.sv/seguridad/auth</field>
+            <field name="method">POST</field>
+            <field name="requires_auth">False</field>
+            <field name="description">Endpoint para obtener token de autenticación en ambiente de producción</field>
+            <field name="documentation_url">https://www.mh.gob.sv/descargas/dte/</field>
+        </record>
+
+        <record id="endpoint_send_production" model="l10n_sv.api.endpoint">
+            <field name="name">Envío DTE - Producción</field>
+            <field name="environment">production</field>
+            <field name="endpoint_type">send</field>
+            <field name="url">https://api.mh.gob.sv/v1/dte</field>
+            <field name="method">POST</field>
+            <field name="description">Endpoint para enviar documentos DTE en ambiente de producción</field>
+        </record>
+
+        <record id="endpoint_query_production" model="l10n_sv.api.endpoint">
+            <field name="name">Consulta Estado - Producción</field>
+            <field name="environment">production</field>
+            <field name="endpoint_type">query</field>
+            <field name="url">https://api.mh.gob.sv/v1/dte/consulta</field>
+            <field name="method">POST</field>
+            <field name="description">Endpoint para consultar estado de DTE en ambiente de producción</field>
+        </record>
+
+        <record id="endpoint_contingency_production" model="l10n_sv.api.endpoint">
+            <field name="name">Contingencia - Producción</field>
+            <field name="environment">production</field>
+            <field name="endpoint_type">contingency</field>
+            <field name="url">https://api.mh.gob.sv/v1/dte/contingencia</field>
+            <field name="method">POST</field>
+            <field name="description">Endpoint para reportar eventos de contingencia en producción</field>
+        </record>
+
+        <!-- Tareas programadas temporalmente deshabilitadas para Odoo 18 -->
+        <!-- 
+        NOTA: Los cron jobs requieren ir.actions.server en Odoo 18.
+        Se pueden configurar manualmente desde Configuración > Técnico > Automatización > Acciones Programadas
+        
+        <record id="cron_send_pending_dte" model="ir.cron">
+            <field name="cron_name">Envío Automático DTE al MH</field>
+            <field name="interval_number">15</field>
+            <field name="interval_type">minutes</field>
+            <field name="active">True</field>
+        </record>
+        -->
+
+    </data>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menú principal Firma Digital -->
+    <menuitem id="menu_l10n_sv_digital_signature_root"
+              name="Firma Digital"
+              parent="l10n_sv_edi_base.menu_l10n_sv_edi_root"
+              sequence="40"/>
+
+    <!-- Submenú: Servicios de Firma -->
+    <menuitem id="menu_l10n_sv_signature_services"
+              name="Servicios de Firma"
+              parent="menu_l10n_sv_digital_signature_root"
+              action="action_digital_signature"
+              sequence="10"/>
+
+    <!-- Submenú: Algoritmos -->
+    <menuitem id="menu_l10n_sv_signature_algorithms"
+              name="Algoritmos"
+              parent="menu_l10n_sv_digital_signature_root"
+              action="action_signature_algorithm"
+              sequence="20"/>
+
+    <!-- Submenú: Logs de Firma -->
+    <menuitem id="menu_l10n_sv_signature_logs"
+              name="Logs de Firma"
+              parent="menu_l10n_sv_digital_signature_root"
+              action="action_signature_log"
+              sequence="30"/>
+
+    <!-- Submenú: Configuración Firma -->
+    <menuitem id="menu_l10n_sv_signature_config"
+              name="Configuración"
+              parent="menu_l10n_sv_digital_signature_root"
+              sequence="90"/>
+
+</odoo>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista de lista para clientes API -->
+    <record id="view_api_client_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.api.client.tree</field>
+        <field name="model">l10n_sv.api.client</field>
+        <field name="arch" type="xml">
+            <list string="Clientes API MH">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="environment"/>
+                <field name="certificate_id"/>
+                <field name="active"/>
+                <field name="successful_requests"/>
+                <field name="failed_requests"/>
+                <field name="last_request_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para clientes API -->
+    <record id="view_api_client_form" model="ir.ui.view">
+        <field name="name">l10n_sv.api.client.form</field>
+        <field name="model">l10n_sv.api.client</field>
+        <field name="arch" type="xml">
+            <form string="Cliente API MH">
+                <header>
+                    <button name="action_test_connection" 
+                            string="Probar Conexión" 
+                            type="object" 
+                            class="btn-primary"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_logs" icon="fa-list">
+                            <div class="o_stat_info">
+                                <field name="total_requests" widget="statinfo" string="Total"/>
+                                <span class="o_stat_text">Peticiones</span>
+                            </div>
+                        </button>
+                        
+                        <button class="oe_stat_button" type="object" name="action_view_logs" icon="fa-check-circle" 
+                                invisible="successful_requests == 0">
+                            <div class="o_stat_info">
+                                <field name="successful_requests" widget="statinfo" string="Exitosas"/>
+                                <span class="o_stat_text">Peticiones</span>
+                            </div>
+                        </button>
+                        
+                        <button class="oe_stat_button" type="object" name="action_view_logs" icon="fa-exclamation-triangle"
+                                invisible="failed_requests == 0">
+                            <div class="o_stat_info">
+                                <field name="failed_requests" widget="statinfo" string="Fallidas"/>
+                                <span class="o_stat_text">Peticiones</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre del cliente API..."/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="environment" widget="radio"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="certificate_id"/>
+                            <field name="use_ssl_verification"/>
+                            <field name="timeout"/>
+                            <field name="max_retries"/>
+                            <field name="retry_delay"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Credenciales MH API">
+                        <group>
+                            <field name="mh_api_user" placeholder="Usuario proporcionado por el MH"/>
+                        </group>
+                        <group>
+                            <field name="mh_api_password" password="True" placeholder="Contraseña proporcionada por el MH"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="URLs de API" name="urls">
+                            <group>
+                                <group string="URLs Base">
+                                    <field name="api_base_url"/>
+                                    <field name="api_token_url"/>
+                                </group>
+                                <group string="URLs Específicas">
+                                    <field name="api_send_url"/>
+                                    <field name="api_query_url"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Estado de Autenticación" name="auth">
+                            <group>
+                                <group>
+                                    <field name="token_expires_at" readonly="1"/>
+                                    <field name="last_request_date" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="last_auth_error" readonly="1" 
+                                           invisible="not last_auth_error"/>
+                                </group>
+                            </group>
+                            
+                            <group string="Token de Autenticación" invisible="not auth_token">
+                                <field name="auth_token" readonly="1" widget="text"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Estadísticas" name="stats">
+                            <group>
+                                <group string="Contadores">
+                                    <field name="total_requests" readonly="1"/>
+                                    <field name="successful_requests" readonly="1"/>
+                                    <field name="failed_requests" readonly="1"/>
+                                </group>
+                                <group string="Fechas">
+                                    <field name="last_request_date" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para clientes API -->
+    <record id="view_api_client_search" model="ir.ui.view">
+        <field name="name">l10n_sv.api.client.search</field>
+        <field name="model">l10n_sv.api.client</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Clientes API">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="environment"/>
+                <filter string="Activos" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Certificación" name="test" domain="[('environment', '=', 'test')]"/>
+                <filter string="Producción" name="production" domain="[('environment', '=', 'production')]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Compañía" name="group_company" context="{'group_by': 'company_id'}"/>
+                    <filter string="Ambiente" name="group_environment" context="{'group_by': 'environment'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción para clientes API -->
+    <record id="action_api_client" model="ir.actions.act_window">
+        <field name="name">Clientes API MH</field>
+        <field name="res_model">l10n_sv.api.client</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_api_client_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                ¡Configura tu primer cliente API MH!
+            </p>
+            <p>
+                Los clientes API MH se encargan de la comunicación con el
+                Ministerio de Hacienda para el envío y consulta de documentos
+                tributarios electrónicos.
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Menú principal para posiciones fiscales dentro de EDI El Salvador -->
+    <menuitem id="menu_l10n_sv_fiscal_position_root"
+              name="Posiciones Fiscales"
+              parent="l10n_sv_edi_base.menu_l10n_sv_edi_root"
+              sequence="50"/>
+
+    <!-- Submenú: Posiciones Fiscales -->
+    <menuitem id="menu_l10n_sv_fiscal_positions"
+              name="Configurar Posiciones"
+              parent="menu_l10n_sv_fiscal_position_root"
+              action="account.action_account_fiscal_position_form"
+              sequence="10"/>
+
+    <!-- Submenú: Clasificación de Partners -->
+    <menuitem id="menu_l10n_sv_partner_classification"
+              name="Clasificación Partners"
+              parent="menu_l10n_sv_fiscal_position_root"
+              action="base.action_partner_form"
+              sequence="20"/>
+
+    <!-- Menú de configuración en Settings -->
+    <record id="action_fiscal_position_config" model="ir.actions.act_window">
+        <field name="name">Configurar Posiciones Fiscales SV</field>
+        <field name="res_model">account.fiscal.position</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_account_position_form_sv"/>
+        <field name="target">new</field>
+        <field name="context">{'default_country_id': 209}</field>
+    </record>
+
+    <!-- Agregar a Configuración de Contabilidad -->
+    <menuitem id="menu_l10n_sv_fiscal_config"
+              name="Posiciones Fiscales SV"
+              parent="account.account_account_menu"
+              action="action_fiscal_position_config"
+              groups="account.group_account_manager"
+              sequence="25"/>
+
+    <!-- Menú de reportes -->
+    <record id="action_fiscal_position_report" model="ir.actions.act_window">
+        <field name="name">Reporte Clasificación Fiscal</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list</field>
+        <field name="domain">[('country_id', '=', 209)]</field>
+        <field name="context">{
+            'group_by': ['l10n_sv_taxpayer_type'],
+            'search_default_group_taxpayer_type': 1
+        }</field>
+    </record>
+
+    <menuitem id="menu_l10n_sv_fiscal_reports"
+              name="Reportes Fiscales"
+              parent="menu_l10n_sv_fiscal_position_root"
+              action="action_fiscal_position_report"
+              sequence="30"/>
+
+    <!-- Acciones del servidor usando métodos del modelo (más seguro) -->
+    <record id="ir_actions_server_apply_fiscal_positions" model="ir.actions.server">
+        <field name="name">Aplicar Posiciones Fiscales Automáticas</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">
+# Llamar al método del modelo para aplicación masiva
+result = model.apply_fiscal_positions_bulk(records.ids if records else None)
+action = result
+        </field>
+    </record>
+
+    <!-- Acción contextual en partners para aplicar posición fiscal -->
+    <record id="action_context_apply_fiscal_position" model="ir.actions.server">
+        <field name="name">Aplicar Posición Fiscal Automática</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">
+# Llamar al método específico para El Salvador
+result = records.action_apply_fiscal_position_sv_only()
+action = result
+        </field>
+    </record>
+    
+    <!-- Acción para aplicar individualmente -->
+    <record id="action_apply_individual_fiscal_position" model="ir.actions.server">
+        <field name="name">Aplicar Mi Posición Fiscal</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">
+# Llamar al método individual
+result = records.action_apply_automatic_fiscal_position()
+action = result
+        </field>
+    </record>
+    
+    <!-- Menú para aplicación masiva (después de definir las acciones) -->
+    <menuitem id="menu_l10n_sv_apply_bulk_fiscal"
+              name="Aplicar Masivamente"
+              parent="menu_l10n_sv_fiscal_position_root"
+              action="ir_actions_server_apply_fiscal_positions"
+              sequence="40"/>
+
+</odoo>

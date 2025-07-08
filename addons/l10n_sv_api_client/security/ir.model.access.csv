@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_sv_api_client_user,l10n_sv.api.client.user,model_l10n_sv_api_client,account.group_account_user,1,0,0,0
+access_l10n_sv_api_client_invoice,l10n_sv.api.client.invoice,model_l10n_sv_api_client,account.group_account_invoice,1,1,1,0
+access_l10n_sv_api_client_manager,l10n_sv.api.client.manager,model_l10n_sv_api_client,account.group_account_manager,1,1,1,1
+access_l10n_sv_api_endpoint_user,l10n_sv.api.endpoint.user,model_l10n_sv_api_endpoint,account.group_account_user,1,0,0,0
+access_l10n_sv_api_endpoint_manager,l10n_sv.api.endpoint.manager,model_l10n_sv_api_endpoint,account.group_account_manager,1,1,1,1
+access_l10n_sv_api_log_user,l10n_sv.api.log.user,model_l10n_sv_api_log,account.group_account_user,1,0,0,0
+access_l10n_sv_api_log_invoice,l10n_sv.api.log.invoice,model_l10n_sv_api_log,account.group_account_invoice,1,1,1,0
+access_l10n_sv_api_log_manager,l10n_sv.api.log.manager,model_l10n_sv_api_log,account.group_account_manager,1,1,1,1
+access_l10n_sv_api_log_viewer_user,l10n_sv.api.log.viewer.user,model_l10n_sv_api_log_viewer,base.group_user,1,1,1,1

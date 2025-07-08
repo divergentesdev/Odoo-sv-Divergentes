@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vista de lista para generadores QR -->
+    <record id="view_qr_code_generator_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.qr.code.generator.tree</field>
+        <field name="model">l10n_sv.qr.code.generator</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="qr_version"/>
+                <field name="error_correction"/>
+                <field name="data_format"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para generadores QR -->
+    <record id="view_qr_code_generator_form" model="ir.ui.view">
+        <field name="name">l10n_sv.qr.code.generator.form</field>
+        <field name="model">l10n_sv.qr.code.generator</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_generate_test_qr" type="object" class="oe_stat_button" icon="fa-qrcode">
+                            <span>Generar QR de Prueba</span>
+                        </button>
+                    </div>
+                    
+                    <group>
+                        <group name="general_info">
+                            <field name="name"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                        <group name="qr_config">
+                            <field name="qr_version"/>
+                            <field name="error_correction"/>
+                            <field name="box_size"/>
+                            <field name="border"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group name="colors">
+                            <field name="fill_color"/>
+                            <field name="back_color"/>
+                        </group>
+                        <group name="logo_config">
+                            <field name="logo_size_ratio"/>
+                            <field name="logo_border_size"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Contenido del QR">
+                        <group name="content_options">
+                            <field name="include_url"/>
+                            <field name="include_signature_info"/>
+                            <field name="include_mh_response"/>
+                            <field name="data_format"/>
+                        </group>
+                        <group name="data_limits">
+                            <field name="max_data_length"/>
+                        </group>
+                    </group>
+                    
+                    <group string="URLs">
+                        <field name="base_url" placeholder="https://dte.gob.sv/verify"/>
+                        <field name="verification_url" placeholder="https://dte.gob.sv/api/verify"/>
+                    </group>
+                    
+                    <group string="Configuración Avanzada">
+                        <field name="custom_data_template" widget="code_editor" options="{'language': 'python'}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción para generadores QR -->
+    <record id="action_qr_code_generator" model="ir.actions.act_window">
+        <field name="name">Generadores de Código QR</field>
+        <field name="res_model">l10n_sv.qr.code.generator</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear un generador de código QR
+            </p>
+            <p>
+                Los generadores QR definen cómo se crean los códigos QR para los documentos DTE.
+                Puede configurar múltiples generadores con diferentes parámetros según sus necesidades.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vista búsqueda -->
+    <record id="view_qr_code_generator_search" model="ir.ui.view">
+        <field name="name">l10n_sv.qr.code.generator.search</field>
+        <field name="model">l10n_sv.qr.code.generator</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter string="Activos" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactivos" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="1" string="Agrupar por">
+                    <filter string="Compañía" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                    <filter string="Formato de Datos" name="group_data_format" context="{'group_by': 'data_format'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vista de formulario básica para posiciones fiscales -->
+    <record id="view_account_position_form_sv" model="ir.ui.view">
+        <field name="name">account.fiscal.position.form.sv</field>
+        <field name="model">account.fiscal.position</field>
+        <field name="priority">15</field>
+        <field name="arch" type="xml">
+            <form string="Posición Fiscal">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="country_id"/>
+                            <field name="auto_apply"/>
+                        </group>
+                        <group>
+                            <field name="l10n_sv_document_type_id"/>
+                            <field name="l10n_sv_auto_apply"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Configuración El Salvador">
+                        <group>
+                            <field name="l10n_sv_is_final_consumer"/>
+                            <field name="l10n_sv_is_taxpayer"/>
+                            <field name="l10n_sv_is_export"/>
+                            <field name="l10n_sv_is_excluded_subject"/>
+                        </group>
+                        <group>
+                            <field name="l10n_sv_is_withholding_agent"/>
+                            <field name="l10n_sv_withholding_type" invisible="not l10n_sv_is_withholding_agent"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Mapeo de Impuestos" name="tax_mapping">
+                            <field name="tax_ids">
+                                <list string="Mapeos de Impuestos">
+                                    <field name="tax_src_id" string="Impuesto Origen"/>
+                                    <field name="tax_dest_id" string="Impuesto Destino"/>
+                                </list>
+                                <form string="Mapeo de Impuesto">
+                                    <group>
+                                        <field name="tax_src_id" string="Impuesto Origen" 
+                                               help="Impuesto que se reemplazará"/>
+                                        <field name="tax_dest_id" string="Impuesto Destino" 
+                                               help="Impuesto que se aplicará en su lugar"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Mapeo de Cuentas" name="account_mapping">
+                            <field name="account_ids">
+                                <list string="Mapeos de Cuentas">
+                                    <field name="account_src_id" string="Cuenta Origen"/>
+                                    <field name="account_dest_id" string="Cuenta Destino"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    
+                    <field name="note" placeholder="Notas legales..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de lista básica -->
+    <record id="view_account_position_tree_sv" model="ir.ui.view">
+        <field name="name">account.fiscal.position.tree.sv</field>
+        <field name="model">account.fiscal.position</field>
+        <field name="arch" type="xml">
+            <list string="Posiciones Fiscales">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code" optional="show"/>
+                <field name="country_id" optional="show"/>
+                <field name="l10n_sv_document_type_id" optional="hide"/>
+                <field name="l10n_sv_is_final_consumer" optional="hide"/>
+                <field name="l10n_sv_is_taxpayer" optional="hide"/>
+                <field name="l10n_sv_is_export" optional="hide"/>
+                <field name="l10n_sv_is_excluded_subject" optional="hide"/>
+                <field name="l10n_sv_is_withholding_agent" optional="hide"/>
+                <field name="auto_apply" optional="show"/>
+                <field name="active" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda básica -->
+    <record id="view_account_position_search_sv" model="ir.ui.view">
+        <field name="name">account.fiscal.position.search.sv</field>
+        <field name="model">account.fiscal.position</field>
+        <field name="arch" type="xml">
+            <search string="Posiciones Fiscales">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="country_id"/>
+                <separator/>
+                <filter string="El Salvador" name="el_salvador" domain="[('country_id', '=', 209)]"/>
+                <filter string="Consumidor Final" name="final_consumer" domain="[('l10n_sv_is_final_consumer', '=', True)]"/>
+                <filter string="Contribuyente" name="taxpayer" domain="[('l10n_sv_is_taxpayer', '=', True)]"/>
+                <filter string="Exportación" name="export" domain="[('l10n_sv_is_export', '=', True)]"/>
+                <filter string="Sujeto Excluido" name="excluded" domain="[('l10n_sv_is_excluded_subject', '=', True)]"/>
+                <filter string="Agente Retenedor" name="withholding" domain="[('l10n_sv_is_withholding_agent', '=', True)]"/>
+                <filter string="Aplicación Automática" name="auto_apply" domain="[('l10n_sv_auto_apply', '=', True)]"/>
+                <separator/>
+                <filter string="Activo" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archivado" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="País" name="group_country" context="{'group_by': 'country_id'}"/>
+                    <filter string="Documento DTE" name="group_document_type" context="{'group_by': 'l10n_sv_document_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

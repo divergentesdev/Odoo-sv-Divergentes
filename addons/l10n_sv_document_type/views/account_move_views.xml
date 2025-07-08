@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Extiende la vista de formulario de facturas para agregar campos DTE -->
+        <record id="view_move_form_inherit_document_type" model="ir.ui.view">
+            <field name="name">account.move.form.inherit.document.type</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="l10n_sv_edi_base.view_move_form_inherit_edi"/>
+            <field name="arch" type="xml">
+                
+                <!-- Agregar campos DTE al grupo principal -->
+                <field name="l10n_sv_edi_tipo_documento" position="before">
+                    <field name="l10n_sv_document_type_id" 
+                           required="l10n_sv_edi_applicable"
+                           options="{'no_create': True}"/>
+                </field>
+                
+                <!-- Agregar campos de establecimiento -->
+                <field name="l10n_sv_edi_ambiente" position="after">
+                    <field name="l10n_sv_establishment_id" 
+                           required="l10n_sv_edi_applicable"
+                           invisible="not l10n_sv_edi_applicable"
+                           options="{'no_create': True}"/>
+                    <field name="l10n_sv_point_of_sale_id"
+                           invisible="not l10n_sv_edi_applicable"
+                           options="{'no_create': True}"/>
+                </field>
+                
+                <!-- Agregar página de información DTE detallada -->
+                <page name="edi_info" position="after">
+                    <page string="Información DTE" name="dte_details"
+                          invisible="not l10n_sv_edi_applicable">
+                        
+                        <group string="Tipo de Operación">
+                            <group>
+                                <field name="l10n_sv_operation_type"/>
+                                <field name="l10n_sv_payment_condition"/>
+                            </group>
+                            <group>
+                                <!-- Campos para exportación -->
+                                <field name="l10n_sv_incoterm_code" readonly="1"
+                                       invisible="not invoice_incoterm_id"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Términos de Pago" invisible="not invoice_payment_term_id">
+                            <group>
+                                <field name="l10n_sv_payment_term_code" readonly="1"/>
+                                <field name="l10n_sv_payment_term_period" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Totales DTE">
+                            <group>
+                                <field name="l10n_sv_total_no_gravado" readonly="1"/>
+                                <field name="l10n_sv_total_exento" readonly="1"/>
+                                <field name="l10n_sv_total_gravado" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="l10n_sv_retention_amount"/>
+                                <field name="l10n_sv_retention_rate"/>
+                            </group>
+                        </group>
+                        
+                    </page>
+                </page>
+                
+            </field>
+        </record>
+        
+        <!-- Extiende la vista de líneas de factura -->
+        <record id="view_move_line_form_inherit_document_type" model="ir.ui.view">
+            <field name="name">account.move.line.form.inherit.document.type</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="arch" type="xml">
+                <field name="tax_ids" position="after">
+                    <field name="l10n_sv_uom_code" readonly="1"
+                           invisible="not move_id.l10n_sv_edi_applicable"/>
+                    <field name="l10n_sv_item_type"
+                           invisible="not move_id.l10n_sv_edi_applicable"/>
+                    <field name="l10n_sv_tributo_codigo" readonly="1"
+                           invisible="not move_id.l10n_sv_edi_applicable"/>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Extiende la vista de árbol de líneas en factura -->
+        <record id="view_move_line_tree_inherit_document_type" model="ir.ui.view">
+            <field name="name">account.move.line.tree.inherit.document.type</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="after">
+                    <field name="l10n_sv_uom_code" optional="hide"/>
+                    <field name="l10n_sv_item_type" optional="hide"/>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Vista de kanban para facturas con información DTE -->
+        <record id="view_move_kanban_inherit_document_type" model="ir.ui.view">
+            <field name="name">account.move.kanban.inherit.document.type</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_move_kanban"/>
+            <field name="arch" type="xml">
+                <!-- Agregar campos necesarios para la vista kanban -->
+                <field name="currency_id" position="after">
+                    <field name="l10n_sv_edi_applicable"/>
+                    <field name="l10n_sv_edi_tipo_documento"/>
+                    <field name="l10n_sv_edi_estado"/>
+                    <field name="l10n_sv_document_type_id"/>
+                </field>
+                
+                <!-- Agregar información DTE después del último div row -->
+                <xpath expr="//div[hasclass('row')][last()]" position="after">
+                    <div class="row mt-2" t-if="record.l10n_sv_edi_applicable.raw_value">
+                        <div class="col-12">
+                            <span class="badge rounded-pill text-bg-info" t-if="record.l10n_sv_document_type_id.raw_value">
+                                <i class="fa fa-file-text-o"/> DTE: <field name="l10n_sv_edi_tipo_documento"/>
+                            </span>
+                            <span class="badge rounded-pill text-bg-warning ms-1" t-if="record.l10n_sv_edi_estado.raw_value == 'generado'">
+                                <i class="fa fa-clock-o"/> Pendiente envío
+                            </span>
+                            <span class="badge rounded-pill text-bg-success ms-1" t-if="record.l10n_sv_edi_estado.raw_value == 'aceptado'">
+                                <i class="fa fa-check"/> Aceptado MH
+                            </span>
+                            <span class="badge rounded-pill text-bg-danger ms-1" t-if="record.l10n_sv_edi_estado.raw_value == 'rechazado'">
+                                <i class="fa fa-times"/> Rechazado
+                            </span>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Búsqueda extendida para facturas con campos DTE -->
+        <record id="view_move_search_inherit_document_type" model="ir.ui.view">
+            <field name="name">account.move.search.inherit.document.type</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="l10n_sv_document_type_id"/>
+                    <field name="l10n_sv_establishment_id"/>
+                </field>
+                
+                <filter name="late" position="after">
+                    <separator/>
+                    <filter string="Con DTE" name="with_dte" domain="[('l10n_sv_edi_tipo_documento', '!=', False)]"/>
+                    <filter string="Facturas DTE" name="dte_invoices" domain="[('l10n_sv_edi_tipo_documento', 'in', ['01', '03'])]"/>
+                    <filter string="Exportación" name="dte_export" domain="[('l10n_sv_edi_tipo_documento', '=', '11')]"/>
+                    <filter string="Notas de Crédito" name="dte_credit" domain="[('l10n_sv_edi_tipo_documento', '=', '05')]"/>
+                </filter>
+                
+                <filter name="groupy_by_journal" position="after">
+                    <filter string="Tipo DTE" name="group_dte_type" context="{'group_by': 'l10n_sv_document_type_id'}"/>
+                    <filter string="Establecimiento" name="group_establishment" context="{'group_by': 'l10n_sv_establishment_id'}"/>
+                </filter>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

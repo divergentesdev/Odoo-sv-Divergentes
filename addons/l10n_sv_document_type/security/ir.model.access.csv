@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_document_type_user,l10n_sv.document.type user,model_l10n_sv_document_type,l10n_sv_edi_base.group_l10n_sv_edi_user,1,0,0,0
+access_document_type_manager,l10n_sv.document.type manager,model_l10n_sv_document_type,l10n_sv_edi_base.group_l10n_sv_edi_manager,1,1,1,1
+access_document_type_category_user,l10n_sv.document.type.category user,model_l10n_sv_document_type_category,l10n_sv_edi_base.group_l10n_sv_edi_user,1,0,0,0
+access_document_type_category_manager,l10n_sv.document.type.category manager,model_l10n_sv_document_type_category,l10n_sv_edi_base.group_l10n_sv_edi_manager,1,1,1,1
+access_establishment_user,l10n_sv.establishment user,model_l10n_sv_establishment,l10n_sv_edi_base.group_l10n_sv_edi_user,1,0,0,0
+access_establishment_manager,l10n_sv.establishment manager,model_l10n_sv_establishment,l10n_sv_edi_base.group_l10n_sv_edi_manager,1,1,1,1
+access_point_of_sale_user,l10n_sv.point.of.sale user,model_l10n_sv_point_of_sale,l10n_sv_edi_base.group_l10n_sv_edi_user,1,0,0,0
+access_point_of_sale_manager,l10n_sv.point.of.sale manager,model_l10n_sv_point_of_sale,l10n_sv_edi_base.group_l10n_sv_edi_manager,1,1,1,1
+access_establishment_sequence_user,l10n_sv.establishment.sequence user,model_l10n_sv_establishment_sequence,l10n_sv_edi_base.group_l10n_sv_edi_user,1,0,0,0
+access_establishment_sequence_manager,l10n_sv.establishment.sequence manager,model_l10n_sv_establishment_sequence,l10n_sv_edi_base.group_l10n_sv_edi_manager,1,1,1,1

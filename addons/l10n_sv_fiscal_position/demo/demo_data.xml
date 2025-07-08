@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Partners de demostración con diferentes clasificaciones -->
+        
+        <!-- Consumidor Final -->
+        <record id="demo_partner_consumidor_final" model="res.partner">
+            <field name="name">Juan Pérez</field>
+            <field name="is_company">False</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="vat">12345678-9</field>
+            <field name="l10n_latam_identification_type_id" ref="l10n_latam_base.it_dui"/>
+            <field name="email">juan.perez@email.com</field>
+            <field name="phone">+503 2555-1234</field>
+        </record>
+
+        <!-- Contribuyente con NIT -->
+        <record id="demo_partner_contribuyente" model="res.partner">
+            <field name="name">Empresa ABC S.A. de C.V.</field>
+            <field name="is_company">True</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="vat">0614-010101-001-4</field>
+            <field name="l10n_latam_identification_type_id" ref="l10n_latam_base.it_nit"/>
+            <field name="email">facturacion@empresaabc.com</field>
+            <field name="phone">+503 2222-5678</field>
+        </record>
+
+        <!-- Cliente de Exportación -->
+        <record id="demo_partner_exportacion" model="res.partner">
+            <field name="name">Global Trading Inc.</field>
+            <field name="is_company">True</field>
+            <field name="country_id" ref="base.us"/>
+            <field name="vat">US123456789</field>
+            <field name="l10n_sv_is_export_customer">True</field>
+            <field name="email">orders@globaltrading.com</field>
+            <field name="phone">+1 555-987-6543</field>
+        </record>
+
+        <!-- Sujeto Excluido -->
+        <record id="demo_partner_sujeto_excluido" model="res.partner">
+            <field name="name">Cooperativa San Salvador</field>
+            <field name="is_company">True</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="vat">0614-020202-002-5</field>
+            <field name="l10n_latam_identification_type_id" ref="l10n_latam_base.it_nit"/>
+            <field name="l10n_sv_is_excluded_subject">True</field>
+            <field name="email">info@cooperativasansalvador.org</field>
+            <field name="phone">+503 2333-4567</field>
+        </record>
+
+        <!-- Agente Retenedor -->
+        <record id="demo_partner_agente_retenedor" model="res.partner">
+            <field name="name">Gobierno de El Salvador</field>
+            <field name="is_company">True</field>
+            <field name="supplier_rank">1</field>
+            <field name="country_id" ref="base.sv"/>
+            <field name="vat">0000-000000-000-0</field>
+            <field name="l10n_latam_identification_type_id" ref="l10n_latam_base.it_nit"/>
+            <field name="l10n_sv_is_withholding_agent">True</field>
+            <field name="l10n_sv_withholding_type">both</field>
+            <field name="email">compras@gob.sv</field>
+            <field name="phone">+503 2200-0000</field>
+        </record>
+
+        <!-- Productos de demostración -->
+        <record id="demo_product_service" model="product.product">
+            <field name="name">Servicio de Consultoría</field>
+            <field name="type">service</field>
+            <field name="list_price">100.00</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+        </record>
+
+        <record id="demo_product_exportacion" model="product.product">
+            <field name="name">Producto para Exportación</field>
+            <field name="type">product</field>
+            <field name="list_price">50.00</field>
+            <field name="categ_id" ref="product.product_category_1"/>
+        </record>
+
+        <!-- Facturas de demostración -->
+        
+        <!-- Factura a Consumidor Final -->
+        <record id="demo_invoice_consumidor_final" model="account.move">
+            <field name="move_type">out_invoice</field>
+            <field name="partner_id" ref="demo_partner_consumidor_final"/>
+            <field name="invoice_date" eval="(DateTime.today() - timedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="invoice_line_ids" eval="[(0, 0, {
+                'product_id': ref('demo_product_service'),
+                'quantity': 1,
+                'price_unit': 100.0,
+                'name': 'Servicio de Consultoría',
+            })]"/>
+        </record>
+
+        <!-- CCF a Contribuyente -->
+        <record id="demo_invoice_contribuyente" model="account.move">
+            <field name="move_type">out_invoice</field>
+            <field name="partner_id" ref="demo_partner_contribuyente"/>
+            <field name="invoice_date" eval="(DateTime.today() - timedelta(days=3)).strftime('%Y-%m-%d')"/>
+            <field name="invoice_line_ids" eval="[(0, 0, {
+                'product_id': ref('demo_product_service'),
+                'quantity': 2,
+                'price_unit': 100.0,
+                'name': 'Servicios Profesionales',
+            })]"/>
+        </record>
+
+        <!-- Factura de Exportación -->
+        <record id="demo_invoice_exportacion" model="account.move">
+            <field name="move_type">out_invoice</field>
+            <field name="partner_id" ref="demo_partner_exportacion"/>
+            <field name="invoice_date" eval="(DateTime.today() - timedelta(days=1)).strftime('%Y-%m-%d')"/>
+            <field name="invoice_line_ids" eval="[(0, 0, {
+                'product_id': ref('demo_product_exportacion'),
+                'quantity': 100,
+                'price_unit': 50.0,
+                'name': 'Productos para Exportación',
+            })]"/>
+        </record>
+
+        <!-- Factura a Sujeto Excluido -->
+        <record id="demo_invoice_sujeto_excluido" model="account.move">
+            <field name="move_type">out_invoice</field>
+            <field name="partner_id" ref="demo_partner_sujeto_excluido"/>
+            <field name="invoice_date" eval="DateTime.today().strftime('%Y-%m-%d')"/>
+            <field name="invoice_line_ids" eval="[(0, 0, {
+                'product_id': ref('demo_product_service'),
+                'quantity': 1,
+                'price_unit': 150.0,
+                'name': 'Servicios Cooperativa',
+            })]"/>
+        </record>
+
+        <!-- Configurar posiciones fiscales automáticamente -->
+        <function model="res.partner" name="search">
+            <value eval="[('id', 'in', [ref('demo_partner_consumidor_final'), ref('demo_partner_contribuyente'), ref('demo_partner_exportacion'), ref('demo_partner_sujeto_excluido'), ref('demo_partner_agente_retenedor')])]"/>
+            <function model="res.partner" name="write">
+                <value eval="{}"/>
+            </function>
+        </function>
+
+    </data>
+</odoo>

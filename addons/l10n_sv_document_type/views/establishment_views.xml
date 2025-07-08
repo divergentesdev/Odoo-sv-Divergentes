@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vista de formulario para establecimientos -->
+        <record id="view_establishment_form" model="ir.ui.view">
+            <field name="name">l10n_sv.establishment.form</field>
+            <field name="model">l10n_sv.establishment</field>
+            <field name="arch" type="xml">
+                <form string="Establecimiento">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_show_establishment_info" class="oe_stat_button" icon="fa-building" type="object">
+                                <field string="Código" name="code" widget="statinfo"/>
+                            </button>
+                            <button name="action_view_points_of_sale" class="oe_stat_button" icon="fa-map-marker" type="object">
+                                <field string="Puntos de Venta" name="point_of_sale_ids" widget="statinfo"/>
+                            </button>
+                        </div>
+                        
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nombre del Establecimiento"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="company_id"/>
+                                <field name="is_main"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Dirección" name="address">
+                                <group>
+                                    <group>
+                                        <field name="street" placeholder="Dirección completa"/>
+                                        <field name="city_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="state_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="country_id" options="{'no_open': True, 'no_create': True}"/>
+                                    </group>
+                                    <group>
+                                        <field name="departamento_code" readonly="1"/>
+                                        <field name="municipio_code" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Puntos de Venta" name="pos">
+                                <field name="point_of_sale_ids">
+                                    <list editable="bottom">
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                        <field name="active"/>
+                                    </list>
+                                </field>
+                            </page>
+                            
+                            <page string="Secuencias" name="sequences">
+                                <field name="sequence_config_ids">
+                                    <list editable="bottom">
+                                        <field name="document_type_id"/>
+                                        <field name="sequence_id"/>
+                                        <field name="last_number"/>
+                                        <field name="active"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vista de árbol para establecimientos -->
+        <record id="view_establishment_tree" model="ir.ui.view">
+            <field name="name">l10n_sv.establishment.tree</field>
+            <field name="model">l10n_sv.establishment</field>
+            <field name="arch" type="xml">
+                <list string="Establecimientos" decoration-info="is_main">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="city_id"/>
+                    <field name="state_id"/>
+                    <field name="is_main"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+        
+        <!-- Vista de búsqueda para establecimientos -->
+        <record id="view_establishment_search" model="ir.ui.view">
+            <field name="name">l10n_sv.establishment.search</field>
+            <field name="model">l10n_sv.establishment</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Establecimientos">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="city_id"/>
+                    <field name="state_id"/>
+                    <filter string="Activos" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Principal" name="main" domain="[('is_main', '=', True)]"/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Compañía" name="group_company" context="{'group_by': 'company_id'}"/>
+                        <filter string="Departamento" name="group_state" context="{'group_by': 'state_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- Acción para establecimientos -->
+        <record id="action_establishment" model="ir.actions.act_window">
+            <field name="name">Establecimientos</field>
+            <field name="res_model">l10n_sv.establishment</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    ¡Crea tu primer establecimiento!
+                </p>
+                <p>
+                    Los establecimientos representan las ubicaciones físicas desde donde
+                    se emiten los documentos tributarios electrónicos.
+                </p>
+            </field>
+        </record>
+        
+        <!-- Vista de formulario para puntos de venta -->
+        <record id="view_point_of_sale_form" model="ir.ui.view">
+            <field name="name">l10n_sv.point.of.sale.form</field>
+            <field name="model">l10n_sv.point.of.sale</field>
+            <field name="arch" type="xml">
+                <form string="Punto de Venta">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="establishment_id"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="company_id" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Usuarios" name="users">
+                                <field name="user_ids">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="login"/>
+                                        <field name="active"/>
+                                    </list>
+                                </field>
+                            </page>
+                            
+                            <page string="Diarios" name="journals">
+                                <field name="journal_ids">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="type"/>
+                                        <field name="company_id"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vista de árbol para puntos de venta -->
+        <record id="view_point_of_sale_tree" model="ir.ui.view">
+            <field name="name">l10n_sv.point.of.sale.tree</field>
+            <field name="model">l10n_sv.point.of.sale</field>
+            <field name="arch" type="xml">
+                <list string="Puntos de Venta">
+                    <field name="establishment_id"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+        
+        <!-- Acción para puntos de venta -->
+        <record id="action_point_of_sale" model="ir.actions.act_window">
+            <field name="name">Puntos de Venta</field>
+            <field name="res_model">l10n_sv.point.of.sale</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    ¡Configura tus puntos de venta!
+                </p>
+                <p>
+                    Los puntos de venta permiten organizar la emisión de documentos
+                    dentro de cada establecimiento.
+                </p>
+            </field>
+        </record>
+        
+        <!-- Vista de formulario para configuración de secuencias -->
+        <record id="view_establishment_sequence_form" model="ir.ui.view">
+            <field name="name">l10n_sv.establishment.sequence.form</field>
+            <field name="model">l10n_sv.establishment.sequence</field>
+            <field name="arch" type="xml">
+                <form string="Configuración de Secuencia">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="establishment_id"/>
+                                <field name="document_type_id"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="sequence_id"/>
+                                <field name="last_number"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vista de árbol para configuración de secuencias -->
+        <record id="view_establishment_sequence_tree" model="ir.ui.view">
+            <field name="name">l10n_sv.establishment.sequence.tree</field>
+            <field name="model">l10n_sv.establishment.sequence</field>
+            <field name="arch" type="xml">
+                <list string="Configuración de Secuencias">
+                    <field name="establishment_id"/>
+                    <field name="document_type_id"/>
+                    <field name="sequence_id"/>
+                    <field name="last_number"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+        
+        <!-- Acción para configuración de secuencias -->
+        <record id="action_establishment_sequence" model="ir.actions.act_window">
+            <field name="name">Secuencias por Establecimiento</field>
+            <field name="res_model">l10n_sv.establishment.sequence</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Secuencia para Reportes de Contingencia -->
+        <record id="sequence_contingency" model="ir.sequence">
+            <field name="name">Reporte de Contingencia</field>
+            <field name="code">l10n_sv.contingency</field>
+            <field name="prefix">CONT-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+            <field name="implementation">standard</field>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Secuencia para Anulaciones DTE -->
+        <record id="sequence_cancellation" model="ir.sequence">
+            <field name="name">Anulación DTE</field>
+            <field name="code">l10n_sv.cancellation</field>
+            <field name="prefix">ANUL-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+            <field name="implementation">standard</field>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,273 @@
+/* Estilos para reportes DTE El Salvador */
+
+.dte-report-container {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #333;
+}
+
+.dte-header {
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.dte-logo {
+    max-height: 80px;
+    max-width: 200px;
+}
+
+.dte-company-info {
+    text-align: right;
+}
+
+.dte-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.dte-document-info {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.dte-parties {
+    display: table;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.dte-emisor, .dte-receptor {
+    display: table-cell;
+    width: 48%;
+    vertical-align: top;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.dte-emisor {
+    margin-right: 4%;
+}
+
+.dte-lines-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+
+.dte-lines-table th,
+.dte-lines-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.dte-lines-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.dte-lines-table .text-right {
+    text-align: right;
+}
+
+.dte-lines-table .text-center {
+    text-align: center;
+}
+
+.dte-totals {
+    float: right;
+    width: 40%;
+    margin-top: 20px;
+}
+
+.dte-totals table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dte-totals td {
+    padding: 5px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.dte-totals .total-final {
+    font-weight: bold;
+    font-size: 14px;
+    border-top: 2px solid #333;
+    background-color: #f8f9fa;
+}
+
+.dte-footer {
+    clear: both;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+}
+
+.dte-qr-section {
+    float: right;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.dte-qr-code {
+    max-width: 120px;
+    max-height: 120px;
+}
+
+.dte-signature-info {
+    background-color: #e8f5e8;
+    border: 1px solid #4caf50;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 15px 0;
+}
+
+.dte-mh-info {
+    background-color: #e3f2fd;
+    border: 1px solid #2196f3;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 15px 0;
+}
+
+.dte-status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.dte-status-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.dte-status-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.dte-status-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.dte-status-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.dte-watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 72px;
+    font-weight: bold;
+    opacity: 0.15;
+    z-index: -1;
+    color: #999;
+}
+
+.dte-barcode {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.dte-barcode img {
+    max-height: 60px;
+}
+
+/* Estilos para impresión */
+@media print {
+    .dte-report-container {
+        font-size: 11px;
+    }
+    
+    .dte-header {
+        break-inside: avoid;
+    }
+    
+    .dte-lines-table {
+        page-break-inside: avoid;
+    }
+    
+    .dte-footer {
+        break-inside: avoid;
+    }
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .dte-parties {
+        display: block;
+    }
+    
+    .dte-emisor, .dte-receptor {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .dte-totals {
+        float: none;
+        width: 100%;
+    }
+    
+    .dte-qr-section {
+        float: none;
+        text-align: center;
+    }
+}
+
+/* Clase específica para documentos especiales */
+.dte-export {
+    border-left: 5px solid #ff9800;
+}
+
+.dte-credit-note {
+    border-left: 5px solid #f44336;
+}
+
+.dte-debit-note {
+    border-left: 5px solid #9c27b0;
+}
+
+.dte-retention {
+    border-left: 5px solid #607d8b;
+}
+
+/* Estilos para información adicional */
+.dte-additional-info {
+    background-color: #f9f9f9;
+    border-left: 3px solid #007bff;
+    padding: 10px;
+    margin: 15px 0;
+    font-size: 11px;
+}
+
+.dte-legal-text {
+    font-size: 9px;
+    color: #666;
+    text-align: justify;
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}

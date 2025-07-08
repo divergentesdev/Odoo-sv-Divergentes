@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menú principal EDI -->
+    <menuitem id="menu_l10n_sv_edi_json_root"
+              name="JSON DTE"
+              parent="l10n_sv_edi_base.menu_l10n_sv_edi_root"
+              sequence="20"/>
+
+    <!-- Submenú: Generadores JSON -->
+    <menuitem id="menu_l10n_sv_json_generators"
+              name="Generadores JSON"
+              parent="menu_l10n_sv_edi_json_root"
+              action="action_json_generator"
+              sequence="10"/>
+
+    <!-- Submenú: Contingencias -->
+    <menuitem id="menu_l10n_sv_contingencies"
+              name="Contingencias"
+              parent="menu_l10n_sv_edi_json_root"
+              action="action_contingency"
+              sequence="20"/>
+
+    <!-- Submenú: Anulaciones -->
+    <menuitem id="menu_l10n_sv_cancellations"
+              name="Anulaciones"
+              parent="menu_l10n_sv_edi_json_root"
+              action="action_cancellation"
+              sequence="30"/>
+
+    <!-- Submenú: Configuración JSON -->
+    <menuitem id="menu_l10n_sv_json_config"
+              name="Configuración"
+              parent="menu_l10n_sv_edi_json_root"
+              sequence="90"/>
+
+</odoo>

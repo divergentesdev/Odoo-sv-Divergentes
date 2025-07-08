@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>El Salvador - Tipos de Documentos DTE</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { background: #28a745; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; }
+        .feature { margin: 15px 0; padding: 10px; background: #f8f9fa; border-left: 4px solid #28a745; }
+        .warning { background: #fff3cd; border-left-color: #ffc107; }
+        .catalog { background: #e7f3ff; border-left-color: #0066cc; }
+        ul { margin: 10px 0 10px 30px; }
+        .code { background: #f4f4f4; padding: 2px 4px; border-radius: 3px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📄 El Salvador - Tipos de Documentos DTE</h1>
+        <p>Catálogo completo de documentos tributarios electrónicos</p>
+    </div>
+    
+    <div class="content">
+        <div class="feature">
+            <h3>🎯 Funcionalidades Principales</h3>
+            <ul>
+                <li><strong>Catálogo CAT_002 Completo:</strong> Todos los tipos de documentos DTE del MH</li>
+                <li><strong>Secuencias Automáticas:</strong> Numeración automática por establecimiento y tipo</li>
+                <li><strong>Validaciones Inteligentes:</strong> Reglas específicas según tipo de documento</li>
+                <li><strong>Integración con Catálogos:</strong> Uso de UOM, Payment Terms, Incoterms existentes</li>
+                <li><strong>Gestión de Establecimientos:</strong> Puntos de emisión y control de secuencias</li>
+            </ul>
+        </div>
+        
+        <div class="catalog">
+            <h3>📋 Tipos de Documentos Implementados</h3>
+            <ul>
+                <li><span class="code">01</span> - <strong>Factura:</strong> Para consumidor final</li>
+                <li><span class="code">03</span> - <strong>Comprobante de Crédito Fiscal:</strong> Para contribuyentes con NIT</li>
+                <li><span class="code">04</span> - <strong>Nota de Remisión:</strong> Para traslado de mercancías</li>
+                <li><span class="code">05</span> - <strong>Nota de Crédito:</strong> Devoluciones y descuentos</li>
+                <li><span class="code">06</span> - <strong>Nota de Débito:</strong> Cargos adicionales</li>
+                <li><span class="code">07</span> - <strong>Comprobante de Retención:</strong> Para agentes de retención</li>
+                <li><span class="code">08</span> - <strong>Comprobante de Liquidación:</strong> Compras a pequeños contribuyentes</li>
+                <li><span class="code">09</span> - <strong>Documento Contable:</strong> Ajustes contables</li>
+                <li><span class="code">11</span> - <strong>Factura de Exportación:</strong> Operaciones internacionales</li>
+                <li><span class="code">14</span> - <strong>Factura de Sujeto Excluido:</strong> Clientes exentos de IVA</li>
+                <li><span class="code">15</span> - <strong>Comprobante de Donación:</strong> Para donaciones</li>
+            </ul>
+        </div>
+        
+        <div class="feature">
+            <h3>🏢 Gestión de Establecimientos</h3>
+            <ul>
+                <li><strong>Establecimientos:</strong> Ubicaciones físicas de emisión</li>
+                <li><strong>Puntos de Venta:</strong> Organización interna por establecimiento</li>
+                <li><strong>Secuencias por Ubicación:</strong> Numeración independiente por establecimiento</li>
+                <li><strong>Códigos Geográficos:</strong> Integración con catálogo de municipios</li>
+            </ul>
+        </div>
+        
+        <div class="feature">
+            <h3>🔗 Integración con Catálogos MH</h3>
+            <ul>
+                <li><strong>l10n_sv_uom:</strong> Códigos de unidades de medida (CAT_014)</li>
+                <li><strong>l10n_sv_payment:</strong> Términos de pago y formas de pago (CAT_018)</li>
+                <li><strong>l10n_sv_incoterms:</strong> Códigos DGII para exportaciones</li>
+                <li><strong>l10n_latam_sv:</strong> Tipos de identificación (DUI, NIT, etc.)</li>
+                <li><strong>l10n_sv_city:</strong> Códigos de municipios y departamentos</li>
+                <li><strong>l10n_sv_cta:</strong> Códigos de impuestos y tributación</li>
+            </ul>
+        </div>
+        
+        <div class="feature">
+            <h3>⚡ Automatización Inteligente</h3>
+            <ul>
+                <li><strong>Detección Automática:</strong> Selección de tipo DTE según cliente y operación</li>
+                <li><strong>Validaciones por Tipo:</strong> Reglas específicas según documento</li>
+                <li><strong>Cálculo de Totales:</strong> Clasificación automática de montos gravados/exentos</li>
+                <li><strong>Secuencias Inteligentes:</strong> Numeración automática con formato MH</li>
+            </ul>
+        </div>
+        
+        <div class="warning">
+            <h3>⚠️ Requisitos Previos</h3>
+            <ul>
+                <li>Módulo <strong>l10n_sv_edi_base</strong> instalado y configurado</li>
+                <li>Módulos de catálogos base (l10n_sv_cta, l10n_latam_sv, etc.)</li>
+                <li>Configuración de establecimiento principal</li>
+                <li>Datos fiscales de la empresa completos</li>
+            </ul>
+        </div>
+        
+        <div class="feature">
+            <h3>🚀 Próximos Pasos</h3>
+            <p>Este módulo prepara la base para:</p>
+            <ul>
+                <li><strong>l10n_sv_edi_json:</strong> Generación de JSON DTE</li>
+                <li><strong>l10n_sv_api_client:</strong> Comunicación con API del MH</li>
+                <li><strong>l10n_sv_digital_signature:</strong> Firma digital de documentos</li>
+                <li><strong>l10n_sv_reports:</strong> Reportes fiscales especializados</li>
+            </ul>
+        </div>
+        
+        <div class="feature">
+            <h3>📞 Soporte</h3>
+            <p>
+                Este módulo implementa las especificaciones oficiales del Ministerio de Hacienda
+                de El Salvador para documentos tributarios electrónicos según el catálogo CAT_002.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

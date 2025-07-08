@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Demo: Generador personalizado para testing -->
+        <record id="demo_json_generator_custom" model="l10n_sv.json.generator">
+            <field name="name">Demo - Generador JSON Personalizado</field>
+            <field name="document_type_id" ref="l10n_sv_document_type.document_type_01_factura"/>
+            <field name="active">True</field>
+            <field name="template">{
+    "identificacion": {
+        "version": 1,
+        "ambiente": "00",
+        "tipoDte": "01",
+        "numeroControl": "DTE-01-DEMO-000000000000001",
+        "codigoGeneracion": "DEMO-UUID-GENERACION",
+        "tipoModelo": 1,
+        "tipoOperacion": 1,
+        "fecEmi": "2024-01-01",
+        "horEmi": "10:00:00",
+        "tipoMoneda": "USD"
+    },
+    "emisor": {
+        "nit": "0000-000000-000-0",
+        "nrc": "000000-0",
+        "nombre": "EMPRESA DEMO FACTURACION ELECTRONICA",
+        "codActividad": "01111",
+        "descActividad": "COMERCIO AL POR MAYOR DE PRODUCTOS VARIOS",
+        "nombreComercial": "DEMO EDI SV",
+        "tipoEstablecimiento": "01",
+        "direccion": {
+            "departamento": "06",
+            "municipio": "14",
+            "complemento": "BOULEVARD DEMO #123, SAN SALVADOR"
+        },
+        "telefono": "2222-2222",
+        "correo": "demo@edi.sv"
+    },
+    "receptor": {
+        "tipoDocumento": "36",
+        "numDocumento": "0000-000000-000-0",
+        "nombre": "CLIENTE DEMO RECEPTOR",
+        "direccion": {
+            "departamento": "06",
+            "municipio": "14",
+            "complemento": "DIRECCION DEMO CLIENTE"
+        }
+    },
+    "cuerpoDocumento": [
+        {
+            "numItem": 1,
+            "tipoItem": 1,
+            "cantidad": 1.00,
+            "codigo": "PROD001",
+            "uniMedida": 99,
+            "descripcion": "PRODUCTO DEMO PARA TESTING",
+            "precioUni": 100.00,
+            "montoDescu": 0.00,
+            "ventaNoSuj": 0.00,
+            "ventaExenta": 0.00,
+            "ventaGravada": 100.00,
+            "tributos": ["20"]
+        }
+    ],
+    "resumen": {
+        "totalNoSuj": 0.00,
+        "totalExenta": 0.00,
+        "totalGravada": 100.00,
+        "subTotalVentas": 100.00,
+        "tributos": [
+            {
+                "codigo": "20",
+                "descripcion": "Impuesto al Valor Agregado 13%",
+                "valor": 13.00
+            }
+        ],
+        "subTotal": 100.00,
+        "montoTotalOperacion": 113.00,
+        "totalPagar": 113.00,
+        "totalLetras": "CIENTO TRECE 00/100 DÓLARES",
+        "condicionOperacion": 1,
+        "pagos": [
+            {
+                "codigo": "01",
+                "montoPago": 113.00,
+                "plazo": "01"
+            }
+        ]
+    }
+}</field>
+        </record>
+
+    </data>
+</odoo>

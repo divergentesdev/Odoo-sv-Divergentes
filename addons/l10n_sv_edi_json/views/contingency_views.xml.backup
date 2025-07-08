@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista de lista para Contingencias -->
+    <record id="view_contingency_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.contingency.tree</field>
+        <field name="model">l10n_sv.contingency</field>
+        <field name="arch" type="xml">
+            <list string="Reportes de Contingencia" decoration-success="state == 'accepted'" 
+                  decoration-danger="state == 'rejected'" decoration-warning="state == 'error'"
+                  decoration-info="state == 'sent'">
+                <field name="name"/>
+                <field name="tipo_contingencia"/>
+                <field name="fecha_inicio"/>
+                <field name="fecha_fin"/>
+                <field name="state" widget="badge" 
+                       decoration-success="state == 'accepted'"
+                       decoration-danger="state in ('rejected', 'error')"
+                       decoration-warning="state == 'pending'"
+                       decoration-info="state == 'sent'"/>
+                <field name="responsable_nombre"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para Contingencias -->
+    <record id="view_contingency_form" model="ir.ui.view">
+        <field name="name">l10n_sv.contingency.form</field>
+        <field name="model">l10n_sv.contingency</field>
+        <field name="arch" type="xml">
+            <form string="Reporte de Contingencia">
+                <header>
+                    <button name="action_generate_json" 
+                            string="Generar JSON" 
+                            type="object" 
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_send_to_mh" 
+                            string="Enviar al MH" 
+                            type="object" 
+                            class="btn-primary"
+                            invisible="state != 'pending'"/>
+                    <button name="action_view_json" 
+                            string="Ver JSON" 
+                            type="object" 
+                            class="btn-secondary"
+                            invisible="json_content == False"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,sent,accepted"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <h2>
+                            <field name="tipo_contingencia" placeholder="Seleccione tipo de contingencia"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group string="Identificación">
+                            <field name="codigo_generacion" readonly="1"/>
+                            <field name="fecha_inicio"/>
+                            <field name="fecha_fin"/>
+                            <field name="fecha_transmision" readonly="1"/>
+                        </group>
+                        <group string="Responsable">
+                            <field name="responsable_nombre"/>
+                            <field name="responsable_tipo_doc"/>
+                            <field name="responsable_numero_doc"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Motivo de Contingencia">
+                        <field name="motivo_contingencia" nolabel="1" placeholder="Describa detalladamente el motivo de la contingencia..."/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Documentos en Contingencia" name="documents">
+                            <field name="document_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="move_id" domain="[('l10n_sv_edi_codigo_generacion', '!=', False)]"/>
+                                    <field name="codigo_generacion"/>
+                                    <field name="tipo_documento"/>
+                                    <field name="numero_control"/>
+                                    <field name="fecha_emision"/>
+                                    <field name="observaciones"/>
+                                </list>
+                            </field>
+                        </page>
+                        
+                        <page string="JSON Generado" name="json" invisible="json_content == False">
+                            <field name="json_content" nolabel="1"/>
+                        </page>
+                        
+                        <page string="Respuesta MH" name="response" invisible="response_code == False">
+                            <group>
+                                <field name="response_code"/>
+                                <!-- <field name="api_log_id"/> -->
+                            </group>
+                            <group string="Mensaje de Respuesta">
+                                <field name="response_message" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para Contingencias -->
+    <record id="view_contingency_search" model="ir.ui.view">
+        <field name="name">l10n_sv.contingency.search</field>
+        <field name="model">l10n_sv.contingency</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Contingencias">
+                <field name="name"/>
+                <field name="responsable_nombre"/>
+                <field name="motivo_contingencia"/>
+                <filter string="Borradores" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Pendientes" name="pending" domain="[('state', '=', 'pending')]"/>
+                <filter string="Enviados" name="sent" domain="[('state', '=', 'sent')]"/>
+                <filter string="Aceptados" name="accepted" domain="[('state', '=', 'accepted')]"/>
+                <filter string="Rechazados" name="rejected" domain="[('state', '=', 'rejected')]"/>
+                <separator/>
+                <filter string="Falla Sistema" name="type_1" domain="[('tipo_contingencia', '=', '1')]"/>
+                <filter string="Falla Conectividad" name="type_2" domain="[('tipo_contingencia', '=', '2')]"/>
+                <filter string="Mantenimiento" name="type_3" domain="[('tipo_contingencia', '=', '3')]"/>
+                <filter string="Falla MH" name="type_4" domain="[('tipo_contingencia', '=', '4')]"/>
+                <filter string="Otras" name="type_5" domain="[('tipo_contingencia', '=', '5')]"/>
+                <separator/>
+                <filter string="Hoy" name="today" domain="[('fecha_inicio', '>=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+                <filter string="Esta Semana" name="this_week" domain="[('fecha_inicio', '>=', (context_today() + relativedelta(weeks=-1, weekday=0)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Este Mes" name="this_month" domain="[('fecha_inicio', '>=', datetime.datetime.combine(context_today().replace(day=1), datetime.time(0,0,0)))]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Tipo de Contingencia" name="group_type" context="{'group_by': 'tipo_contingencia'}"/>
+                    <filter string="Responsable" name="group_responsible" context="{'group_by': 'responsable_nombre'}"/>
+                    <filter string="Fecha" name="group_date" context="{'group_by': 'fecha_inicio:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción para Contingencias -->
+    <record id="action_contingency" model="ir.actions.act_window">
+        <field name="name">Reportes de Contingencia</field>
+        <field name="res_model">l10n_sv.contingency</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_contingency_search"/>
+        <field name="context">{'search_default_pending': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay reportes de contingencia
+            </p>
+            <p>
+                Los reportes de contingencia se utilizan para informar al MH sobre
+                eventos que impidieron la transmisión normal de documentos DTE.
+            </p>
+        </field>
+    </record>
+
+</odoo>

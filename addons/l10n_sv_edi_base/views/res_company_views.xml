@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Extiende la vista de formulario de compañía -->
+        <record id="view_company_form_inherit_edi" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.edi</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Facturación Electrónica" name="edi_config" 
+                          invisible="country_id != 209">
+                        <group>
+                            <group>
+                                <field name="l10n_sv_edi_enabled"/>
+                                <field name="l10n_sv_edi_configuration_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <button name="action_configure_edi" 
+                                        string="Configurar EDI" 
+                                        type="object"
+                                        class="oe_highlight"
+                                        invisible="l10n_sv_edi_enabled == False"/>
+                            </group>
+                        </group>
+                        
+                        <separator string="Datos del Emisor"/>
+                        <group>
+                            <group>
+                                <field name="l10n_sv_nit" string="NIT"/>
+                                <field name="l10n_sv_nrc" string="NRC"/>
+                                <field name="nit_9" string="NIT Homologado"/>
+                            </group>
+                            <group>
+                                <field name="l10n_sv_codigo_actividad"/>
+                                <field name="l10n_sv_desc_actividad"/>
+                            </group>
+                        </group>
+                        
+                        <separator string="Ubicación Geográfica"/>
+                        <group>
+                            <group>
+                                <field name="l10n_sv_departamento"/>
+                                <field name="l10n_sv_municipio"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Cliente API Demo para Certificación -->
+        <record id="demo_api_client_test" model="l10n_sv.api.client">
+            <field name="name">Cliente Demo - Certificación</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="environment">test</field>
+            <field name="certificate_id" ref="l10n_sv_edi_base.demo_certificate"/>
+            <field name="timeout">30</field>
+            <field name="max_retries">3</field>
+            <field name="retry_delay">5</field>
+            <field name="api_base_url">https://apitest.mh.gob.sv/v1</field>
+            <field name="api_token_url">https://apitestauth.mh.gob.sv/seguridad/auth</field>
+            <field name="api_send_url">https://apitest.mh.gob.sv/v1/dte</field>
+            <field name="api_query_url">https://apitest.mh.gob.sv/v1/dte/consulta</field>
+        </record>
+
+        <!-- Log de ejemplo de envío exitoso -->
+        <record id="demo_api_log_send_success" model="l10n_sv.api.log">
+            <field name="client_id" ref="demo_api_client_test"/>
+            <field name="request_type">send_dte</field>
+            <field name="numero_control">DTE-01-DEMO-000000000000001</field>
+            <field name="codigo_generacion">AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE</field>
+            <field name="request_date">2024-01-15 10:30:00</field>
+            <field name="response_date">2024-01-15 10:30:05</field>
+            <field name="status">success</field>
+            <field name="status_code">PROCESADO</field>
+            <field name="request_url">https://apitest.mh.gob.sv/v1/dte</field>
+            <field name="request_method">POST</field>
+            <field name="response_code">200</field>
+            <field name="request_data">{"version": 1, "ambiente": "00", "idEnvio": "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE", "documento": {...}}</field>
+            <field name="response_data">{"estado": "PROCESADO", "codigoMsg": "LOTE_PROCESADO", "descripcionMsg": "Lote procesado correctamente", "selloRecibido": "XXX..."}</field>
+        </record>
+
+        <!-- Log de ejemplo de consulta de estado -->
+        <record id="demo_api_log_query_success" model="l10n_sv.api.log">
+            <field name="client_id" ref="demo_api_client_test"/>
+            <field name="request_type">query_status</field>
+            <field name="numero_control">DTE-01-DEMO-000000000000001</field>
+            <field name="codigo_generacion">AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE</field>
+            <field name="request_date">2024-01-15 11:00:00</field>
+            <field name="response_date">2024-01-15 11:00:02</field>
+            <field name="status">success</field>
+            <field name="status_code">PROCESADO</field>
+            <field name="request_url">https://apitest.mh.gob.sv/v1/dte/consulta</field>
+            <field name="request_method">POST</field>
+            <field name="response_code">200</field>
+            <field name="request_data">{"codigoGeneracion": "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE", "numeroControl": "DTE-01-DEMO-000000000000001"}</field>
+            <field name="response_data">{"estado": "PROCESADO", "fechaHora": "2024-01-15T10:30:05", "observaciones": null}</field>
+        </record>
+
+        <!-- Log de ejemplo de error -->
+        <record id="demo_api_log_error" model="l10n_sv.api.log">
+            <field name="client_id" ref="demo_api_client_test"/>
+            <field name="request_type">send_dte</field>
+            <field name="numero_control">DTE-01-DEMO-000000000000002</field>
+            <field name="codigo_generacion">BBBBBBBB-CCCC-DDDD-EEEE-FFFFFFFFFFFF</field>
+            <field name="request_date">2024-01-15 12:00:00</field>
+            <field name="response_date">2024-01-15 12:00:03</field>
+            <field name="status">error</field>
+            <field name="status_code">ERROR</field>
+            <field name="request_url">https://apitest.mh.gob.sv/v1/dte</field>
+            <field name="request_method">POST</field>
+            <field name="response_code">400</field>
+            <field name="error_message">Error de validación: Campo obligatorio faltante en cuerpoDocumento</field>
+            <field name="request_data">{"version": 1, "ambiente": "00", "idEnvio": "BBBBBBBB-CCCC-DDDD-EEEE-FFFFFFFFFFFF", "documento": {...}}</field>
+            <field name="response_data">{"estado": "RECHAZADO", "codigoMsg": "VALIDACION_ERROR", "descripcionMsg": "Error de validación en documento"}</field>
+        </record>
+
+    </data>
+</odoo>

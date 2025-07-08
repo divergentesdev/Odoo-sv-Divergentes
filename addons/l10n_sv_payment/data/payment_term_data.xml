@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Asignar plazo = 01 (Días) -->
+    <record id="account.account_payment_term_immediate" model="account.payment.term">
+        <field name="plazo">01</field>
+        <field name="periodo">0</field>
+    </record>
+    
+    <record id="account.account_payment_term_15days" model="account.payment.term">
+        <field name="plazo">01</field>
+        <field name="periodo">15</field>
+    </record>
+    
+    <record id="account.account_payment_term_21days" model="account.payment.term">
+        <field name="plazo">01</field>
+        <field name="periodo">21</field>
+    </record>
+    
+    <record id="account.account_payment_term_30days" model="account.payment.term">
+        <field name="plazo">01</field>
+        <field name="periodo">30</field>
+    </record>
+    
+    <record id="account.account_payment_term_45days" model="account.payment.term">
+        <field name="plazo">01</field>
+        <field name="periodo">45</field>
+    </record>
+    
+    <!-- Asignar plazo = 02 (Meses) -->
+    <record id="account.account_payment_term_end_following_month" model="account.payment.term">
+        <field name="plazo">02</field>
+        <field name="periodo">1</field>
+    </record>
+    
+    <record id="account.account_payment_term_30_days_end_month_the_10" model="account.payment.term">
+        <field name="plazo">02</field>
+        <field name="periodo">1</field>
+    </record>
+    
+    <record id="account.account_payment_term_advance_60days" model="account.payment.term">
+        <field name="plazo">02</field>
+        <field name="periodo">2</field>
+    </record>
+    
+    <record id="account.account_payment_term_30days_early_discount" model="account.payment.term">
+        <field name="plazo">02</field>
+        <field name="periodo">1</field>
+    </record>
+    
+    <record id="account.account_payment_term_90days_on_the_10th" model="account.payment.term">
+        <field name="plazo">02</field>
+        <field name="periodo">3</field>
+    </record>
+</odoo>

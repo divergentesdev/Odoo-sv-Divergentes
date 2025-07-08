@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Certificado demo para pruebas -->
+        <record id="demo_certificate_test" model="l10n_sv.edi.certificate">
+            <field name="name">Certificado Demo Pruebas</field>
+            <field name="environment">test</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="issuer">Ministerio de Hacienda - El Salvador (DEMO)</field>
+            <field name="subject">Empresa Demo SV</field>
+            <field name="valid_from" eval="(DateTime.now() - timedelta(days=30))"/>
+            <field name="valid_to" eval="(DateTime.now() + timedelta(days=335))"/>
+            <field name="api_url">https://apitest.dtes.mh.gob.sv/fesv/recepciondte</field>
+            <field name="nit_emisor">06140506160019</field>
+            <field name="state">valid</field>
+            <field name="is_active">True</field>
+        </record>
+        
+        <!-- Configuración demo -->
+        <record id="demo_edi_configuration" model="l10n_sv.edi.configuration">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="environment">test</field>
+            <field name="certificate_test_id" ref="demo_certificate_test"/>
+            <field name="nit_emisor">06140506160019</field>
+            <field name="nrc_emisor">123456-7</field>
+            <field name="codigo_actividad">01111</field>
+            <field name="desc_actividad">Cultivo de cereales</field>
+            <field name="codigo_establecimiento">0001</field>
+            <field name="punto_venta">001</field>
+        </record>
+        
+        <!-- Actualizar compañía demo -->
+        <record id="base.main_company" model="res.company">
+            <field name="l10n_sv_edi_enabled">True</field>
+            <field name="l10n_sv_edi_configuration_id" ref="demo_edi_configuration"/>
+            <field name="l10n_sv_nit">06140506160019</field>
+            <field name="l10n_sv_nrc">123456-7</field>
+            <field name="l10n_sv_codigo_actividad">01111</field>
+            <field name="l10n_sv_desc_actividad">Cultivo de cereales</field>
+        </record>
+        
+    </data>
+</odoo>

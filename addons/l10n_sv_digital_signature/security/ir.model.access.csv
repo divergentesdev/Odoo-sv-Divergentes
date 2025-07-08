@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_sv_digital_signature_user,l10n_sv.digital.signature.user,model_l10n_sv_digital_signature,account.group_account_user,1,0,0,0
+access_l10n_sv_digital_signature_invoice,l10n_sv.digital.signature.invoice,model_l10n_sv_digital_signature,account.group_account_invoice,1,1,1,0
+access_l10n_sv_digital_signature_manager,l10n_sv.digital.signature.manager,model_l10n_sv_digital_signature,account.group_account_manager,1,1,1,1
+access_l10n_sv_signature_algorithm_user,l10n_sv.signature.algorithm.user,model_l10n_sv_signature_algorithm,account.group_account_user,1,0,0,0
+access_l10n_sv_signature_algorithm_manager,l10n_sv.signature.algorithm.manager,model_l10n_sv_signature_algorithm,account.group_account_manager,1,1,1,1
+access_l10n_sv_signature_log_user,l10n_sv.signature.log.user,model_l10n_sv_signature_log,account.group_account_user,1,0,0,0
+access_l10n_sv_signature_log_invoice,l10n_sv.signature.log.invoice,model_l10n_sv_signature_log,account.group_account_invoice,1,1,1,0
+access_l10n_sv_signature_log_manager,l10n_sv.signature.log.manager,model_l10n_sv_signature_log,account.group_account_manager,1,1,1,1
+access_l10n_sv_signature_data_viewer_user,l10n_sv.signature.data.viewer.user,model_l10n_sv_signature_data_viewer,base.group_user,1,1,1,1

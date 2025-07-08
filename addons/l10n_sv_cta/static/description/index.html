@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;">Módulo de Localización Contable para El Salvador</h2>
+        <h3 class="oe_slogan">Localización contable para El Salvador en Odoo 18</h3>
+        <h4 class="oe_slogan">Versión: 18.0.1.0.4</h4>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;">Descripción General</h2>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-justify">
+                Este módulo proporciona la localización contable para El Salvador en Odoo 18, incluyendo el plan de cuentas, impuestos y configuraciones específicas requeridas por la legislación salvadoreña.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;">Características Principales</h2>
+        <div class="oe_span6">
+            <p class="oe_mt32 text-justify">
+                <strong>Plan de Cuentas</strong>
+                <ul>
+                    <li>Implementación completa del catálogo de cuentas adaptado a los requerimientos fiscales de El Salvador</li>
+                    <li>Estructura de cuentas contables optimizada para empresas salvadoreñas</li>
+                    <li>Configuración predeterminada de cuentas para operaciones comunes</li>
+                </ul>
+            </p>
+        </div>
+        <div class="oe_span6">
+            <p class="oe_mt32 text-justify">
+                <strong>Impuestos</strong>
+                <ul>
+                    <li>IVA 13% para ventas y compras</li>
+                    <li>IVA 13% incluido en precio para ventas y compras</li>
+                    <li>Impuestos exentos para operaciones nacionales</li>
+                    <li>Configuración para exportaciones (0%)</li>
+                    <li>FOVIAL ($0.20 por galón)</li>
+                    <li>COTRANS ($0.10 por galón)</li>
+                    <li>Turismo 5%</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <p class="oe_mt32 text-justify">
+                <strong>Códigos DGII</strong>
+                <ul>
+                    <li>Integración de códigos de la Dirección General de Impuestos Internos</li>
+                    <li>Campo personalizado code_dgii para clasificación fiscal según normativa salvadoreña</li>
+                    <li>Mapeo automático de impuestos con sus códigos DGII correspondientes:
+                        <ul>
+                            <li>"20": Impuesto al Valor Agregado 13%</li>
+                            <li>"C3": Impuesto al Valor Agregado (exportaciones) 0%</li>
+                            <li>"59": Turismo: por alojamiento (5%)</li>
+                            <li>"D1": FOVIAL ($0.20 Ctvs. por galón)</li>
+                            <li>"C8": COTRANS ($0.10 Ctvs. por galón)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </p>
+        </div>
+        <div class="oe_span6">
+            <p class="oe_mt32 text-justify">
+                <strong>Configuración de Compañía</strong>
+                <ul>
+                    <li>Configuración automática de parámetros fiscales para empresas salvadoreñas</li>
+                    <li>Prefijos de cuentas para efectivo, bancos y transferencias</li>
+                    <li>Cuentas predeterminadas para diferencias de cambio</li>
+                    <li>Cuentas para descuentos por pronto pago</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;">Requisitos Técnicos</h2>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center">
+                <ul class="text-center" style="list-style-type: none;">
+                    <li>Odoo 18.0</li>
+                    <li>Módulo base de contabilidad (account)</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;">Instalación</h2>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center">
+                El módulo se instala automáticamente cuando se selecciona El Salvador como país de la empresa durante la configuración inicial de Odoo.
+            </p>
+            <p class="oe_mt32 text-center">
+                Para instalación manual:
+                <ol class="text-center" style="list-style-position: inside;">
+                    <li>Copiar el módulo a la carpeta de addons</li>
+                    <li>Actualizar la lista de aplicaciones</li>
+                    <li>Buscar e instalar "El Salvador - Accounting"</li>
+                </ol>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;">Uso</h2>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center">
+                Después de la instalación, el sistema estará configurado con:
+                <ul class="text-center" style="list-style-position: inside;">
+                    <li>Plan de cuentas salvadoreño</li>
+                    <li>Impuestos predefinidos con sus tasas correspondientes</li>
+                    <li>Grupos de impuestos clasificados según normativa local</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;">Licencia</h2>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center">
+                Este módulo está licenciado bajo LGPL-3.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;">Contribuciones</h2>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center">
+                Las contribuciones son bienvenidas a través de solicitudes de extracción en el repositorio GitHub.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;">Soporte</h2>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center">
+                Para soporte técnico, contactar al autor o visitar el repositorio en GitHub: <a href="https://github.com/miliky/odoo18" target="_blank">https://github.com/miliky/odoo18</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;">Contacto</h2>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center">
+                <strong>Autor:</strong> JOSE EMILIO FLORES MELENDEZ<br/>
+                <strong>Email:</strong> <a href="mailto:jefm@outlook.com">jefm@outlook.com</a><br/>
+                <strong>Web:</strong> <a href="https://www.smart.dte.company/" target="_blank">https://www.smart.dte.company/</a>
+            </p>
+        </div>
+    </div>
+</section>
+</body>
+</html>

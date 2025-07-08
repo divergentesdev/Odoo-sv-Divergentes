@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Definición del reporte -->
+    <record id="invoice_dte_report" model="ir.actions.report">
+        <field name="name">Reporte DTE El Salvador</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_sv_reports.invoice_dte_template</field>
+        <field name="report_file">l10n_sv_reports.invoice_dte_template</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+    
+    <!-- Plantilla del reporte -->
+    <template id="invoice_dte_template">
+        <t t-call="web.html_container">
+            <t t-foreach="report_data" t-as="data">
+                <t t-set="doc" t-value="data['doc']"/>
+                <t t-set="template" t-value="data['template']"/>
+                <t t-set="o" t-value="doc"/>
+                
+                <div class="page dte-report-container"
+                     t-att-style="template.get_css_variables() if template else ''">
+                    
+                    <!-- CSS personalizado -->
+                    <style>
+                        <t t-raw="template.get_compiled_css() if template else ''"/>
+                    </style>
+                    
+                    <!-- Marca de agua -->
+                    <div class="dte-watermark" t-if="data.get('watermark_text')">
+                        <t t-esc="data['watermark_text']"/>
+                    </div>
+                    
+                    <!-- Encabezado -->
+                    <div class="dte-header" t-if="template and template.show_header">
+                        <table width="100%">
+                            <tr>
+                                <td width="60%">
+                                    <!-- Logo de la empresa -->
+                                    <div class="dte-logo" t-if="template.show_company_logo and doc.company_id.logo">
+                                        <img t-att-src="image_data_uri(doc.company_id.logo)" 
+                                             alt="Logo" class="dte-logo"/>
+                                    </div>
+                                    
+                                    <!-- Información de la empresa -->
+                                    <div class="company-info">
+                                        <h3 t-field="doc.company_id.name"/>
+                                        <div t-if="doc.company_id.vat">
+                                            <strong>NIT:</strong> <span t-field="doc.company_id.vat"/>
+                                        </div>
+                                        <div t-if="doc.company_id.l10n_sv_nrc">
+                                            <strong>NRC:</strong> <span t-field="doc.company_id.l10n_sv_nrc"/>
+                                        </div>
+                                        <div>
+                                            <t t-esc="_get_company_address_formatted(doc.company_id)"/>
+                                        </div>
+                                        <div t-if="doc.company_id.phone">
+                                            <strong>Tel:</strong> <span t-field="doc.company_id.phone"/>
+                                        </div>
+                                        <div t-if="doc.company_id.email">
+                                            <strong>Email:</strong> <span t-field="doc.company_id.email"/>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                <td width="40%" class="dte-company-info">
+                                    <!-- Título del documento -->
+                                    <h2 class="dte-title">
+                                        <t t-if="doc.l10n_sv_document_type_id">
+                                            <t t-esc="doc.l10n_sv_document_type_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            Factura Electrónica
+                                        </t>
+                                    </h2>
+                                    
+                                    <!-- Estado del documento -->
+                                    <div class="dte-status-badge" t-if="data.get('status_badge')"
+                                         t-att-style="'color: ' + data['status_badge']['color'] + '; background-color: ' + data['status_badge']['background']">
+                                        <t t-esc="data['status_badge']['text']"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <!-- Información del documento -->
+                    <div class="dte-document-info" t-if="template and template.show_dte_info">
+                        <table width="100%">
+                            <tr>
+                                <td width="50%">
+                                    <strong>Número:</strong> <span t-field="doc.name"/><br/>
+                                    <strong>Fecha:</strong> <span t-field="doc.invoice_date"/><br/>
+                                    <strong>Vencimiento:</strong> <span t-field="doc.invoice_date_due"/>
+                                </td>
+                                <td width="50%" t-if="data.get('dte_summary')">
+                                    <t t-set="dte_data" t-value="data['dte_summary']"/>
+                                    <div t-if="dte_data.get('numero_control')">
+                                        <strong>Número de Control:</strong> <span t-esc="dte_data['numero_control']"/>
+                                    </div>
+                                    <div t-if="dte_data.get('codigo_generacion')">
+                                        <strong>Código de Generación:</strong> <span t-esc="dte_data['codigo_generacion']"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <!-- Información de las partes -->
+                    <div class="dte-parties">
+                        <!-- Emisor -->
+                        <div class="dte-emisor">
+                            <h4>EMISOR</h4>
+                            <strong t-field="doc.company_id.name"/><br/>
+                            <div t-if="doc.company_id.vat">
+                                <strong>NIT:</strong> <span t-field="doc.company_id.vat"/>
+                            </div>
+                            <div t-if="doc.company_id.l10n_sv_nrc">
+                                <strong>NRC:</strong> <span t-field="doc.company_id.l10n_sv_nrc"/>
+                            </div>
+                            <div>
+                                <t t-esc="_get_company_address_formatted(doc.company_id)"/>
+                            </div>
+                        </div>
+                        
+                        <!-- Receptor -->
+                        <div class="dte-receptor">
+                            <h4>RECEPTOR</h4>
+                            <strong t-field="doc.partner_id.name"/><br/>
+                            <div t-if="doc.partner_id.vat">
+                                <strong>NIT:</strong> <span t-field="doc.partner_id.vat"/>
+                            </div>
+                            <div t-if="doc.partner_id.l10n_sv_dui">
+                                <strong>DUI:</strong> <span t-field="doc.partner_id.l10n_sv_dui"/>
+                            </div>
+                            <div>
+                                <t t-esc="_get_partner_address_formatted(doc.partner_id)"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Líneas del documento -->
+                    <table class="dte-lines-table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>Descripción</th>
+                                <th class="text-center">Cantidad</th>
+                                <th class="text-center">UdM</th>
+                                <th class="text-right">Precio Unit.</th>
+                                <th class="text-right">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.invoice_line_ids.filtered(lambda l: not l.display_type)" t-as="line">
+                                <td class="text-center">
+                                    <span t-esc="line_index + 1"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.name"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="'{:.2f}'.format(line.quantity)"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="line.product_uom_id.name"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="_format_currency(line.price_unit, doc.currency_id)"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="_format_currency(line.price_subtotal, doc.currency_id)"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <!-- Totales -->
+                    <div class="dte-totals">
+                        <table>
+                            <tr>
+                                <td>Subtotal:</td>
+                                <td class="text-right">
+                                    <span t-esc="_format_currency(doc.amount_untaxed, doc.currency_id)"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.amount_tax > 0">
+                                <td>IVA:</td>
+                                <td class="text-right">
+                                    <span t-esc="_format_currency(doc.amount_tax, doc.currency_id)"/>
+                                </td>
+                            </tr>
+                            <tr class="total-final">
+                                <td><strong>Total:</strong></td>
+                                <td class="text-right">
+                                    <strong t-esc="_format_currency(doc.amount_total, doc.currency_id)"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <!-- Pie de página -->
+                    <div class="dte-footer" t-if="template and template.show_footer">
+                        
+                        <!-- Código QR -->
+                        <div class="dte-qr-section" t-if="template.show_qr_code and data.get('qr_code')">
+                            <img t-att-src="'data:image/png;base64,' + data['qr_code']" 
+                                 alt="QR Code" class="dte-qr-code"/>
+                            <br/>
+                            <small>Código QR</small>
+                        </div>
+                        
+                        <!-- Información de firma digital -->
+                        <div class="dte-signature-info" 
+                             t-if="data.get('include_signature_info') and doc.l10n_sv_signature_status in ['signed', 'verified']">
+                            <h5><i class="fa fa-shield"/> Documento Firmado Digitalmente</h5>
+                            <div t-if="doc.l10n_sv_signature_date">
+                                <strong>Fecha de Firma:</strong> 
+                                <span t-esc="doc.l10n_sv_signature_date.strftime('%d/%m/%Y %H:%M:%S')"/>
+                            </div>
+                            <div t-if="doc.l10n_sv_signature_status == 'verified'">
+                                <span class="dte-status-badge dte-status-success">Firma Verificada</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Información del MH -->
+                        <div class="dte-mh-info" 
+                             t-if="data.get('include_mh_info') and doc.l10n_sv_mh_status in ['approved', 'processed']">
+                            <h5><i class="fa fa-check-circle"/> Ministerio de Hacienda</h5>
+                            <div t-if="doc.l10n_sv_mh_send_date">
+                                <strong>Enviado al MH:</strong> 
+                                <span t-esc="doc.l10n_sv_mh_send_date.strftime('%d/%m/%Y %H:%M:%S')"/>
+                            </div>
+                            <div t-if="doc.l10n_sv_mh_status == 'approved'">
+                                <span class="dte-status-badge dte-status-success">Aprobado por MH</span>
+                            </div>
+                            <div t-elif="doc.l10n_sv_mh_status == 'processed'">
+                                <span class="dte-status-badge dte-status-info">Procesado por MH</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Texto legal -->
+                        <div class="dte-legal-text">
+                            <p>
+                                Documento Tributario Electrónico autorizado por la Dirección General de Impuestos Internos 
+                                del Ministerio de Hacienda de El Salvador según resolución correspondiente.
+                            </p>
+                            <p t-if="not data.get('preview_mode')">
+                                <strong>Fecha de Impresión:</strong> <span t-esc="print_date"/>
+                            </p>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

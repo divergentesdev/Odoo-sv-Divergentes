@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record model="ir.ui.view" id="company_LO_l10n_sv_form">
+		<field name="name">Empresa</field>
+		<field name="model">res.company</field>
+		<field name="inherit_id" ref="base.view_company_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="string">NIT</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_registry']" position="attributes">
+                <attribute name="string">NRC</attribute>
+            </xpath>
+			<field name="vat" position="after">
+				<field name="nit_9" string="NIT homologado" placeholder="Ingrese los 9 dígitos"/>
+				<div class="text-muted">
+					Numero del DUI de la persona natural
+				</div>
+			</field>
+			<field name="company_registry" position="after">
+				<field name="industry_id"/>
+				<field name="nombre_comercial"/>
+				<field name="is_withholding_agent"/>
+			</field>
+		</field>
+	</record>
+</odoo>
+    

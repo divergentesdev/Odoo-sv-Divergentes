@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Servicio de Firma Demo para JOSE/JWS -->
+        <record id="demo_signature_service_jose" model="l10n_sv.digital.signature">
+            <field name="name">Demo - Servicio JOSE/JWS</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="certificate_id" ref="l10n_sv_edi_base.demo_certificate"/>
+            <field name="algorithm_id" ref="algorithm_rsa_sha512"/>
+            <field name="signature_format">jose</field>
+            <field name="include_certificate">True</field>
+            <field name="include_key_info">True</field>
+            <field name="validate_certificate_dates">False</field>
+            <field name="active">False</field>
+        </record>
+
+        <!-- Log de firma exitosa demo -->
+        <record id="demo_signature_log_success" model="l10n_sv.signature.log">
+            <field name="signature_service_id" ref="default_signature_service"/>
+            <field name="document_type">json</field>
+            <field name="document_reference">DTE-01-DEMO-000000000000001</field>
+            <field name="signature_date">2024-01-15 14:30:00</field>
+            <field name="completion_date">2024-01-15 14:30:02</field>
+            <field name="status">success</field>
+            <field name="algorithm_used">RSA-SHA256</field>
+            <field name="signature_format">xmldsig</field>
+            <field name="certificate_subject">CN=DEMO EMPRESA CERT, O=DEMO ORG, C=SV</field>
+            <field name="certificate_issuer">CN=MH ROOT CA, O=MINISTERIO DE HACIENDA, C=SV</field>
+            <field name="certificate_serial">123456789</field>
+            <field name="input_hash">a1b2c3d4e5f6789</field>
+            <field name="signature_data">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPERvY3VtZW50PgogIDxTaWduYXR1cmUgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiPgogICAgPFNpZ25lZEluZm8+CiAgICAgIDxDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+CiAgICAgIDxTaWduYXR1cmVNZXRob2QgQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNyc2Etc2hhMjU2Ii8+CiAgICA8L1NpZ25lZEluZm8+CiAgICA8U2lnbmF0dXJlVmFsdWU+REVNTyBTSUdOQVRVUkUgREFUQS4uLjwvU2lnbmF0dXJlVmFsdWU+CiAgPC9TaWduYXR1cmU+CjwvRG9jdW1lbnQ+</field>
+            <field name="signature_size">1024</field>
+            <field name="client_info">Odoo Demo Client</field>
+            <field name="additional_data">{"tipo": "demo", "version": "1.0"}</field>
+        </record>
+
+        <!-- Log de firma con error demo -->
+        <record id="demo_signature_log_error" model="l10n_sv.signature.log">
+            <field name="signature_service_id" ref="default_signature_service"/>
+            <field name="document_type">json</field>
+            <field name="document_reference">DTE-01-DEMO-000000000000002</field>
+            <field name="signature_date">2024-01-15 15:00:00</field>
+            <field name="completion_date">2024-01-15 15:00:05</field>
+            <field name="status">error</field>
+            <field name="algorithm_used">RSA-SHA256</field>
+            <field name="signature_format">xmldsig</field>
+            <field name="error_message">Error: Certificado expirado. El certificado no es válido para la fecha actual.</field>
+            <field name="input_hash">x9y8z7w6v5u4321</field>
+            <field name="client_info">Odoo Demo Client</field>
+            <field name="additional_data">{"tipo": "demo", "error_test": true}</field>
+        </record>
+
+        <!-- Log de prueba de algoritmo -->
+        <record id="demo_signature_log_test" model="l10n_sv.signature.log">
+            <field name="signature_service_id" ref="demo_signature_service_jose"/>
+            <field name="document_type">test</field>
+            <field name="document_reference">PRUEBA-JOSE-001</field>
+            <field name="signature_date">2024-01-15 16:00:00</field>
+            <field name="completion_date">2024-01-15 16:00:01</field>
+            <field name="status">success</field>
+            <field name="algorithm_used">RSA-SHA512</field>
+            <field name="signature_format">jose</field>
+            <field name="certificate_subject">CN=DEMO EMPRESA CERT, O=DEMO ORG, C=SV</field>
+            <field name="certificate_issuer">CN=MH ROOT CA, O=MINISTERIO DE HACIENDA, C=SV</field>
+            <field name="certificate_serial">123456789</field>
+            <field name="input_hash">t3s7_d4t4_h4sh</field>
+            <field name="signature_data">eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCIsIng1YyI6WyJERU1PIENFUlRJRklDQVRFIERBVEEuLi4iXX0.eyJ0ZXN0IjoidHJ1ZSIsInRpbWVzdGFtcCI6IjIwMjQtMDEtMTVUMTY6MDA6MDBaIiwic2VydmljZSI6IkRlbW8gLSBTZXJ2aWNpbyBKT1NFL0pXUyJ9.DEMO_SIGNATURE_DATA_BASE64_ENCODED_...</field>
+            <field name="signature_size">512</field>
+            <field name="client_info">Odoo Demo Test</field>
+            <field name="additional_data">{"test": true, "timestamp": "2024-01-15T16:00:00Z", "service": "Demo - Servicio JOSE/JWS"}</field>
+        </record>
+
+    </data>
+</odoo>

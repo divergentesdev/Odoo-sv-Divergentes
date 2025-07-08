@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Menú principal para reportes DTE -->
+    <menuitem id="menu_l10n_sv_reports"
+              name="Reportes DTE"
+              parent="l10n_sv_edi_base.menu_l10n_sv_edi_root"
+              sequence="50"/>
+    
+    <!-- Submenú para configuración -->
+    <menuitem id="menu_l10n_sv_reports_config"
+              name="Configuración"
+              parent="menu_l10n_sv_reports"
+              sequence="10"/>
+    
+    <!-- Menú para generadores QR -->
+    <menuitem id="menu_qr_code_generator"
+              name="Generadores QR"
+              parent="menu_l10n_sv_reports_config"
+              action="action_qr_code_generator"
+              sequence="10"/>
+    
+    <!-- Menú para plantillas de reporte -->
+    <menuitem id="menu_report_template"
+              name="Plantillas de Reporte"
+              parent="menu_l10n_sv_reports_config"
+              action="action_report_template"
+              sequence="20"/>
+    
+    <!-- Submenú para reportes -->
+    <menuitem id="menu_l10n_sv_reports_reports"
+              name="Reportes"
+              parent="menu_l10n_sv_reports"
+              sequence="20"/>
+    
+    <!-- Acción para reportes de facturas -->
+    <record id="action_invoice_dte_reports" model="ir.actions.act_window">
+        <field name="name">Facturas con DTE</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('move_type', 'in', ['out_invoice', 'out_refund']), ('l10n_sv_document_type_id', '!=', False)]</field>
+        <field name="context">{'default_move_type': 'out_invoice'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay facturas DTE
+            </p>
+            <p>
+                Aquí se muestran todas las facturas que tienen configurado un tipo de documento DTE.
+            </p>
+        </field>
+    </record>
+    
+    <!-- Menú para facturas DTE -->
+    <menuitem id="menu_invoice_dte_reports"
+              name="Facturas DTE"
+              parent="menu_l10n_sv_reports_reports"
+              action="action_invoice_dte_reports"
+              sequence="10"/>
+    
+    <!-- Acción para documentos sin QR -->
+    <record id="action_documents_without_qr" model="ir.actions.act_window">
+        <field name="name">Documentos sin QR</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('move_type', 'in', ['out_invoice', 'out_refund']), ('l10n_sv_document_type_id', '!=', False), ('l10n_sv_qr_generated', '=', False), ('state', '=', 'posted')]</field>
+        <field name="context">{'default_move_type': 'out_invoice'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Todos los documentos tienen QR generado
+            </p>
+            <p>
+                Aquí se muestran los documentos DTE publicados que aún no tienen código QR generado.
+            </p>
+        </field>
+    </record>
+    
+    <!-- Menú para documentos sin QR -->
+    <menuitem id="menu_documents_without_qr"
+              name="Documentos sin QR"
+              parent="menu_l10n_sv_reports_reports"
+              action="action_documents_without_qr"
+              sequence="20"/>
+
+</odoo>

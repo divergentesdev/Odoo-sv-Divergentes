@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vista de lista para plantillas de reporte -->
+    <record id="view_report_template_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.report.template.tree</field>
+        <field name="model">l10n_sv.report.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="document_type_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="paper_format"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para plantillas de reporte -->
+    <record id="view_report_template_form" model="ir.ui.view">
+        <field name="name">l10n_sv.report.template.form</field>
+        <field name="model">l10n_sv.report.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_preview_template" type="object" class="oe_stat_button" icon="fa-eye">
+                            <span>Vista Previa</span>
+                        </button>
+                        <button name="action_duplicate_template" type="object" class="oe_stat_button" icon="fa-copy">
+                            <span>Duplicar</span>
+                        </button>
+                    </div>
+                    
+                    <group>
+                        <group name="general_info">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="document_type_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                        <group name="format_config">
+                            <field name="paper_format"/>
+                            <field name="orientation"/>
+                            <field name="margin_top"/>
+                            <field name="margin_bottom"/>
+                            <field name="margin_left"/>
+                            <field name="margin_right"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Elementos de Reporte">
+                            <group>
+                                <group name="header_footer">
+                                    <field name="show_header"/>
+                                    <field name="show_company_logo" invisible="show_header == False"/>
+                                    <field name="show_footer"/>
+                                </group>
+                                <group name="dte_elements">
+                                    <field name="show_dte_info"/>
+                                    <field name="show_signature_info"/>
+                                    <field name="show_mh_info"/>
+                                    <field name="show_watermark"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Código QR">
+                            <group>
+                                <group name="qr_config">
+                                    <field name="show_qr_code"/>
+                                    <field name="qr_position" invisible="show_qr_code == False"/>
+                                    <field name="qr_generator_id" invisible="show_qr_code == False"/>
+                                </group>
+                                <group name="qr_size">
+                                    <field name="qr_size" invisible="show_qr_code == False"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Estilo y Colores">
+                            <group>
+                                <group name="colors">
+                                    <field name="primary_color" widget="color"/>
+                                    <field name="secondary_color" widget="color"/>
+                                    <field name="accent_color" widget="color"/>
+                                </group>
+                                <group name="fonts">
+                                    <field name="font_family"/>
+                                    <field name="font_size"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="CSS Personalizado">
+                            <field name="custom_css" widget="code_editor" options="{'language': 'css'}"/>
+                        </page>
+                        
+                        <page string="Texto de Marca de Agua">
+                            <field name="watermark_text" placeholder="BORRADOR, COPIA, ORIGINAL, etc."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción para plantillas de reporte -->
+    <record id="action_report_template" model="ir.actions.act_window">
+        <field name="name">Plantillas de Reporte DTE</field>
+        <field name="res_model">l10n_sv.report.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear una plantilla de reporte DTE
+            </p>
+            <p>
+                Las plantillas definen el diseño y formato de los reportes DTE.
+                Puede crear múltiples plantillas para diferentes tipos de documentos.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vista búsqueda -->
+    <record id="view_report_template_search" model="ir.ui.view">
+        <field name="name">l10n_sv.report.template.search</field>
+        <field name="model">l10n_sv.report.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="document_type_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter string="Activas" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactivas" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="1" string="Agrupar por">
+                    <filter string="Tipo de Documento" name="group_document_type" context="{'group_by': 'document_type_id'}"/>
+                    <filter string="Compañía" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                    <filter string="Formato de Papel" name="group_paper_format" context="{'group_by': 'paper_format'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

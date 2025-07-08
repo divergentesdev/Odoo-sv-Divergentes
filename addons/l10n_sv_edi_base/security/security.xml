@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Categoría para permisos EDI -->
+        <record id="module_category_l10n_sv_edi" model="ir.module.category">
+            <field name="name">Facturación Electrónica El Salvador</field>
+            <field name="description">Permisos para facturación electrónica de El Salvador</field>
+            <field name="sequence">20</field>
+        </record>
+        
+        <!-- Grupo: Usuario EDI -->
+        <record id="group_l10n_sv_edi_user" model="res.groups">
+            <field name="name">EDI Usuario</field>
+            <field name="category_id" ref="module_category_l10n_sv_edi"/>
+            <field name="implied_ids" eval="[(4, ref('account.group_account_invoice'))]"/>
+            <field name="comment">Puede ver y usar funcionalidades básicas de EDI</field>
+        </record>
+        
+        <!-- Grupo: Configurador EDI -->
+        <record id="group_l10n_sv_edi_manager" model="res.groups">
+            <field name="name">EDI Configurador</field>
+            <field name="category_id" ref="module_category_l10n_sv_edi"/>
+            <field name="implied_ids" eval="[(4, ref('group_l10n_sv_edi_user'))]"/>
+            <field name="comment">Puede configurar certificados y parámetros EDI</field>
+        </record>
+        
+        <!-- Reglas de acceso por compañía para certificados -->
+        <record id="rule_edi_certificate_company" model="ir.rule">
+            <field name="name">EDI Certificates: Company Rule</field>
+            <field name="model_id" ref="model_l10n_sv_edi_certificate"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_l10n_sv_edi_user'))]"/>
+        </record>
+        
+        <!-- Reglas de acceso por compañía para configuración -->
+        <record id="rule_edi_configuration_company" model="ir.rule">
+            <field name="name">EDI Configuration: Company Rule</field>
+            <field name="model_id" ref="model_l10n_sv_edi_configuration"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_l10n_sv_edi_user'))]"/>
+        </record>
+        
+    </data>
+</odoo>

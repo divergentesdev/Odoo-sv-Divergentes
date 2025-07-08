@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="base.partner_demo_company_sv" model="res.partner" forcecreate="1">
+        <field name="name">SV Company</field>
+        <field name="vat">14082606631013</field>
+        <field name="street">Ruben Dario 15</field>
+        <!-- <field name="city">San Salvador</field> -->
+        <field name="country_id" ref="base.sv"/>
+        <!-- <field name="state_id" ref="base.state_sv_0623"/> -->
+        <field name="zip"/>
+        <field name="phone">+503 7864-4352</field>
+        <field name="email">info@company.svexample.com</field>
+        <field name="website">www.svexample.com</field>
+        <field name="is_company" eval="True"/>
+    </record>
+
+    <record id="base.demo_company_sv" model="res.company" forcecreate="1">
+        <field name="name">SV Company</field>
+        <field name="partner_id" ref="base.partner_demo_company_sv"/>
+    </record>
+
+    <function model="res.company" name="_onchange_country_id">
+        <value eval="[ref('base.demo_company_sv')]"/>
+    </function>
+
+    <function model="res.users" name="write">
+        <value eval="[ref('base.user_root'), ref('base.user_admin'), ref('base.user_demo')]"/>
+        <value eval="{'company_ids': [(4, ref('base.demo_company_sv'))]}"/>
+    </function>
+
+    <function model="account.chart.template" name="try_loading">
+        <value eval="[]"/>
+        <value>sv</value>
+        <value model="res.company" eval="obj().env.ref('base.demo_company_sv')"/>
+        <value name="install_demo" eval="True"/>
+    </function>
+</odoo>

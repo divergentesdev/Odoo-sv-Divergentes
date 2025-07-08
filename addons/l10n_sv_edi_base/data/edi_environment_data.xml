@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- URLs por defecto para ambientes EDI -->
+        <record id="edi_url_test" model="ir.config_parameter">
+            <field name="key">l10n_sv_edi.api_url_test</field>
+            <field name="value">https://apitest.dtes.mh.gob.sv/fesv/recepciondte</field>
+        </record>
+        
+        <record id="edi_url_production" model="ir.config_parameter">
+            <field name="key">l10n_sv_edi.api_url_production</field>
+            <field name="value">https://api.dtes.mh.gob.sv/fesv/recepciondte</field>
+        </record>
+        
+        <!-- Timeout por defecto para API -->
+        <record id="edi_api_timeout" model="ir.config_parameter">
+            <field name="key">l10n_sv_edi.api_timeout</field>
+            <field name="value">30</field>
+        </record>
+        
+        <!-- Reintentos automáticos por defecto -->
+        <record id="edi_auto_retry" model="ir.config_parameter">
+            <field name="key">l10n_sv_edi.auto_retry</field>
+            <field name="value">3</field>
+        </record>
+        
+    </data>
+</odoo>

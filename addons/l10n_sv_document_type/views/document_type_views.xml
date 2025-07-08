@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Document Type Views for El Salvador -->
+        
+        <!-- List View -->
+        <record id="view_dte_document_type_list" model="ir.ui.view">
+            <field name="name">l10n_sv.document.type.list</field>
+            <field name="model">l10n_sv.document.type</field>
+            <field name="arch" type="xml">
+                <list string="Document Types">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_dte_document_type_form" model="ir.ui.view">
+            <field name="name">l10n_sv.document.type.form</field>
+            <field name="model">l10n_sv.document.type</field>
+            <field name="arch" type="xml">
+                <form string="Document Type">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_dte_document_type" model="ir.actions.act_window">
+            <field name="name">Document Types</field>
+            <field name="res_model">l10n_sv.document.type</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new document type
+                </p>
+                <p>
+                    Configure document types for DTE electronic invoicing in El Salvador.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu -->
+        <menuitem id="menu_dte_document_type"
+                  name="Document Types"
+                  parent="account.menu_finance_configuration"
+                  action="action_dte_document_type"
+                  sequence="50"/>
+
+    </data>
+</odoo>

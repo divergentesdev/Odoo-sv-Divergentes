@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Algoritmo RSA-SHA256 (Recomendado) -->
+        <record id="algorithm_rsa_sha256" model="l10n_sv.signature.algorithm">
+            <field name="name">RSA-SHA256</field>
+            <field name="code">RSA_SHA256</field>
+            <field name="hash_algorithm">sha256</field>
+            <field name="key_type">rsa</field>
+            <field name="min_key_size">2048</field>
+            <field name="security_level">high</field>
+            <field name="description">RSA con SHA-256 - Algoritmo recomendado para firma de DTE</field>
+            <field name="oid">1.2.840.113549.1.1.11</field>
+            <field name="uri">http://www.w3.org/2001/04/xmldsig-more#rsa-sha256</field>
+            <field name="jose_alg">RS256</field>
+            <field name="government_approved">True</field>
+            <field name="recommended_for_new">True</field>
+        </record>
+
+        <!-- Algoritmo RSA-SHA512 (Alta Seguridad) -->
+        <record id="algorithm_rsa_sha512" model="l10n_sv.signature.algorithm">
+            <field name="name">RSA-SHA512</field>
+            <field name="code">RSA_SHA512</field>
+            <field name="hash_algorithm">sha512</field>
+            <field name="key_type">rsa</field>
+            <field name="min_key_size">2048</field>
+            <field name="security_level">very_high</field>
+            <field name="description">RSA con SHA-512 - Máxima seguridad para documentos críticos</field>
+            <field name="oid">1.2.840.113549.1.1.13</field>
+            <field name="uri">http://www.w3.org/2001/04/xmldsig-more#rsa-sha512</field>
+            <field name="jose_alg">RS512</field>
+            <field name="government_approved">True</field>
+            <field name="recommended_for_new">True</field>
+        </record>
+
+        <!-- Algoritmo RSA-SHA1 (Compatibilidad Legacy) -->
+        <record id="algorithm_rsa_sha1" model="l10n_sv.signature.algorithm">
+            <field name="name">RSA-SHA1</field>
+            <field name="code">RSA_SHA1</field>
+            <field name="hash_algorithm">sha1</field>
+            <field name="key_type">rsa</field>
+            <field name="min_key_size">1024</field>
+            <field name="security_level">medium</field>
+            <field name="description">RSA con SHA-1 - Solo para compatibilidad con sistemas legacy</field>
+            <field name="oid">1.2.840.113549.1.1.5</field>
+            <field name="uri">http://www.w3.org/2000/09/xmldsig#rsa-sha1</field>
+            <field name="jose_alg">RS1</field>
+            <field name="deprecated">True</field>
+            <field name="recommended_for_new">False</field>
+            <field name="deprecation_date">2020-01-01</field>
+        </record>
+
+        <!-- Servicio de Firma Digital por Defecto -->
+        <record id="default_signature_service" model="l10n_sv.digital.signature">
+            <field name="name">Servicio de Firma Digital - Principal</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="certificate_id" ref="l10n_sv_edi_base.demo_certificate_test"/>
+            <field name="algorithm_id" ref="algorithm_rsa_sha256"/>
+            <field name="signature_format">xmldsig</field>
+            <field name="canonicalization_method">exc_c14n</field>
+            <field name="include_certificate">True</field>
+            <field name="include_key_info">True</field>
+            <field name="validate_certificate_dates">True</field>
+        </record>
+
+        <!-- Tareas Programadas -->
+        <!-- 
+        NOTA: Los cron jobs fueron eliminados porque utilizan campos obsoletos en Odoo 18.
+        En Odoo 18, los cron jobs requieren ir.actions.server asociado.
+        Se pueden configurar manualmente desde Configuración > Técnico > Automatización > Acciones Programadas
+        -->
+
+    </data>
+</odoo>
