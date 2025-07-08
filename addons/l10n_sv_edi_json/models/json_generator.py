@@ -290,12 +290,38 @@ class L10nSvJsonGenerator(models.Model):
             return self._get_sujeto_excluido_data(partner, move)
         elif document_type == '01':  # Factura
             # Solo Factura puede ser consumidor final
-            if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+            if self._is_final_consumer(partner, fiscal_position):
                 return self._get_receptor_consumidor_final(partner, move)
             else:
                 return self._get_receptor_contribuyente(partner, move)
         else:
             return self._get_receptor_contribuyente(partner, move)
+    
+    def _is_final_consumer(self, partner, fiscal_position):
+        """Determina si es consumidor final por múltiples criterios"""
+        # Criterio 1: Posición fiscal marcada como consumidor final
+        if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+            return True
+        
+        # Criterio 2: No tiene NIT/VAT válido
+        if not partner.vat:
+            return True
+            
+        # Criterio 3: NIT inválido (no 14 dígitos)
+        vat_clean = ''.join(filter(str.isdigit, partner.vat or ''))
+        if len(vat_clean) != 14:
+            return True
+            
+        # Criterio 4: Nombre específico
+        if partner.name and 'consumidor final' in partner.name.lower():
+            return True
+            
+        # Criterio 5: Campo específico del partner
+        if hasattr(partner, 'l10n_sv_is_final_consumer') and partner.l10n_sv_is_final_consumer:
+            return True
+        
+        # Por defecto, si no hay posición fiscal, asumir consumidor final
+        return fiscal_position is None
     
     def _get_receptor_consumidor_final(self, partner, move):
         """Receptor para consumidor final - CORREGIDO según esquema MH"""
@@ -528,7 +554,7 @@ class L10nSvJsonGenerator(models.Model):
                     
             elif document_type == '01':
                 # ===== FACTURAS (FCF Y NORMAL) =====
-                if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+                if self._is_final_consumer(move.partner_id, fiscal_position):
                     # ===== FACTURA CONSUMIDOR FINAL =====
                     # Reglas específicas para FCF según error MH
                     cod_tributo = None  # FCF: codTributo siempre null
@@ -630,7 +656,7 @@ class L10nSvJsonGenerator(models.Model):
             tributos = self._get_tributos_item(line, move)
             
             # Calcular montos según tipo de venta
-            if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+            if self._is_final_consumer(move.partner_id, fiscal_position):
                 # Para consumidor final: CONSISTENTE con cálculo del cuerpo
                 # FCF: precio INCLUYE IVA, extraer IVA con fórmula oficial
                 base_gravada = line.price_subtotal  # Base sin IVA
@@ -642,7 +668,7 @@ class L10nSvJsonGenerator(models.Model):
                 # Contribuyente con IVA
                 total_gravada += line.price_subtotal
                 # Para FCF siempre usar formula sin IVA incluido
-                if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+                if self._is_final_consumer(move.partner_id, fiscal_position):
                     # FCF: precio INCLUYE IVA, usar fórmula consistente
                     total_iva += (line.price_subtotal * 13 / 113)
                 elif line.tax_ids and any(tax.price_include for tax in line.tax_ids):
@@ -721,7 +747,7 @@ class L10nSvJsonGenerator(models.Model):
             }]
         
         # Aplicar lógica validada para tributos en resumen según LOGICA_VALIDADA.md
-        if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+        if self._is_final_consumer(move.partner_id, fiscal_position):
             # Para consumidor final: tributos = null (estrictamente según LOGICA_VALIDADA.md)
             tributos = None
         else:
