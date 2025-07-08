@@ -520,8 +520,8 @@ class L10nSvJsonGenerator(models.Model):
                 cod_tributo = None  # CCF: codTributo siempre null
                 if venta_gravada > 0:
                     tributos = ["20"]  # CCF con IVA: tributos = ["20"]
-                    # CCF: calcular IVA usando función estándar para contribuyente
-                    iva_item = utils.format_body_amount(utils.calculate_iva_amount(venta_gravada))
+                    # CCF: calcular IVA usando función precisa para contribuyente
+                    iva_item = utils.format_body_amount(utils.calculate_iva_amount_precise(venta_gravada))
                 else:
                     tributos = None  # CCF sin IVA: tributos = null
                     iva_item = 0.00
@@ -535,7 +535,7 @@ class L10nSvJsonGenerator(models.Model):
                     if venta_gravada > 0:
                         tributos = ["20"]  # FCF con IVA: tributos = ["20"] (SEGÚN ERROR MH)
                         # FCF: extraer IVA del total (precio incluye IVA para consumidor final)
-                        iva_item = utils.format_currency_amount(venta_gravada * 13 / 113)
+                        iva_item = utils.format_body_amount(venta_gravada * 13 / 113)
                     else:
                         tributos = None  # FCF sin IVA: tributos = null
                         iva_item = 0.00
@@ -545,8 +545,8 @@ class L10nSvJsonGenerator(models.Model):
                     cod_tributo = None  # Factura: codTributo siempre null
                     if venta_gravada > 0:
                         tributos = ["20"]  # Factura con IVA: tributos = ["20"]
-                        # Factura: calcular IVA usando función estándar para contribuyente
-                        iva_item = utils.format_body_amount(utils.calculate_iva_amount(venta_gravada))
+                        # Factura: calcular IVA usando función precisa para contribuyente
+                        iva_item = utils.format_body_amount(utils.calculate_iva_amount_precise(venta_gravada))
                     else:
                         tributos = None  # Factura sin IVA: tributos = null
                         iva_item = 0.00
