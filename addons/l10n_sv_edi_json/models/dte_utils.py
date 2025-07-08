@@ -199,6 +199,11 @@ class DteUtils(models.AbstractModel):
     def calculate_iva_amount_precise(self, base_amount, rate=13.0):
         """Calcula monto de IVA sin redondeo prematuro para uso en cuerpo del documento"""
         return base_amount * (rate / 100)
+    
+    @api.model
+    def format_iva_item_amount(self, amount):
+        """Formatea montos para ivaItem (5 decimales según ejemplos MH)"""
+        return round(float(amount), 5) if amount else 0.0
 
     @api.model
     def validate_json_structure(self, json_data, document_type):
