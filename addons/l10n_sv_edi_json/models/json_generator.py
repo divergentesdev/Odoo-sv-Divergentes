@@ -299,29 +299,47 @@ class L10nSvJsonGenerator(models.Model):
     
     def _is_final_consumer(self, partner, fiscal_position):
         """Determina si es consumidor final por múltiples criterios"""
+        import logging
+        _logger = logging.getLogger(__name__)
+        
+        _logger.info(f"=== DEBUGGING _is_final_consumer ===")
+        _logger.info(f"Partner: {partner.name}")
+        _logger.info(f"Partner VAT: {partner.vat}")
+        _logger.info(f"Fiscal Position: {fiscal_position.name if fiscal_position else 'None'}")
+        
         # Criterio 1: Posición fiscal marcada como consumidor final
         if fiscal_position and fiscal_position.l10n_sv_is_final_consumer:
+            _logger.info(f"CRITERIO 1: Fiscal position is_final_consumer = True → CONSUMIDOR FINAL")
             return True
         
         # Criterio 2: No tiene NIT/VAT válido
         if not partner.vat:
+            _logger.info(f"CRITERIO 2: No VAT/NIT → CONSUMIDOR FINAL")
             return True
             
         # Criterio 3: NIT inválido (no 14 dígitos)
         vat_clean = ''.join(filter(str.isdigit, partner.vat or ''))
         if len(vat_clean) != 14:
+            _logger.info(f"CRITERIO 3: VAT inválido ({len(vat_clean)} dígitos) → CONSUMIDOR FINAL")
             return True
             
         # Criterio 4: Nombre específico
         if partner.name and 'consumidor final' in partner.name.lower():
+            _logger.info(f"CRITERIO 4: Nombre contiene 'consumidor final' → CONSUMIDOR FINAL")
             return True
             
         # Criterio 5: Campo específico del partner
         if hasattr(partner, 'l10n_sv_is_final_consumer') and partner.l10n_sv_is_final_consumer:
+            _logger.info(f"CRITERIO 5: Partner.l10n_sv_is_final_consumer = True → CONSUMIDOR FINAL")
             return True
         
         # Por defecto, si no hay posición fiscal, asumir consumidor final
-        return fiscal_position is None
+        if fiscal_position is None:
+            _logger.info(f"CRITERIO 6: No fiscal position → CONSUMIDOR FINAL")
+            return True
+            
+        _logger.info(f"RESULTADO: NO ES CONSUMIDOR FINAL → CONTRIBUYENTE")
+        return False
     
     def _get_receptor_consumidor_final(self, partner, move):
         """Receptor para consumidor final - CORREGIDO según esquema MH"""
