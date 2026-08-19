@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de árbol para Operation Types -->
+    <record id="l10n_sv_operation_type_view_tree" model="ir.ui.view">
+        <field name="name">l10n_sv.operation.type.tree</field>
+        <field name="model">l10n_sv.operation.type</field>
+        <field name="arch" type="xml">
+            <tree string="Operation Types">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para Operation Types -->
+    <record id="l10n_sv_operation_type_view_form" model="ir.ui.view">
+        <field name="name">l10n_sv.operation.type.form</field>
+        <field name="model">l10n_sv.operation.type</field>
+        <field name="arch" type="xml">
+            <form string="Operation Type">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" placeholder="Ej: 1"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción para abrir Operation Types -->
+    <record id="l10n_sv_operation_type_action" model="ir.actions.act_window">
+        <field name="name">Operation Types (CAT_023)</field>
+        <field name="res_model">l10n_sv.operation.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear tipo de operación
+            </p>
+            <p>
+                Configure los tipos de operación según el catálogo CAT_023 del Ministerio de Hacienda.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú para Operation Types -->
+    <menuitem id="l10n_sv_operation_type_menu"
+              name="Operation Types"
+              parent="account.menu_finance_configuration"
+              action="l10n_sv_operation_type_action"
+              sequence="55"/>
+
+    <!-- Agregar campo tipoOperacion en vista de factura -->
+    <record id="l10n_sv_move_form_inherit_operation_type" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.l10n.sv.operation.type</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Agregar después del campo l10n_sv_payment_method_id -->
+            <xpath expr="//field[@name='l10n_sv_payment_method_id']" position="after">
+                <field name="l10n_sv_operation_type_id" 
+                       options="{'no_create': True}"
+                       attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund'))]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

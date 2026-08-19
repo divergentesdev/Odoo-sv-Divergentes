@@ -43,21 +43,25 @@
                 <attribute name="invisible">country_id == %(base.sv)d</attribute>
             </xpath>
             
-            <!-- Cambiar etiqueta de ciudad a distrito -->
+            <!-- Cambiar etiqueta de ciudad a distrito y hacerlo requerido para El Salvador -->
             <xpath expr="//field[@name='city_id']" position="attributes">
                 <attribute name="domain">[('state_id', '=', state_id)]</attribute>
                 <attribute name="context">{'default_state_id': state_id, 'default_country_id': country_id}</attribute>
                 <attribute name="options">{'no_create': True}</attribute>
                 <attribute name="placeholder">Distrito</attribute>
+                <attribute name="required">1</attribute>
+                <attribute name="attrs">{'required': [('country_id', '=', %(base.sv)d)]}</attribute>
             </xpath>
             
-            <!-- Cambiar etiqueta de estado a municipio y agregar onchange para autoseleccionar la primera ciudad -->
+            <!-- Cambiar etiqueta de estado a municipio y hacerlo requerido para El Salvador -->
             <xpath expr="//field[@name='state_id']" position="attributes">
                 <attribute name="options">{'no_create': True}</attribute>
                 <attribute name="on_change">1</attribute>
                 <attribute name="context">{'country_id': country_id, 'sv_first': True}</attribute>
                 <attribute name="domain">[('country_id', '=?', country_id)]</attribute>
                 <attribute name="placeholder">Municipio</attribute>
+                <attribute name="required">1</attribute>
+                <attribute name="attrs">{'required': [('country_id', '=', %(base.sv)d)]}</attribute>
             </xpath>
             
             <!-- Establecer El Salvador como país predeterminado -->
