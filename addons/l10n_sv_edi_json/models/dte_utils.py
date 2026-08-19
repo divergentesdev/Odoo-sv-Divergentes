@@ -282,14 +282,32 @@ class DteUtils(models.AbstractModel):
         return 1
 
     @api.model
-    def get_tipo_operacion_code(self, operation_type='1'):
-        """Obtiene código de tipo de operación"""
+    def get_tipo_operacion_code(self, operation_type=None):
+        """Obtiene código de tipo de operación según CAT_023 del MH
+        
+        Args:
+            operation_type: Registro de l10n_sv.operation.type o código string
+            
+        Returns:
+            int: Código numérico según catálogo CAT_023
+                 1 = Operaciones Internas
+                 2 = Exportaciones
+        """
+        if not operation_type:
+            return 1  # Default: Operaciones Internas
+        
+        # Si es un registro de modelo, obtener el código
+        if hasattr(operation_type, 'code'):
+            code = operation_type.code
+        else:
+            code = str(operation_type)
+        
+        # Mapear códigos CAT_023 a valores numéricos
         operaciones = {
-            '1': 1,  # Venta
-            '2': 2,  # Operaciones a cuenta de terceros  
-            '3': 3,  # Otros
+            '1': 1,  # Operaciones Internas
+            '2': 2,  # Exportaciones
         }
-        return operaciones.get(operation_type, 1)
+        return operaciones.get(code, 1)  # Default a 1 si no se encuentra
 
     @api.model
     def format_currency_amount(self, amount, decimals=2):

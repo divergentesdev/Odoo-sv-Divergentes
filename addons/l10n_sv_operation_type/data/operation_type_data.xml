@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Tipos de Operación según catálogo CAT_023_TipoOperacion del Ministerio de Hacienda -->
+        
+        <!-- 1 - Operaciones Internas -->
+        <record id="operation_type_internas" model="l10n_sv.operation.type">
+            <field name="name">Operaciones Internas</field>
+            <field name="code">1</field>
+            <field name="sequence">10</field>
+            <field name="description">Operaciones internas gravadas y no gravadas realizadas en El Salvador</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- 2 - Exportaciones -->
+        <record id="operation_type_exportaciones" model="l10n_sv.operation.type">
+            <field name="name">Exportaciones</field>
+            <field name="code">2</field>
+            <field name="sequence">20</field>
+            <field name="description">Operaciones de exportación de bienes y servicios al exterior</field>
+            <field name="active" eval="True"/>
+        </record>
+
+    </data>
+</odoo>
