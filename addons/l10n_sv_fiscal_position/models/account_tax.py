@@ -16,3 +16,8 @@ class AccountTax(models.Model):
     ], string='Tipo de Retención',
         help='Tipo de retención que aplica este impuesto'
     )
+    
+    l10n_sv_is_perception = fields.Boolean(
+        string='Es Percepción',
+        help='Marcar si este impuesto es una percepción (ej. IVA Percibido)'
+    )

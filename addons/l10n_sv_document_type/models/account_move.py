@@ -87,16 +87,26 @@ class AccountMove(models.Model):
         help='Monto total gravado con IVA'
     )
     
-    # Campos para retenciones
+    # Campos para retenciones y percepciones
     l10n_sv_retention_amount = fields.Monetary(
         string='Monto Retención',
         currency_field='currency_id',
-        help='Monto de retención aplicado'
+        compute='_compute_retention_and_perception_amounts',
+        store=True,
+        help='Monto de retención aplicado (calculado automáticamente)'
     )
     
     l10n_sv_retention_rate = fields.Float(
         string='% Retención',
         help='Porcentaje de retención aplicado'
+    )
+    
+    l10n_sv_perception_amount = fields.Monetary(
+        string='Monto Percepción',
+        currency_field='currency_id',
+        compute='_compute_retention_and_perception_amounts',
+        store=True,
+        help='Monto de percepción de IVA aplicado (calculado automáticamente)'
     )
 
     @api.depends('l10n_sv_document_type_id', 'partner_id', 'company_id')
@@ -192,6 +202,38 @@ class AccountMove(models.Model):
     def _compute_l10n_sv_computed_totals(self):
         """Versión computada de los totales DTE"""
         self._compute_l10n_sv_totals()
+    
+    @api.depends('invoice_line_ids.tax_ids', 'invoice_line_ids.price_subtotal')
+    def _compute_retention_and_perception_amounts(self):
+        """Calcula automáticamente retenciones y percepciones desde las líneas"""
+        for move in self:
+            retention_vat = 0.0
+            retention_income = 0.0
+            perception_amount = 0.0
+            
+            for line in move.invoice_line_ids:
+                if line.display_type not in ('line_section', 'line_note'):
+                    for tax in line.tax_ids:
+                        if hasattr(tax, 'l10n_sv_is_withholding') and tax.l10n_sv_is_withholding:
+                            # Calcular monto de retención (valor absoluto porque son negativos)
+                            amount = abs(line.price_subtotal * tax.amount / 100)
+                            if tax.l10n_sv_withholding_type == 'vat':
+                                retention_vat += amount
+                            elif tax.l10n_sv_withholding_type == 'income':
+                                retention_income += amount
+                        elif hasattr(tax, 'l10n_sv_is_perception') and tax.l10n_sv_is_perception:
+                            # Calcular monto de percepción
+                            perception_amount += abs(line.price_subtotal * tax.amount / 100)
+            
+            move.l10n_sv_retention_amount = retention_vat + retention_income
+            move.l10n_sv_perception_amount = perception_amount
+            
+            # Calcular porcentaje de retención si aplica
+            total_gravado = move.l10n_sv_total_gravado or move.amount_untaxed
+            if total_gravado > 0 and move.l10n_sv_retention_amount > 0:
+                move.l10n_sv_retention_rate = round((move.l10n_sv_retention_amount / total_gravado) * 100, 2)
+            else:
+                move.l10n_sv_retention_rate = 0.0
 
     # Hacer los campos computados
     l10n_sv_total_no_gravado = fields.Monetary(

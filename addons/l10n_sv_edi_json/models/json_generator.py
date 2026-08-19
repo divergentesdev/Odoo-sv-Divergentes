@@ -24,55 +24,61 @@ class L10nSvJsonGenerator(models.Model):
     _description = 'Generador JSON DTE El Salvador'
     
     # Reglas diferenciadas por tipo de documento basadas en esquemas oficiales y lógica validada
+    # ACTUALIZADO para versiones vigentes desde diciembre 2025
     DTE_RULES = {
-        '01': {  # Factura - LÓGICA VALIDADA 29/06/2025
-            'version': 1,
+        '01': {  # Factura - v2 desde dic 2025
+            'version': 2,  # Actualizado de v1 a v2
             'receptor_required': 'conditional',  # >= $1095
             'receptor_types': ['36','13','02','03','37'],
             'tributos_items_allowed': ['C3','59','71','D1','C5','C6','C7','C8','D5','D4','19','28','31','32','33','34','35','36','37','38','39','42','43','44','50','51','52','53','54','55','58','77','78','79','85','86','91','92','A1','A5','A7','A9'],
-            'required_fields': ['ivaItem', 'saldoFavor', 'numPagoElectronico'],
+            'required_fields': ['ivaItem', 'saldoFavor', 'numPagoElectronico', 'formaPago'],
             'tributos_resumen': 'conditional',  # null para consumidor final
-            'schema_file': 'fe-fc-v1.json'
+            'schema_file': 'fe-fc-v2.json'  # Actualizado a v2
         },
-        '03': {  # CCF
-            'version': 3,
+        '03': {  # CCF - v4 desde dic 2025
+            'version': 4,  # Actualizado de v3 a v4
             'receptor_required': True,
             'receptor_types': ['36'],  # Solo NIT
             'tributos_items_allowed': ['20','C3','59','71','D1','C5','C6','C7','C8','D5','D4','19','28','31','32','33','34','35','36','37','38','39','42','43','44','50','51','52','53','54','55','58','77','78','79','85','86','91','92','A1','A5','A7','A9'],
-            'required_fields': ['ivaPerci1'],
-            'schema_file': 'fe-ccf-v3.json'
+            'required_fields': ['ivaPerci1', 'formaPago'],
+            'no_extension': True,  # v4 NO lleva campo extension
+            'schema_file': 'fe-ccf-v4.json'  # Actualizado a v4
         },
-        '05': {  # Nota de Crédito
-            'version': 3,
+        '05': {  # Nota de Crédito - v4 desde dic 2025
+            'version': 4,  # Actualizado de v3 a v4
             'receptor_required': True,
             'related_docs_required': True,
             'related_doc_types': ['03','07'],
             'tributos_items_allowed': ['20','C3','59','71','D1','C8','D5','D4'],
             'no_payments': True,
-            'schema_file': 'fe-nc-v3.json'
+            'no_extension': True,  # v4 NO lleva campo extension
+            'required_fields': ['formaPago'],
+            'schema_file': 'fe-nc-v4.json'  # Actualizado a v4
         },
-        '06': {  # Nota de Débito
-            'version': 3,
+        '06': {  # Nota de Débito - v4 desde dic 2025
+            'version': 4,  # Actualizado de v3 a v4
             'receptor_required': True,
             'related_docs_required': True,
             'related_doc_types': ['03','07'],
             'tributos_items_allowed': ['20','C3','59','71','D1','C8','D5','D4'],
-            'required_fields': ['numPagoElectronico'],
-            'schema_file': 'fe-nd-v3.json'
+            'required_fields': ['numPagoElectronico', 'formaPago'],
+            'no_extension': True,  # v4 NO lleva campo extension
+            'schema_file': 'fe-nd-v4.json'  # Actualizado a v4
         },
-        '11': {  # Factura de Exportación
-            'version': 1,
+        '11': {  # Factura de Exportación - v3 desde dic 2025
+            'version': 3,  # Actualizado de v1 a v3
             'receptor_required': 'conditional',  # >= $10000
             'receptor_structure': 'internacional',
             'tributos_items_allowed': ['C3'],
-            'required_fields': ['tipoItemExpor', 'recintoFiscal', 'regimen', 'seguro', 'flete', 'codIncoterms'],
-            'schema_file': 'fe-fex-v1.json'
+            'required_fields': ['tipoItemExpor', 'recintoFiscal', 'regimen', 'seguro', 'flete', 'codIncoterms', 'formaPago'],
+            'schema_file': 'fe-fex-v3.json'  # Actualizado a v3
         },
-        '14': {  # Factura Sujeto Excluido
-            'version': 1,
-            'receptor_field': 'sujetoExcluido',
+        '14': {  # Factura Sujeto Excluido - v2 desde dic 2025
+            'version': 2,  # Actualizado de v1 a v2
+            'receptor_field': 'receptor',  # Cambiado de sujetoExcluido a receptor
             'simplified_structure': True,
-            'schema_file': 'fe-fse-v1.json'
+            'required_fields': ['formaPago'],
+            'schema_file': 'fe-fse-v2.json'  # Actualizado a v2
         }
     }
 
@@ -151,7 +157,7 @@ class L10nSvJsonGenerator(models.Model):
 
     
     def _get_base_json_structure(self, move):
-        """Estructura base común para todos los DTE"""
+        """Estructura base común para todos los DTE - ACTUALIZADO DIC 2025"""
         # Validar que el tipo de documento esté definido
         if not move.l10n_sv_document_type_id:
             raise exceptions.UserError(_(
@@ -161,6 +167,10 @@ class L10nSvJsonGenerator(models.Model):
         utils = self.env['l10n_sv.dte.utils']
         config = move.company_id.get_edi_configuration()
         
+        # Obtener versión según tipo de documento desde DTE_RULES
+        document_type_code = move.l10n_sv_document_type_id.code if move.l10n_sv_document_type_id else "01"
+        version = self.DTE_RULES.get(document_type_code, {}).get('version', 1)
+        
         # Obtener fecha y hora actuales
         now = utils.get_current_datetime_sv()
         # Usar fecha de factura para emisión
@@ -169,7 +179,7 @@ class L10nSvJsonGenerator(models.Model):
         
         return {
             "identificacion": {
-                "version": 1,  # Default version, will be overridden for CCF
+                "version": version,  # Versión dinámica según DTE_RULES
                 "ambiente": utils.get_ambiente_code(config.environment),
                 "tipoDte": str(move.l10n_sv_document_type_id.code) if move.l10n_sv_document_type_id else "01",
                 "numeroControl": move.l10n_sv_edi_numero_control,  # Usar el número de control ya generado
@@ -194,14 +204,25 @@ class L10nSvJsonGenerator(models.Model):
         }
 
     def _get_extension_data(self, move):
-        """Datos de extensión según tipo de documento"""
+        """Datos de extensión según tipo de documento - ACTUALIZADO DIC 2025
+        
+        IMPORTANTE: Desde diciembre 2025, los documentos CCF (03), NC (05) y ND (06)
+        en versión 4 NO DEBEN llevar campo extension. Debe retornar None.
+        """
         document_type = move.l10n_sv_document_type_id.code if move.l10n_sv_document_type_id else "01"
         
+        # Obtener versión del documento
+        version = self.DTE_RULES.get(document_type, {}).get('version', 1)
+        no_extension = self.DTE_RULES.get(document_type, {}).get('no_extension', False)
+        
+        # v4 de CCF, NC y ND NO llevan extension (desde dic 2025)
+        if no_extension:
+            return None
         
         if document_type == "01":  # Factura - extension debe ser null según JSON válido
             return None  # OBLIGATORIO: extension = null para Factura tipo 01
-        elif document_type == "03":  # CCF
-            # Para CCF, generar datos válidos para llenar template
+        elif document_type == "03":  # CCF (v3 todavía usa extension, v4 no)
+            # Para CCF v3, generar datos válidos para llenar template
             receptor_name = move.partner_id.name if move.partner_id else "Cliente"
             receptor_vat = move.partner_id.vat if move.partner_id and move.partner_id.vat else "00000000"
             
@@ -789,6 +810,15 @@ class L10nSvJsonGenerator(models.Model):
         # Determinar numPagoElectronico según tipo de documento
         num_pago_electronico = None if document_type == '03' else "N/A"
         
+        # Determinar forma de pago (CAT_021) - REQUERIDO desde diciembre 2025
+        forma_pago = "01"  # Default: Contado
+        if move.l10n_sv_payment_method_id:
+            forma_pago = move.l10n_sv_payment_method_id.code
+        elif move.invoice_payment_term_id:
+            # Determinar automáticamente si no se especificó
+            has_credit = any(line.nb_days > 0 for line in move.invoice_payment_term_id.line_ids)
+            forma_pago = "02" if has_credit else "01"
+        
         # Construir objeto base de resumen
         resumen = {
             "totalNoSuj": utils.format_summary_amount(total_no_suj),
@@ -802,21 +832,23 @@ class L10nSvJsonGenerator(models.Model):
             "totalDescu": 0.00,
             "tributos": tributos,  # null para consumidor final, requerido para contribuyentes
             "subTotal": utils.format_summary_amount(sub_total_ventas),
-            "ivaRete1": utils.format_summary_amount(move.l10n_sv_retention_amount) if move.l10n_sv_retention_amount else 0.00,
-            "reteRenta": 0.00,
+            "ivaRete": utils.format_summary_amount(move.l10n_sv_retention_amount) if move.l10n_sv_retention_amount else 0.00,  # Renombrado de ivaRete1 a ivaRete en v2/v4
+            # "reteRenta": 0.00,  # ELIMINADO en v2/v4 (desde 01/12/2025)
             "montoTotalOperacion": utils.format_summary_amount(monto_total_operacion),
             "totalNoGravado": 0.00,
             "totalPagar": utils.format_summary_amount(total_a_pagar),
             "totalLetras": utils.number_to_words(total_a_pagar, move.currency_id.name),
             "saldoFavor": 0.00,
             "condicionOperacion": condicion_operacion,
+            "formaPago": forma_pago,  # NUEVO: CAT_021_Forma_Pago - REQUERIDO desde dic 2025
             "pagos": pagos,
-            "numPagoElectronico": num_pago_electronico  # null para CCF, "N/A" para otros
+            "numPagoElectronico": num_pago_electronico,  # null para CCF, "N/A" para otros
+            "observaciones": None  # Nuevo campo opcional en v2/v4
         }
         
         # Campos específicos según tipo de documento
         if document_type == '03':  # CCF
-            resumen["ivaPerci1"] = 0.00  # IVA Percibido requerido para CCF
+            resumen["ivaPerci1"] = utils.format_summary_amount(move.l10n_sv_perception_amount) if move.l10n_sv_perception_amount else 0.00  # IVA Percibido desde configuración
         else:
             resumen["totalIva"] = utils.format_summary_amount(total_iva)  # Para otros tipos de documento
             
@@ -866,9 +898,19 @@ class L10nSvJsonGenerator(models.Model):
         return json_data
     
     def _populate_extension(self, json_data, move, utils):
-        """Poblar extension si aplica"""
+        """Poblar extension si aplica - ACTUALIZADO para v4 (CCF/NC/ND ya no usan extension)"""
+        document_type = move.l10n_sv_document_type_id.code if move.l10n_sv_document_type_id else "01"
+        
+        # En las nuevas versiones v4 (desde 01/12/2025), CCF, NC y ND NO llevan campo extension
+        # Solo Factura (01) puede tener extension=null, y los demas tipos tambien null
+        if document_type in ['03', '05', '06']:
+            # CCF, NC, ND version 4 NO DEBEN tener campo extension
+            if 'extension' in json_data:
+                del json_data['extension']
+            return json_data
+        
         if 'extension' in json_data and json_data['extension']:
-            # Procesar placeholders en extension
+            # Procesar placeholders en extension (solo para Factura u otros que aun lo usen)
             extension_data = json_data['extension']
             if isinstance(extension_data, dict):
                 # Procesar cada campo de extension
@@ -1441,9 +1483,9 @@ class L10nSvJsonGenerator(models.Model):
         
         # Lógica específica por tipo de documento
         if document_type == '03':  # CCF
-            # CCF según esquema oficial MH v3
+            # CCF según esquema oficial MH v4
             # Agregar ivaPerci1 (requerido) y remover totalIva (prohibido)
-            resumen["ivaPerci1"] = 0.00
+            resumen["ivaPerci1"] = utils.format_summary_amount(move.l10n_sv_perception_amount) if move.l10n_sv_perception_amount else 0.00
             resumen.pop("totalIva", None)  # Remover totalIva si existe
             
             # Si es contado, debe incluir al menos un pago
