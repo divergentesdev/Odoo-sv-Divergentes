@@ -5,7 +5,12 @@
         <!-- Categorías de documentos DTE -->
         <record id="category_sales_documents" model="l10n_sv.document.type.category">
             <field name="name">Documentos de Venta</field>
-            <field name="description">Documentos para operaciones de venta</field>
+            <field name="description">Documentos para operaciones de venta (emitidos)</field>
+        </record>
+        
+        <record id="category_purchase_documents" model="l10n_sv.document.type.category">
+            <field name="name">Documentos de Compra</field>
+            <field name="description">Documentos para operaciones de compra (recibidos/auto-facturación)</field>
         </record>
         
         <record id="category_credit_documents" model="l10n_sv.document.type.category">
@@ -142,17 +147,70 @@
 - Debe incluir información aduanera</field>
         </record>
         
-        <!-- 14 - Factura de Sujeto Excluido -->
+        <!-- 14 - Factura de Sujeto Excluido (CORREGIDO: Es documento de COMPRA) -->
         <record id="document_type_14_sujeto_excluido" model="l10n_sv.document.type">
             <field name="name">Factura de Sujeto Excluido</field>
             <field name="code">14</field>
-            <field name="category_id" ref="category_sales_documents"/>
-            <field name="is_invoice">True</field>
-            <field name="journal_type">sale</field>
-            <field name="description">Factura para sujetos excluidos del IVA</field>
-            <field name="validation_rules">- Cliente debe ser sujeto excluido
+            <field name="category_id" ref="category_purchase_documents"/>
+            <field name="is_purchase_invoice">True</field>
+            <field name="journal_type">purchase</field>
+            <field name="description">Factura generada por compras a sujetos excluidos del IVA (auto-facturación)</field>
+            <field name="validation_rules">- Proveedor debe ser sujeto excluido
 - No se aplica IVA
-- Debe identificar la exención aplicable</field>
+- El comprador genera el DTE (obligación del adquiriente)
+- Requiere identificación del proveedor excluido (DUI/NIT)</field>
+        </record>
+        
+        <!-- 41 - Documento de Soporte -->
+        <record id="document_type_41_soporte" model="l10n_sv.document.type">
+            <field name="name">Documento de Soporte</field>
+            <field name="code">41</field>
+            <field name="category_id" ref="category_purchase_documents"/>
+            <field name="is_purchase_invoice">True</field>
+            <field name="journal_type">purchase</field>
+            <field name="description">Documento generado para compras sin DTE a pequeños contribuyentes o personas naturales</field>
+            <field name="validation_rules">- Para compras a proveedores que no emiten DTE
+- El comprador documenta la operación
+- Requiere identificación del proveedor</field>
+        </record>
+        
+        <!-- 43 - Nota de Recepción -->
+        <record id="document_type_43_recepcion" model="l10n_sv.document.type">
+            <field name="name">Nota de Recepción</field>
+            <field name="code">43</field>
+            <field name="category_id" ref="category_purchase_documents"/>
+            <field name="is_purchase_invoice">True</field>
+            <field name="journal_type">purchase</field>
+            <field name="description">Documento para recepción de mercancía sin factura del proveedor</field>
+            <field name="validation_rules">- Para recepción de bienes sin documentación del proveedor
+- Debe especificar motivo y detalles de la mercancía
+- El comprador documenta la operación</field>
+        </record>
+        
+        <!-- 45 - Nota de Crédito de Recepción -->
+        <record id="document_type_45_nota_credito_recepcion" model="l10n_sv.document.type">
+            <field name="name">Nota de Crédito de Recepción</field>
+            <field name="code">45</field>
+            <field name="category_id" ref="category_credit_documents"/>
+            <field name="is_credit_note">True</field>
+            <field name="journal_type">purchase</field>
+            <field name="description">Nota de crédito por devoluciones o ajustes a proveedores</field>
+            <field name="validation_rules">- Debe referenciar documento de compra original (14, 41, 43)
+- Para devoluciones o descuentos recibidos de proveedores
+- Reduce el costo de la compra original</field>
+        </record>
+        
+        <!-- 46 - Nota de Débito de Recepción -->
+        <record id="document_type_46_nota_debito_recepcion" model="l10n_sv.document.type">
+            <field name="name">Nota de Débito de Recepción</field>
+            <field name="code">46</field>
+            <field name="category_id" ref="category_credit_documents"/>
+            <field name="is_debit_note">True</field>
+            <field name="journal_type">purchase</field>
+            <field name="description">Nota de débito por cargos adicionales de proveedores</field>
+            <field name="validation_rules">- Debe referenciar documento de compra original (14, 41, 43)
+- Para ajustes o cargos adicionales de proveedores
+- Incrementa el costo de la compra original</field>
         </record>
         
         <!-- 15 - Comprobante de Donación -->

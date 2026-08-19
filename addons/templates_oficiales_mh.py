@@ -4,10 +4,10 @@ Templates JSON oficiales basados en esquemas validados por MH El Salvador
 Estos templates son la estructura base que usa realmente el MH
 """
 
-# Template para Factura (01) - Basado en fe-fc-v1.json
+# Template para Factura (01) - Basado en fe-fc-v2.json (Vigencia desde 01/12/2025)
 TEMPLATE_FACTURA_01 = {
     "identificacion": {
-        "version": 1,
+        "version": 2,  # Actualizado a v2 para vigencia desde 01/12/2025
         "ambiente": "{{ambiente}}",
         "tipoDte": "01", 
         "numeroControl": "{{numeroControl}}",
@@ -57,8 +57,8 @@ TEMPLATE_FACTURA_01 = {
         "totalDescu": 0.00,
         "tributos": "{{resumen.tributos}}",  # null para consumidor final
         "subTotal": "{{resumen.subTotal}}",
-        "ivaRete1": "{{resumen.ivaRete1}}",
-        "reteRenta": 0.00,
+        "ivaRete": "{{resumen.ivaRete}}",  # Renombrado de ivaRete1 a ivaRete en v2
+        # "reteRenta": 0.00,  # ELIMINADO en v2
         "montoTotalOperacion": "{{resumen.montoTotalOperacion}}",
         "totalNoGravado": 0.00,
         "totalPagar": "{{resumen.totalPagar}}",
@@ -67,16 +67,17 @@ TEMPLATE_FACTURA_01 = {
         "saldoFavor": 0.00,
         "condicionOperacion": "{{resumen.condicionOperacion}}",
         "pagos": "{{resumen.pagos}}",
-        "numPagoElectronico": "{{resumen.numPagoElectronico}}"
+        "numPagoElectronico": "{{resumen.numPagoElectronico}}",
+        "observaciones": None  # Nuevo campo opcional en v2
     },
     "extension": None,  # OBLIGATORIO null para Factura
     "apendice": None
 }
 
-# Template para CCF (03) - Basado en fe-ccf-v3.json
+# Template para CCF (03) - Basado en fe-ccf-v4.json (Vigencia desde 01/12/2025)
 TEMPLATE_CCF_03 = {
     "identificacion": {
-        "version": 3,  # CCF SIEMPRE versión 3 como número
+        "version": 4,  # Actualizado a v4 para vigencia desde 01/12/2025 - CAMBIO CRÍTICO
         "ambiente": "{{ambiente}}",
         "tipoDte": "03",
         "numeroControl": "{{numeroControl}}",
@@ -89,7 +90,7 @@ TEMPLATE_CCF_03 = {
         "horEmi": "{{horEmi}}",
         "tipoMoneda": "USD"
     },
-    "documentoRelacionado": None,
+    "documentoRelacionado": "{{documentoRelacionado}}",  # AHORA ES ARRAY OBLIGATORIO (minItems:1, maxItems:50) en v4
     "emisor": {
         "nit": "{{emisor.nit}}",
         "nrc": "{{emisor.nrc}}",
@@ -140,8 +141,8 @@ TEMPLATE_CCF_03 = {
         "totalDescu": 0.00,
         "tributos": "{{resumen.tributos}}",  # Requerido para CCF
         "subTotal": "{{resumen.subTotal}}",
-        "ivaRete1": "{{resumen.ivaRete1}}",
-        "reteRenta": 0.00,
+        "ivaRete": "{{resumen.ivaRete}}",  # Renombrado de ivaRete1 a ivaRete
+        # "reteRenta": 0.00,  # ELIMINADO en v4
         "montoTotalOperacion": "{{resumen.montoTotalOperacion}}",
         "totalNoGravado": 0.00,
         "totalPagar": "{{resumen.totalPagar}}",
@@ -152,21 +153,14 @@ TEMPLATE_CCF_03 = {
         "pagos": [],  # CCF pagos como array vacío
         "numPagoElectronico": None  # CCF no lleva numPagoElectronico
     },
-    "extension": {  # CCF extension con valores válidos (minLength requerido)
-        "nombEntrega": "{{extension.nombEntrega}}",
-        "docuEntrega": "{{extension.docuEntrega}}",
-        "nombRecibe": "{{extension.nombRecibe}}",
-        "docuRecibe": "{{extension.docuRecibe}}",
-        "placaVehiculo": "{{extension.placaVehiculo}}",
-        "observaciones": "{{extension.observaciones}}"
-    },
+    # "extension": {...},  # ELIMINADO COMPLETAMENTE EN V4 - NO AGREGAR ESTE CAMPO
     "apendice": None
 }
 
-# Template para Nota de Crédito (05) - Basado en fe-nc-v3.json
+# Template para Nota de Crédito (05) - Basado en fe-nc-v4.json (Vigencia desde 01/12/2025)
 TEMPLATE_NOTA_CREDITO_05 = {
     "identificacion": {
-        "version": 3,
+        "version": 4,  # Actualizado a v4 para vigencia desde 01/12/2025 - CAMBIO CRÍTICO
         "ambiente": "{{ambiente}}",
         "tipoDte": "05",
         "numeroControl": "{{numeroControl}}",
@@ -179,7 +173,7 @@ TEMPLATE_NOTA_CREDITO_05 = {
         "horEmi": "{{horEmi}}",
         "tipoMoneda": "USD"
     },
-    "documentoRelacionado": "{{documentoRelacionado}}",  # OBLIGATORIO para NC
+    "documentoRelacionado": "{{documentoRelacionado}}",  # AHORA ES ARRAY OBLIGATORIO (minItems:1, maxItems:50) en v4
     "emisor": {
         "nit": "{{emisor.nit}}",
         "nrc": "{{emisor.nrc}}",
@@ -216,8 +210,8 @@ TEMPLATE_NOTA_CREDITO_05 = {
         "totalDescu": 0.00,
         "tributos": "{{resumen.tributos}}",
         "subTotal": "{{resumen.subTotal}}",
-        "ivaRete1": "{{resumen.ivaRete1}}",
-        "reteRenta": 0.00,
+        "ivaRete": "{{resumen.ivaRete}}",  # Renombrado de ivaRete1 a ivaRete
+        # "reteRenta": 0.00,  # ELIMINADO en v4
         "montoTotalOperacion": "{{resumen.montoTotalOperacion}}",
         "totalNoGravado": 0.00,
         "totalPagar": "{{resumen.totalPagar}}",
@@ -228,14 +222,14 @@ TEMPLATE_NOTA_CREDITO_05 = {
         "pagos": None,  # Notas de crédito no llevan pagos
         "numPagoElectronico": None
     },
-    "extension": None,
+    # "extension": {...},  # ELIMINADO COMPLETAMENTE EN V4 - NO AGREGAR ESTE CAMPO
     "apendice": None
 }
 
-# Template para Nota de Débito (06) - Basado en fe-nd-v3.json  
+# Template para Nota de Débito (06) - Basado en fe-nd-v4.json (Vigencia desde 01/12/2025)
 TEMPLATE_NOTA_DEBITO_06 = {
     "identificacion": {
-        "version": 3,
+        "version": 4,  # Actualizado a v4 para vigencia desde 01/12/2025 - CAMBIO CRÍTICO
         "ambiente": "{{ambiente}}",
         "tipoDte": "06",
         "numeroControl": "{{numeroControl}}",
@@ -248,7 +242,7 @@ TEMPLATE_NOTA_DEBITO_06 = {
         "horEmi": "{{horEmi}}",
         "tipoMoneda": "USD"
     },
-    "documentoRelacionado": "{{documentoRelacionado}}",  # OBLIGATORIO para ND
+    "documentoRelacionado": "{{documentoRelacionado}}",  # AHORA ES ARRAY OBLIGATORIO (minItems:1, maxItems:50) en v4
     "emisor": {
         "nit": "{{emisor.nit}}",
         "nrc": "{{emisor.nrc}}",
@@ -285,8 +279,8 @@ TEMPLATE_NOTA_DEBITO_06 = {
         "totalDescu": 0.00,
         "tributos": "{{resumen.tributos}}",
         "subTotal": "{{resumen.subTotal}}",
-        "ivaRete1": "{{resumen.ivaRete1}}",
-        "reteRenta": 0.00,
+        "ivaRete": "{{resumen.ivaRete}}",  # Renombrado de ivaRete1 a ivaRete
+        # "reteRenta": 0.00,  # ELIMINADO en v4
         "montoTotalOperacion": "{{resumen.montoTotalOperacion}}",
         "totalNoGravado": 0.00,
         "totalPagar": "{{resumen.totalPagar}}",
@@ -295,16 +289,17 @@ TEMPLATE_NOTA_DEBITO_06 = {
         "saldoFavor": 0.00,
         "condicionOperacion": "{{resumen.condicionOperacion}}",
         "pagos": "{{resumen.pagos}}",  # ND SÍ lleva pagos
-        "numPagoElectronico": "{{resumen.numPagoElectronico}}"  # ND SÍ lleva numPagoElectronico
+        "numPagoElectronico": "{{resumen.numPagoElectronico}}",  # ND SÍ lleva numPagoElectronico
+        "observaciones": None  # Nuevo campo opcional en v4
     },
-    "extension": None,
+    # "extension": {...},  # ELIMINADO COMPLETAMENTE EN V4 - NO AGREGAR ESTE CAMPO
     "apendice": None
 }
 
-# Template para Factura de Exportación (11) - Basado en fe-fex-v1.json
+# Template para Factura de Exportación (11) - Basado en fe-fex-v3.json (Vigencia desde 01/12/2025)
 TEMPLATE_EXPORTACION_11 = {
     "identificacion": {
-        "version": 1,
+        "version": 3,  # Actualizado a v3 para vigencia desde 01/12/2025
         "ambiente": "{{ambiente}}",
         "tipoDte": "11",
         "numeroControl": "{{numeroControl}}",
@@ -315,6 +310,7 @@ TEMPLATE_EXPORTACION_11 = {
         "horEmi": "{{horEmi}}",
         "tipoMoneda": "USD"
     },
+    "documentoRelacionado": "{{documentoRelacionado}}",  # Nuevo campo requerido en v3
     "emisor": {
         "nit": "{{emisor.nit}}",
         "nrc": "{{emisor.nrc}}",
@@ -338,27 +334,35 @@ TEMPLATE_EXPORTACION_11 = {
     "receptor": "{{receptor}}",  # Condicional >= $10,000
     "otrosDocumentos": None,
     "ventaTercero": None,
+    "compraTercero": None,  # Nuevo campo en v3
     "cuerpoDocumento": "{{cuerpoDocumento}}",
     "resumen": {
         "totalGravada": "{{resumen.totalGravada}}",
-        "descuento": 0.00,
+        "descuGravada": 0.00,  # Renombrado de descuento a descuGravada en v3
         "porcentajeDescuento": 0.00,
         "totalDescu": 0.00,
         "seguro": "{{resumen.seguro}}",
         "flete": "{{resumen.flete}}",
+        "tributos": None,  # Nuevo campo en v3
         "montoTotalOperacion": "{{resumen.montoTotalOperacion}}",
+        "totalNoGravado": 0.00,
+        "totalNoOnerosas": 0.00,  # Nuevo campo en v3
+        "totalPagar": "{{resumen.totalPagar}}",
         "totalLetras": "{{resumen.totalLetras}}",
+        "saldoFavor": 0.00,  # Nuevo campo en v3
         "condicionOperacion": "{{resumen.condicionOperacion}}",
+        "pagos": "{{resumen.pagos}}",  # Nuevo campo en v3
         "codIncoterms": "{{resumen.codIncoterms}}",
         "descIncoterms": "{{resumen.descIncoterms}}",
+        "numPagoElectronico": "{{resumen.numPagoElectronico}}",  # Nuevo campo en v3
         "observaciones": "{{resumen.observaciones}}"
     }
 }
 
-# Template para Factura Sujeto Excluido (14) - Basado en fe-fse-v1.json
+# Template para Factura Sujeto Excluido (14) - Basado en fe-fse-v2.json (Vigencia desde 01/12/2025)
 TEMPLATE_SUJETO_EXCLUIDO_14 = {
     "identificacion": {
-        "version": 1,
+        "version": 2,  # Actualizado a v2 para vigencia desde 01/12/2025 - CAMBIO CRÍTICO
         "ambiente": "{{ambiente}}",
         "tipoDte": "14",
         "numeroControl": "{{numeroControl}}",
@@ -381,20 +385,21 @@ TEMPLATE_SUJETO_EXCLUIDO_14 = {
         "telefono": "{{emisor.telefono}}",
         "correo": "{{emisor.correo}}"
     },
-    "sujetoExcluido": {
-        "tipoDocumento": "{{sujetoExcluido.tipoDocumento}}",
-        "numDocumento": "{{sujetoExcluido.numDocumento}}",
-        "nombre": "{{sujetoExcluido.nombre}}",
-        "codActividad": "{{sujetoExcluido.codActividad}}",
-        "descActividad": "{{sujetoExcluido.descActividad}}",
+    "receptor": {  # CAMBIO CRÍTICO: Ahora usa receptor en lugar de sujetoExcluido en v2
+        "tipoDocumento": "{{receptor.tipoDocumento}}",
+        "numDocumento": "{{receptor.numDocumento}}",
+        "nombre": "{{receptor.nombre}}",
+        "codActividad": "{{receptor.codActividad}}",
+        "descActividad": "{{receptor.descActividad}}",
         "direccion": {
-            "departamento": "{{sujetoExcluido.direccion.departamento}}",
-            "municipio": "{{sujetoExcluido.direccion.municipio}}",
-            "complemento": "{{sujetoExcluido.direccion.complemento}}"
+            "departamento": "{{receptor.direccion.departamento}}",
+            "municipio": "{{receptor.direccion.municipio}}",
+            "complemento": "{{receptor.direccion.complemento}}"
         },
-        "telefono": "{{sujetoExcluido.telefono}}",
-        "correo": "{{sujetoExcluido.correo}}"
+        "telefono": "{{receptor.telefono}}",
+        "correo": "{{receptor.correo}}"
     },
+    # "sujetoExcluido": {...},  # ELIMINADO EN V2 - USAR receptor EN SU LUGAR
     "cuerpoDocumento": "{{cuerpoDocumento}}",
     "resumen": {
         "totalCompra": "{{resumen.totalCompra}}",

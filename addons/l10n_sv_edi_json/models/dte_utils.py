@@ -192,8 +192,44 @@ class DteUtils(models.AbstractModel):
 
     @api.model
     def calculate_iva_amount(self, base_amount, rate=13.0):
-        """Calcula monto de IVA"""
+        """Calcula monto de IVA usando tasa configurable"""
         return round(base_amount * (rate / 100), 2)
+    
+    @api.model
+    def get_iva_tax_rate(self, move):
+        """Obtiene la tasa de IVA desde la configuración de impuestos de la compañía
+        
+        Retorna la tasa del impuesto con code_dgii='20' si existe,
+        sino retorna 13.0 como default.
+        """
+        iva_tax = self.env['account.tax'].search([
+            ('code_dgii', '=', '20'),
+            ('company_id', '=', move.company_id.id),
+            ('amount_type', '=', 'percent')
+        ], limit=1)
+        return iva_tax.amount if iva_tax else 13.0
+    
+    @api.model
+    def calculate_iva_from_tax(self, tax_ids, base_amount):
+        """Calcula IVA usando configuración de impuestos
+        
+        Args:
+            tax_ids: Recordset de impuestos aplicados a la línea
+            base_amount: Base imponible
+            
+        Returns:
+            Monto de IVA calculado según configuración del impuesto
+        """
+        for tax in tax_ids:
+            if hasattr(tax, 'code_dgii') and tax.code_dgii == '20':
+                if tax.price_include:
+                    # Extraer IVA de precio incluido: base * rate / (100 + rate)
+                    return base_amount * tax.amount / (100 + tax.amount)
+                else:
+                    # Calcular IVA sobre base: base * rate / 100
+                    return base_amount * tax.amount / 100
+        # Si no hay IVA, retornar 0
+        return 0.0
     
     @api.model
     def calculate_iva_amount_precise(self, base_amount, rate=13.0):

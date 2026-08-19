@@ -26,8 +26,12 @@ class L10nSvDocumentType(models.Model):
         ('08', 'Comprobante de Liquidación'),
         ('09', 'Documento Contable de Liquidación'),
         ('11', 'Factura de Exportación'),
-        ('14', 'Factura de Sujeto Excluido'),
+        ('14', 'Factura de Sujeto Excluido (Compra)'),
         ('15', 'Comprobante de Donación'),
+        ('41', 'Documento de Soporte (Compra)'),
+        ('43', 'Nota de Recepción (Compra)'),
+        ('45', 'Nota de Crédito de Recepción'),
+        ('46', 'Nota de Débito de Recepción'),
     ], string='Código DTE', required=True,
        help='Código según catálogo CAT_002_Tipo_de_Documento del MH')
     
@@ -50,6 +54,11 @@ class L10nSvDocumentType(models.Model):
     is_debit_note = fields.Boolean(
         string='Es Nota de Débito',
         help='Indica si este tipo corresponde a una nota de débito'
+    )
+    
+    is_purchase_invoice = fields.Boolean(
+        string='Es Factura de Compra',
+        help='Indica si este tipo corresponde a una factura de compra (documento recibido o auto-facturación)'
     )
     
     is_export = fields.Boolean(
@@ -175,16 +184,34 @@ class L10nSvDocumentType(models.Model):
         domain = [('active', '=', True)]
         
         if move_type == 'out_invoice':
+            # Documentos de VENTA - NUNCA usar tipo 14 aquí
             if is_export:
                 domain.append(('code', '=', '11'))  # Factura de Exportación
-            elif partner and partner.l10n_sv_document_type_code == '36':  # NIT
+            elif partner and partner.l10n_sv_taxpayer_type == 'taxpayer':
                 domain.append(('code', '=', '03'))  # CCF
+            elif partner and partner.l10n_sv_is_excluded_subject:
+                # ERROR: No se puede vender a sujeto excluido con DTE
+                raise exceptions.UserError(_(
+                    'No se puede emitir DTE de venta a un sujeto excluido. '
+                    'El tipo 14 (Factura de Sujeto Excluido) es exclusivamente para COMPRAS. '
+                    'Los sujetos excluidos solo pueden ser PROVEEDORES, no clientes.'
+                ))
             else:
-                domain.append(('code', '=', '01'))  # Factura
+                domain.append(('code', '=', '01'))  # Factura consumidor final
         elif move_type == 'out_refund':
-            domain.append(('code', '=', '05'))  # Nota de Crédito
+            domain.append(('code', '=', '05'))  # Nota de Crédito de venta
         elif move_type == 'in_invoice':
-            domain.append(('journal_type', '=', 'purchase'))
+            # Documentos de COMPRA
+            if partner and partner.l10n_sv_is_excluded_subject:
+                domain.append(('code', '=', '14'))  # Sujeto Excluido
+            elif partner and not partner.vat:
+                domain.append(('code', '=', '41'))  # Documento de Soporte
+            else:
+                # Para otros casos de compra, buscar por journal_type
+                domain.append(('journal_type', '=', 'purchase'))
+                domain.append(('code', 'in', ['14', '41', '43']))  # Solo documentos de compra
+        elif move_type == 'in_refund':
+            domain.append(('code', '=', '45'))  # Nota de Crédito de Recepción
         else:
             return None
         
